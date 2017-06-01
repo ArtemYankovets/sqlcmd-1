@@ -23,7 +23,7 @@ public interface DataSetInterface {
      * @param name name of an object wanted in data field
      * @return Object references to specified name, null otherwise
      */
-    Object get(String name);
+    Object getValue(String name);
 
     /**
      * This method updates entries in data field starting from 0 up to newValue.freeIndex with newValue entries

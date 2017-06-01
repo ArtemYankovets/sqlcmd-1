@@ -1,11 +1,75 @@
 package ua.com.shtramak.model;
 
-public class DataSet {
-    Data[] data;
-    int freeIndex;
+import java.util.Arrays;
+
+public class DataSet implements DataSetInterface {
+    private Data[] data = new Data[100];
+    private int freeIndex;
+
+    @Override
+    public void put(String name, Object value) {
+        for (int i = 0; i < data.length; i++) {
+            if (data[i] == null) {
+                freeIndex = i;
+                break;
+            }
+        }
+        data[freeIndex] = new Data(name, value);
+    }
+
+    @Override
+    public Object[] getValues() {
+        if (data == null || data.length == 0) return null;
+
+        Object[] result = new Object[freeIndex + 1];
+        for (int i = 0; i <= freeIndex; i++) {
+            result[i] = data[i].getValue();
+        }
+        return result;
+    }
+
+    @Override
+    public String[] getNames() {
+        if (data == null || data.length == 0) return null;
+
+        String[] result = new String[freeIndex + 1];
+        for (int i = 0; i <= freeIndex; i++) {
+            result[i] = data[i].getName();
+        }
+        return result;
+    }
+
+    @Override
+    public Object getValue(String name) {
+        if (data == null || data.length == 0) return null;
+
+        for (int i = 0; i <= freeIndex; i++) {
+            if (data[i].getName().equals(name)) {
+                return data[i].getValue();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public void updateFrom(DataSet newValue) {
+        if (newValue.size() > this.size()) {
+            freeIndex = newValue.size();
+        }
+        String[] names = newValue.getNames();
+        Object[] values = newValue.getValues();
+        for (int i = 0; i < newValue.size(); i++) {
+            data[i] = new Data(names[i],values[i]);
+        }
+    }
+
+    public int size() {
+        return freeIndex+1;
+    }
+
 }
 
-class Data{
+class Data {
     String name;
     Object value;
 
