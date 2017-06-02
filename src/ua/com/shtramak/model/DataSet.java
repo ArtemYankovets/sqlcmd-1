@@ -1,7 +1,5 @@
 package ua.com.shtramak.model;
 
-import java.util.Arrays;
-
 public class DataSet implements DataSetInterface {
     private Data[] data = new Data[100];
     private int freeIndex;

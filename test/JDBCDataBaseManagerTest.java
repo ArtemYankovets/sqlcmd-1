@@ -20,4 +20,9 @@ public class JDBCDataBaseManagerTest {
     public void getTableNamesTest(){
         assertEquals(Arrays.toString(manager.getTableNames()),"[users]");
     }
+
+    @Test
+    public void getTableColumnsTest(){
+        assertEquals(Arrays.toString(manager.getTableColumns("users")),"[id, name, password]");
+    }
 }
