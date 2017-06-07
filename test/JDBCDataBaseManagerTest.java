@@ -22,6 +22,11 @@ public class JDBCDataBaseManagerTest {
     }
 
     @Test
+    public void getTableDataTest(){
+        System.out.println(Arrays.toString(manager.getTableData("users")));
+    }
+
+    @Test
     public void getTableColumnsTest(){
         assertEquals(Arrays.toString(manager.getTableColumns("users")),"[id, name, password]");
     }

@@ -1,6 +1,7 @@
 package ua.com.shtramak.model;
 
 import java.sql.*;
+import java.util.Arrays;
 
 public class JDBCDataBaseManager implements DataBaseManager {
 
@@ -19,8 +20,8 @@ public class JDBCDataBaseManager implements DataBaseManager {
             int index = 0;
             while (resultSet.next()) {
                 DataSet entry = new DataSet();
-                for (int i = 0; i < rsMetaData.getColumnCount(); i++) {
-                    entry.put(rsMetaData.getCatalogName(i), resultSet.getObject(i));
+                for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+                    entry.put(rsMetaData.getColumnName(i), resultSet.getObject(i));
                 }
                 result[index++] = entry;
             }
@@ -63,12 +64,12 @@ public class JDBCDataBaseManager implements DataBaseManager {
                     .getConnection("jdbc:postgresql://localhost:5432/" + database, userName, password);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
-            System.err.printf("Dear, %s! Connection to database was failed. JDBC driver doesn't exist");
+            System.err.printf("Dear, %s! Connection to database was failed. JDBC driver doesn't exist", userName);
             ;
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        System.out.printf("Hello, %s! You are welcome to %s database \n", userName, database);
+        System.out.printf("Hello, %s! Welcome to %s database \n", userName, database);
     }
 
     @Override
@@ -87,11 +88,34 @@ public class JDBCDataBaseManager implements DataBaseManager {
     @Override
     public void insert(String tableName, DataSet input) {
 
+        String colNames = getFormattedColumnNames(input, ",");
+        String colValue = getFormattedColumnData(input, ",");
+
+        String sql = "INSERT INTO " + tableName + " (" + colNames + ") "
+                + "VALUES (" + colValue + ");";
+
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public void updateById(String tableName, int id, DataSet newValue) {
 
+        String sql = "UPDATE " + tableName + " SET " + getFormattedColumnNames(newValue, " = ?, ") + " WHERE id = ?";
+
+        try (PreparedStatement prprStmt = connection.prepareStatement(sql)) {
+            int index = 1;
+            for (int i = 0; i < newValue.size(); i++) {
+                prprStmt.setObject(index++, newValue.getValues()[i]);
+            }
+            prprStmt.setInt(index, id);
+            prprStmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -107,7 +131,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
             String[] result = new String[rsmd.getColumnCount()];
             for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                result[i] = rsmd.getColumnName(i+1);
+                result[i] = rsmd.getColumnName(i + 1);
             }
 
             return result;
@@ -116,6 +140,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
             return null;
         }
     }
+
 
     private int getTableSize(String tableName) {
         String sql = "SELECT COUNT(*) FROM " + tableName;
@@ -130,4 +155,36 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
         return result;
     }
+
+    private String getFormattedColumnData(DataSet dataSet, String format) {
+        StringBuilder result = new StringBuilder();
+        for (Object colName : dataSet.getValues()) {
+            result.append("'");
+            result.append(colName);
+            result.append("'");
+            result.append(format);
+        }
+        result.deleteCharAt(result.lastIndexOf(format));
+        return result.toString();
+    }
+
+    private String getFormattedColumnNames(DataSet dataSet, String format) {
+        StringBuilder result = new StringBuilder();
+        for (String colName : dataSet.getNames()) {
+            result.append(colName);
+            result.append(format);
+        }
+        result.deleteCharAt(result.lastIndexOf(","));
+        return result.toString();
+    }
+
+    /*public static void main(String[] args) {
+        JDBCDataBaseManager jdbcDataBaseManager = new JDBCDataBaseManager();
+        jdbcDataBaseManager.connect("sqlcmd", "shtramak", "qqq");
+        DataSet dataSet = new DataSet();
+        dataSet.put("name", "Chupakabra");
+        dataSet.put("password", "qwerty");
+        jdbcDataBaseManager.updateById("users", 1, dataSet);
+        System.out.println(Arrays.toString(jdbcDataBaseManager.getTableData("users")));
+    }*/
 }

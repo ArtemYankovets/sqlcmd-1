@@ -14,7 +14,7 @@ public interface DataSetInterface {
     Object[] getValues();
 
     /**
-     * @return names frojm data field
+     * @return names from data field
      */
     String[] getNames();
 
