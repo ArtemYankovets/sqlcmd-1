@@ -13,7 +13,7 @@ public class JDBCDataBaseManagerTest {
     @Before
     public void setup(){
         manager = new JDBCDataBaseManager();
-        manager.connect("sqlcmd", "shtramak","qqq");
+        manager.connect("sqlcmd", "postgres","postgres");
     }
 
     @Test

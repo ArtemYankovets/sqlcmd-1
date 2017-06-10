@@ -1,7 +1,8 @@
 package ua.com.shtramak.model;
 
+import org.postgresql.util.PSQLException;
+
 import java.sql.*;
-import java.util.Arrays;
 
 public class JDBCDataBaseManager implements DataBaseManager {
 
@@ -58,18 +59,23 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public void connect(String database, String userName, String password) {
+
         try {
             Class.forName("org.postgresql.Driver");
-            connection = DriverManager
-                    .getConnection("jdbc:postgresql://localhost:5432/" + database, userName, password);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.err.printf("Dear, %s! Connection to database was failed. JDBC driver doesn't exist", userName);
-            ;
-        } catch (SQLException e) {
-            e.printStackTrace();
+            String message = String.format("Dear, %s! Connection to database was failed. JDBC driver doesn't exist.\n" +
+                    "Please install required JDBC diver and try again.", userName);
+            throw new UnsupportedOperationException(message);
         }
-        System.out.printf("Hello, %s! Welcome to %s database \n", userName, database);
+
+        try {
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database+"?loggerLevel=OFF", userName, password);
+            System.out.printf("Hello, %s! Welcome to %s database \n", userName, database);
+        } catch (SQLException e) {
+            connection = null;
+            throw new RuntimeException(String.format("Dear, %s! Your input data was incorrect!\n", userName), e);
+        }
+
     }
 
     @Override
