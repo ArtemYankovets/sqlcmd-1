@@ -43,7 +43,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             DatabaseMetaData md = connection.getMetaData();
             ResultSet rs = md.getTables(null, null, "%", new String[]{"TABLE"});
             while (rs.next()) {
-                System.out.println(rs.getString("TABLE_NAME"));
                 warehouse[index++] = rs.getString(3);
             }
         } catch (SQLException e) {
