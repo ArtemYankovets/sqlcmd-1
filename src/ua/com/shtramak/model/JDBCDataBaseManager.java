@@ -1,7 +1,5 @@
 package ua.com.shtramak.model;
 
-import org.postgresql.util.PSQLException;
-
 import java.sql.*;
 
 public class JDBCDataBaseManager implements DataBaseManager {
@@ -146,6 +144,14 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
     }
 
+    @Override
+    public void disconnect(){
+        try {
+            this.connection.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     private int getTableSize(String tableName) {
         String sql = "SELECT COUNT(*) FROM " + tableName;
@@ -182,14 +188,4 @@ public class JDBCDataBaseManager implements DataBaseManager {
         result.deleteCharAt(result.lastIndexOf(","));
         return result.toString();
     }
-
-    /*public static void main(String[] args) {
-        JDBCDataBaseManager jdbcDataBaseManager = new JDBCDataBaseManager();
-        jdbcDataBaseManager.connect("sqlcmd", "shtramak", "qqq");
-        DataSet dataSet = new DataSet();
-        dataSet.put("name", "Chupakabra");
-        dataSet.put("password", "qwerty");
-        jdbcDataBaseManager.updateById("users", 1, dataSet);
-        System.out.println(Arrays.toString(jdbcDataBaseManager.getTableData("users")));
-    }*/
 }

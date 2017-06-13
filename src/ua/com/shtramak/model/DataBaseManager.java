@@ -50,4 +50,6 @@ public interface DataBaseManager {
      * @return a names of a columns in specified table
      */
     String[] getTableColumns(String tableName);
+
+    void disconnect();
 }

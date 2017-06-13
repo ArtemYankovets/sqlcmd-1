@@ -1,6 +1,7 @@
 package ua.com.shtramak.controller;
 
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.DataSet;
 import ua.com.shtramak.view.Console;
 import ua.com.shtramak.view.View;
 
@@ -30,30 +31,74 @@ public class MainController {
             String command = view.read();
             switch (command) {
                 case "list":
-                    cmdList();
+                    doListCmd();
                     break;
                 case "help":
-                    cmdHelp();
+                    doHelpCmd();
                     break;
                 case "exit":
                     finished = true;
+                    dataBaseManager.disconnect();
                     System.out.println("Good Luck!");
                     break;
                 default:
-                    System.out.println("No such command found!");
+                    if (command.startsWith("find|")) {
+                        doTableDataCmd(command);
+                    } else {
+                        System.out.println("No such command found!");
+                    }
             }
         }
     }
 
+    private void doTableDataCmd(String command) {
+        String tableName = command.split("\\|")[1];
+        boolean fakeName = true;
 
-    private void cmdList() {
-        view.write("Here's the names of available tables:\n" + Arrays.toString(dataBaseManager.getTableNames()));
+        for (String name : dataBaseManager.getTableNames()) {
+            if (name.equals(tableName)) fakeName = false;
+        }
+
+        if (fakeName) {
+            view.write("Wrong table name! Check if your table exists from the list below");
+            view.write("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+            return;
+        }
+
+        printTableData(tableName);
     }
 
-    private void cmdHelp() {
+    //Use toString for DataSet[] from getTableData(tableName) with formatter
+    private void printTableData(String tableName) {
+        String[] tableColumns = dataBaseManager.getTableColumns(tableName);
+        printFormattedRow(tableColumns);
+        DataSet[] tableData = dataBaseManager.getTableData(tableName);
+        for (DataSet tableItem : tableData){
+            printFormattedRow(tableItem.getStringValues());
+        }
+        view.write("----------------------------------------");
+    }
+
+    private void printFormattedRow(String[] dataArray) {
+        String row = "|";
+        view.write("----------------------------------------");
+        for (String rowItem : dataArray) {
+            row += String.format(" %-10s |", rowItem);
+        }
+        view.write(row);
+
+    }
+
+    private void doListCmd() {
+        view.write("Here's the names of available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+    }
+
+    private void doHelpCmd() {
         view.write("\nList of available commands:");
         view.write("\tlist");
         view.write("\t\tdisplay available tables in selected database");
+        view.write("\tdata|tableName");
+        view.write("\t\tdisplay data from a table in selected database");
         view.write("\texit");
         view.write("\t\tto exit from this session");
         view.write("\thelp");
@@ -79,8 +124,7 @@ public class MainController {
                 connect = true;
             } catch (Exception e) {
                 printError(e);
-                if (e.getClass().getSimpleName().equals("UnsupportedOperationException"))
-                    System.exit(0);
+                if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) System.exit(0);
                 view.write("Try again!");
             }
         }

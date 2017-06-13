@@ -1,7 +1,5 @@
 package ua.com.shtramak.model;
 
-import java.util.Arrays;
-
 public class DataSet implements DataSetInterface {
     private Data[] data = new Data[100];
     private int freeIndex;
@@ -69,8 +67,8 @@ public class DataSet implements DataSetInterface {
 
     @Override
     public String toString() {
-        if (data[0] == null) return null;
-            StringBuilder result = new StringBuilder("[");
+        if (data[0] == null) return "";
+        StringBuilder result = new StringBuilder("[");
         int index = 0;
         String[] names = getNames();
         Object[] values = getValues();
@@ -85,6 +83,14 @@ public class DataSet implements DataSetInterface {
         result.deleteCharAt(result.lastIndexOf(","));
         result.append("]");
         return result.toString();
+    }
+
+    public String[] getStringValues() {
+        String[] result = new String[freeIndex + 1];
+        for (int i = 0; i <= freeIndex; i++) {
+            result[i] = data[i].getValue().toString();
+        }
+        return result;
     }
 }
 
