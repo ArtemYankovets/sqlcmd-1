@@ -66,7 +66,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
 
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database+"?loggerLevel=OFF", userName, password);
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database + "?loggerLevel=OFF", userName, password);
             System.out.printf("Hello, %s! Welcome to %s database \n", userName, database);
         } catch (SQLException e) {
             connection = null;
@@ -145,12 +145,17 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public void disconnect(){
+    public void disconnect() {
         try {
             this.connection.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public boolean isConnected() {
+        return connection != null;
     }
 
     private int getTableSize(String tableName) {

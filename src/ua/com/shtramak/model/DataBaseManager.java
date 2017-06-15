@@ -52,4 +52,6 @@ public interface DataBaseManager {
     String[] getTableColumns(String tableName);
 
     void disconnect();
+
+    boolean isConnected();
 }
