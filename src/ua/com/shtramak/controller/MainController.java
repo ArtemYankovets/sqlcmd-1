@@ -28,6 +28,11 @@ public class MainController {
                 view.write("Hello, user! For first connection to database please enter required input data using next format:\n" +
                         "connect|database|userName|password");
                 String inputCommand = view.read();
+
+                if (inputCommand.equals("exit")){
+                    view.write("Good Luck!");
+                    return;
+                }
                 commands[0].isDetected(inputCommand);
                 commands[0].execute();
             }
