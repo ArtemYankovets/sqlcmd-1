@@ -86,8 +86,7 @@ public class IntegrationTest {
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Hello, postgres! Welcome to sqlcmd database \n" +
-                "\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -104,11 +103,9 @@ public class IntegrationTest {
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Hello, postgres! Welcome to sqlcmd database \n" +
-                "\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
-                "Here's the names of available tables: [users]\r\n"+
-                "\n" +
+                "Here's the names of available tables: [users]\r\n\n"+
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -125,12 +122,10 @@ public class IntegrationTest {
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Hello, postgres! Welcome to sqlcmd database \n" +
-                "\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Wrong table name! Check if your table exists from the list below\r\n" +
-                "List with available tables: [users]\r\n"+
-                "\n" +
+                "List with available tables: [users]\r\n\n"+
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -147,8 +142,7 @@ public class IntegrationTest {
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Hello, postgres! Welcome to sqlcmd database \n" +
-                "\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "----------------------------------------\r\n" +
                 "| id         | name       | password   |\r\n" +
@@ -158,8 +152,7 @@ public class IntegrationTest {
                 "| 8          | Cheburator | qwerty     |\r\n" +
                 "----------------------------------------\r\n" +
                 "| 1          | Chupakabra | qwerty     |\r\n" +
-                "----------------------------------------\r\n"+
-                "\n" +
+                "----------------------------------------\r\n\n"+
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -176,11 +169,9 @@ public class IntegrationTest {
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Hello, postgres! Welcome to sqlcmd database \n" +
-                "\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
-                "Hello, postgres! Welcome to postgres database \n"+
-                "\n" +
+                "Hello, postgres! Welcome to postgres database \n\n"+
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -202,6 +193,52 @@ public class IntegrationTest {
                 "\r\n" +
                 "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
+                "Good Luck!\r\n";
+
+        Main.main(new String[0]);
+
+        assertEquals(expected, getData());
+    }
+
+    @Test
+    public void testHelp() {
+        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("help");
+        in.addCommand("exit");
+
+        String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "connect|database|userName|password\r\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n\n" +
+                "List of available commands:\r\n" +
+                "\tlist\r\n" +
+                "\t\tdisplay available tables in selected database\r\n" +
+                "\tfind|tableName\r\n" +
+                "\t\tdisplay data from a table in selected database\r\n" +
+                "\texit\r\n" +
+                "\t\tto exit from this session\r\n" +
+                "\thelp\r\n" +
+                "\t\twill display this message again... try it! )\r\n\n"+
+                "Type a command or 'help' to see the command list\r\n" +
+                "Good Luck!\r\n";
+
+        Main.main(new String[0]);
+
+        assertEquals(expected, getData());
+    }
+
+    @Test
+    public void testWrongCommandAfterConnection() {
+        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("hepl");
+        in.addCommand("exit");
+
+        String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "connect|database|userName|password\r\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Command hepl doesn't exists\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
         Main.main(new String[0]);
