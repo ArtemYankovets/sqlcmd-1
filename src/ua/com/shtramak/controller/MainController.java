@@ -17,6 +17,9 @@ public class MainController {
                 new List(dataBaseManager, view),
                 new Help(view),
                 new Find(dataBaseManager, view),
+                new Clear(dataBaseManager,view),
+                new Insert(dataBaseManager,view),
+                new UpdateById(dataBaseManager,view),
                 new Exit(dataBaseManager)};
     }
 
@@ -54,7 +57,7 @@ public class MainController {
             if (inputCommand.equals("exit")) break;
 
             if (!isDetected)
-                view.write(String.format("Command %s doesn't exists", inputCommand));
+                view.write(String.format("Command %s doesn't exists. Use 'help' command for details", inputCommand));
         }
     }
 }

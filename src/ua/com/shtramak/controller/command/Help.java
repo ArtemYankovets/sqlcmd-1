@@ -20,7 +20,13 @@ public class Help implements Command {
         view.write("\tlist");
         view.write("\t\tdisplay available tables in selected database");
         view.write("\tfind|tableName");
-        view.write("\t\tdisplay data from a table in selected database");
+        view.write("\t\tdisplay available tables in selected database");
+        view.write("\tclear|tableName");
+        view.write("\t\tdelete all data from selected table");
+        view.write("\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#");
+        view.write("\t\tinsert entered data to selected table");
+        view.write("\tupdate|tableName");
+        view.write("\t\tupdate entry in selected table using own command interface");
         view.write("\texit");
         view.write("\t\tto exit from this session");
         view.write("\thelp");

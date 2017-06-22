@@ -47,13 +47,19 @@ public class Find implements Command {
         String[] tableColumns = dataBaseManager.getTableColumns(tableName);
         printFormattedRow(tableColumns);
         DataSet[] tableData = dataBaseManager.getTableData(tableName);
-        for (DataSet tableItem : tableData){
+        for (DataSet tableItem : tableData) {
             printFormattedRow(tableItem.getStringValues());
         }
-        view.write("----------------------------------------");
+        if (tableColumns != null)
+            view.write("----------------------------------------");
     }
 
     private void printFormattedRow(String[] dataArray) {
+        if (dataArray == null) {
+            view.write("Nothig to show! No data find. First insert data to the table using 'insert' command");
+            return;
+        }
+
         String row = "|";
         view.write("----------------------------------------");
         for (String rowItem : dataArray) {

@@ -82,9 +82,11 @@ public class JDBCDataBaseManager implements DataBaseManager {
             Statement statement = connection.createStatement();
             String sql = "DELETE FROM " + tableName;
             statement.execute(sql);
+            System.out.println(String.format("Data from %s was successfully deleted", tableName));
+
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            System.out.println("An error occurred. Check if entered table exists. Reason: " + e.getMessage());
         }
     }
 
@@ -100,7 +102,10 @@ public class JDBCDataBaseManager implements DataBaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            String message = "Smth goes wrong... Reason: " + e.getMessage();
+            if (e.getCause() != null)
+                message += "\n" + e.getCause();
+            System.out.println(message);
         }
     }
 
