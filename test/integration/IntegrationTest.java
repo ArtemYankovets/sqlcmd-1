@@ -105,7 +105,7 @@ public class IntegrationTest {
                 "connect|database|userName|password\r\n" +
                 "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
-                "Here's the names of available tables: [users]\r\n\n"+
+                "Here's the names of available tables: [users]\r\n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -125,7 +125,7 @@ public class IntegrationTest {
                 "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Wrong table name! Check if your table exists from the list below\r\n" +
-                "List with available tables: [users]\r\n\n"+
+                "List with available tables: [users]\r\n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -135,14 +135,110 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindAfterConnection() {
+    public void testClear() {
         in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("clear|users");
+        in.addCommand("yes");
+        in.addCommand("exit");
+
+        String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "connect|database|userName|password\r\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "You are going to delete all data from users! Are you sure? [Yes/No]\r\n" +
+                "Data from users was successfully deleted\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Good Luck!\r\n";
+
+        Main.main(new String[0]);
+
+        assertEquals(expected, getData());
+    }
+
+    @Test
+    public void testFindInEmptyTable() {
+        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("clear|users");
+        in.addCommand("yes");
         in.addCommand("find|users");
         in.addCommand("exit");
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
                 "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "You are going to delete all data from users! Are you sure? [Yes/No]\r\n" +
+                "Data from users was successfully deleted\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Nothig to show! No data find. First insert data to the table using 'insert' command\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Good Luck!\r\n";
+
+        Main.main(new String[0]);
+
+        assertEquals(expected, getData());
+
+    }
+
+    @Test
+    public void testInsert() {
+        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("clear|users");
+        in.addCommand("yes");
+        in.addCommand("insert|users|id|11|name|shtramak|password|qqq");
+        in.addCommand("insert|users|id|8|name|Cheburator|password|qwerty");
+        in.addCommand("insert|users|id|1|name|Chupakabra|password|qwerty");
+        in.addCommand("exit");
+
+        String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "connect|database|userName|password\r\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "You are going to delete all data from users! Are you sure? [Yes/No]\r\n" +
+                "Data from users was successfully deleted\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Data successfully added to current table\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Data successfully added to current table\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Data successfully added to current table\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Good Luck!\r\n";
+
+        Main.main(new String[0]);
+
+        assertEquals(expected, getData());
+
+
+    }
+
+    @Test
+    public void testFindAndUpdate() {
+        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("clear|users");
+        in.addCommand("yes");
+        in.addCommand("insert|users|id|11|name|shtramak|password|qqq");
+        in.addCommand("insert|users|id|8|name|Cheburator|password|qwerty");
+        in.addCommand("insert|users|id|1|name|Chupakabra|password|qwerty");
+        in.addCommand("find|users");
+        in.addCommand("update|users");
+        in.addCommand("1");
+        in.addCommand("password|ChuPass");
+        in.addCommand("find|users");
+        in.addCommand("exit");
+
+        String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "connect|database|userName|password\r\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "You are going to delete all data from users! Are you sure? [Yes/No]\r\n" +
+                "Data from users was successfully deleted\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Data successfully added to current table\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Data successfully added to current table\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Data successfully added to current table\r\n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "----------------------------------------\r\n" +
                 "| id         | name       | password   |\r\n" +
@@ -152,7 +248,20 @@ public class IntegrationTest {
                 "| 8          | Cheburator | qwerty     |\r\n" +
                 "----------------------------------------\r\n" +
                 "| 1          | Chupakabra | qwerty     |\r\n" +
-                "----------------------------------------\r\n\n"+
+                "----------------------------------------\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Please input existing id number you want to update. Must be integer:\r\n" +
+                "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "----------------------------------------\r\n" +
+                "| id         | name       | password   |\r\n" +
+                "----------------------------------------\r\n" +
+                "| 11         | shtramak   | qqq        |\r\n" +
+                "----------------------------------------\r\n" +
+                "| 8          | Cheburator | qwerty     |\r\n" +
+                "----------------------------------------\r\n" +
+                "| 1          | Chupakabra | ChuPass    |\r\n" +
+                "----------------------------------------\r\n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -171,7 +280,7 @@ public class IntegrationTest {
                 "connect|database|userName|password\r\n" +
                 "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
-                "Hello, postgres! Welcome to postgres database \n\n"+
+                "Hello, postgres! Welcome to postgres database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -189,7 +298,7 @@ public class IntegrationTest {
                 "connect|database|userName|password\r\n" +
                 "Reason: Dear, postgres! Your input data was incorrect!\n" +
                 "ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) (pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)\r\n" +
-                "Try again!\n"+
+                "Try again!\n" +
                 "\r\n" +
                 "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
@@ -214,11 +323,17 @@ public class IntegrationTest {
                 "\tlist\r\n" +
                 "\t\tdisplay available tables in selected database\r\n" +
                 "\tfind|tableName\r\n" +
-                "\t\tdisplay data from a table in selected database\r\n" +
+                "\t\tdisplay available tables in selected database\r\n" +
+                "\tclear|tableName\r\n" +
+                "\t\tdelete all data from selected table\r\n" +
+                "\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#\r\n" +
+                "\t\tinsert entered data to selected table\r\n" +
+                "\tupdate|tableName\r\n" +
+                "\t\tupdate entry in selected table using own command interface\r\n" +
                 "\texit\r\n" +
                 "\t\tto exit from this session\r\n" +
                 "\thelp\r\n" +
-                "\t\twill display this message again... try it! )\r\n\n"+
+                "\t\twill display this message again... try it! )\r\n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -237,7 +352,97 @@ public class IntegrationTest {
                 "connect|database|userName|password\r\n" +
                 "Hello, postgres! Welcome to sqlcmd database \n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
-                "Command hepl doesn't exists\r\n\n" +
+                "Command hepl doesn't exists. Use 'help' command for details\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Good Luck!\r\n";
+
+        Main.main(new String[0]);
+
+        assertEquals(expected, getData());
+    }
+
+    @Test
+    public void testWrongClear() {
+        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("clear|");
+        in.addCommand("clear|user");
+        in.addCommand("clear|users");
+        in.addCommand("no");
+        in.addCommand("exit");
+
+        String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "connect|database|userName|password\r\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "clear command failed because of wrong input. Use 'help' command for details\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "You are going to delete all data from user! Are you sure? [Yes/No]\r\n" +
+                "Please enter Yes or No. No other options available\r\n" +
+                "Don't worry! Data is in safe\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Good Luck!\r\n";
+
+        Main.main(new String[0]);
+
+        assertEquals(expected, getData());
+    }
+
+    @Test
+    public void testWrongInsert() {
+        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("insert|user");
+        in.addCommand("insert|user|data");
+        in.addCommand("exit");
+
+        String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "connect|database|userName|password\r\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Entered data can't be inserted to the table because of wrong format. Use 'help' command for details\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "insert command failed because of wrong input: number of elements is incorrect. Use 'help' command for details\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Good Luck!\r\n";
+
+        Main.main(new String[0]);
+
+        assertEquals(expected, getData());
+
+    }
+
+    @Test
+    public void testWrongUpdate() {
+        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("update|user|user");
+        in.addCommand("update|user");
+        in.addCommand("oops");
+        in.addCommand("1");
+        in.addCommand("exit");
+        in.addCommand("update|user");
+        in.addCommand("1");
+        in.addCommand("password|ChuPass|oops");
+        in.addCommand("password|ChuPass");
+        in.addCommand("exit");
+
+        in.addCommand("exit");
+
+        String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "connect|database|userName|password\r\n" +
+                "Hello, postgres! Welcome to sqlcmd database \n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "update command failed because of wrong input. Use 'help' command for details\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Please input existing id number you want to update. Must be integer:\r\n" +
+                "Entered value is not an integer! Enter an integer value:\r\n" +
+                "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#\r\n" +
+                "Update command failed!\r\n\n" +
+                "Type a command or 'help' to see the command list\r\n" +
+                "Please input existing id number you want to update. Must be integer:\r\n" +
+                "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#\r\n" +
+                "Wrong input! Intput must be according to the template described above.\r\n" +
+                "Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command\r\n" +
+                "Smth goes wrong... Reason: ОШИБКА: ошибка синтаксиса (примерное положение: \"user\")\n" +
+                "  Позиция: 8\r\n\n" +
                 "Type a command or 'help' to see the command list\r\n" +
                 "Good Luck!\r\n";
 
@@ -255,4 +460,5 @@ public class IntegrationTest {
         }
         return result;
     }
+
 }

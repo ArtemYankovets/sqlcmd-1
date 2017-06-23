@@ -29,7 +29,15 @@ public class UpdateById implements Command {
         }
 
         view.write("Please input existing id number you want to update. Must be integer:");
-        int id = Integer.parseInt(view.read());
+        int id;
+        while (true) {
+            try {
+                id = Integer.parseInt(view.read());
+                break;
+            } catch (NumberFormatException e) {
+                view.write("Entered value is not an integer! Enter an integer value:");
+            }
+        }
 
         view.write("Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#");
 
@@ -57,6 +65,11 @@ public class UpdateById implements Command {
         }
 
         String tableName = command.split("\\|")[1];
-        dataBaseManager.updateById(tableName, id, updateData);
+        try {
+            dataBaseManager.updateById(tableName, id, updateData);
+        } catch (Exception e) {
+            String message = "Smth goes wrong... Reason: " + e.getMessage();
+            view.write(message);
+        }
     }
 }

@@ -122,7 +122,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
             prprStmt.setInt(index, id);
             prprStmt.executeUpdate();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
