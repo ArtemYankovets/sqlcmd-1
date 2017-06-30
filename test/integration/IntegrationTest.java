@@ -15,10 +15,6 @@ public class IntegrationTest {
     private ByteArrayOutputStream out;
     private ConsoleInputStream in;
 
-    public String getOut() {
-        return out.toString();
-    }
-
     @Before
     public void setup() {
         in = new ConsoleInputStream();
@@ -46,13 +42,9 @@ public class IntegrationTest {
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Connection failed!\r\n" +
-                "Reason: Incorrect input. Please enter required input data in format: connect|database|userName|password\r\n" +
-                "Try again!\n" +
-                "\r\n" +
-                "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "Invalid data! Your input is list:  Try again using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Good Luck!\r\n";
+                "Exiting before connection... Good luck!\r\n";
 
         Main.main(new String[0]);
 
@@ -66,13 +58,10 @@ public class IntegrationTest {
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Connection failed!\r\n" +
-                "Reason: Incorrect input. Please enter required input data in format: connect|database|userName|password\r\n" +
-                "Try again!\n" +
-                "\r\n" +
-                "Hello, user! For first connection to database please enter required input data using next format:\n" +
+                "Invalid data! Your input is help:  Try again using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Good Luck!\r\n";
+                "Exiting before connection... Good luck!\r\n";
+        ;
 
         Main.main(new String[0]);
 
@@ -296,13 +285,11 @@ public class IntegrationTest {
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +
                 "connect|database|userName|password\r\n" +
-                "Reason: Dear, postgres! Your input data was incorrect!\n" +
-                "ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) (pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)\r\n" +
-                "Try again!\n" +
-                "\r\n" +
-                "Hello, user! For first connection to database please enter required input data using next format:\n" +
-                "connect|database|userName|password\r\n" +
-                "Good Luck!\r\n";
+                "Error message: Dear, postgres! Your input data was incorrect!\n" +
+                "ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) "+
+                "(pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)\r\n" +
+                "Try again!\n\r\n" +
+                "Exiting before connection... Good luck!\r\n";
 
         Main.main(new String[0]);
 
@@ -422,8 +409,6 @@ public class IntegrationTest {
         in.addCommand("1");
         in.addCommand("password|ChuPass|oops");
         in.addCommand("password|ChuPass");
-        in.addCommand("exit");
-
         in.addCommand("exit");
 
         String expected = "Hello, user! For first connection to database please enter required input data using next format:\n" +

@@ -40,7 +40,7 @@ public class Connect implements Command{
             dataBaseManager.connect(database, userName, password);
         } catch (Exception e) {
             printError(e);
-            if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) System.exit(0);
+            if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) return;
             view.write("Try again!\n");
         }
     }
@@ -49,6 +49,6 @@ public class Connect implements Command{
         String reason = e.getMessage();
         if (e.getCause() != null)
             reason += e.getCause().getMessage();
-        view.write("Reason: " + reason);
+        view.write("Error message: " + reason);
     }
 }
