@@ -10,6 +10,8 @@ public class MainController {
     private DataBaseManager dataBaseManager;
     Command[] commands;
 
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+
     public MainController(View view, DataBaseManager dataBaseManager) {
         this.view = view;
         this.dataBaseManager = dataBaseManager;
@@ -24,7 +26,7 @@ public class MainController {
     }
 
     public void run() {
-        view.write("Hello, user! For first connection to database please enter required input data using next format:\n" +
+        view.write("Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password");
 
         String inputCommand = view.read();
@@ -36,14 +38,15 @@ public class MainController {
 
         requestMandatoryConnection(inputCommand);
 
-        if (!dataBaseManager.isConnected()){
+        if (!dataBaseManager.isConnected()) {
             view.write("Exiting before connection... Good luck!");
             return;
         }
 
         while (true) {
 
-            view.write("\nType a command or 'help' to see the command list");
+            view.write("");
+            view.write("Type a command or 'help' to see the command list");
 
             inputCommand = view.read();
 
@@ -68,7 +71,7 @@ public class MainController {
             if (commands[0].isDetected(inputCommand)) {
                 commands[0].execute();
             } else {
-                view.write(String.format("Invalid data! Your input is %s: ", inputCommand) + " Try again using next format:\n" +
+                view.write(String.format("Invalid data! Your input is %s: ", inputCommand) + " Try again using next format:" + LINE_SEPARATOR +
                         "connect|database|userName|password");
             }
 

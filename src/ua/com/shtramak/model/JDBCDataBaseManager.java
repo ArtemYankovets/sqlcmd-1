@@ -6,6 +6,8 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     private Connection connection;
 
+    private static final String LINE_SEPARATOR = System.lineSeparator();
+
     @Override
     public DataSet[] getTableData(String tableName) {
 
@@ -60,17 +62,17 @@ public class JDBCDataBaseManager implements DataBaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            String message = String.format("Dear, %s! Connection to database was failed. JDBC driver doesn't exist.\n" +
+            String message = String.format("Dear, %s! Connection to database was failed. JDBC driver doesn't exist." + System.lineSeparator() +
                     "Please install required JDBC diver and try again.", userName);
             throw new UnsupportedOperationException(message);
         }
 
         try {
             connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database + "?loggerLevel=OFF", userName, password);
-            System.out.printf("Hello, %s! Welcome to %s database \n", userName, database);
+            System.out.printf("Hello, %s! Welcome to %s database", userName, database);
         } catch (SQLException e) {
             connection = null;
-            throw new RuntimeException(String.format("Dear, %s! Your input data was incorrect!\n", userName), e);
+            throw new RuntimeException(String.format("Dear, %s! Your input data was incorrect!" + System.lineSeparator(), userName), e);
         }
 
     }

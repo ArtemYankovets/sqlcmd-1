@@ -41,7 +41,8 @@ public class Connect implements Command{
         } catch (Exception e) {
             printError(e);
             if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) return;
-            view.write("Try again!\n");
+            view.write("Try again!");
+            view.write("");
         }
     }
 

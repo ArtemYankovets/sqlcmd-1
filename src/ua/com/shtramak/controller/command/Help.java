@@ -16,7 +16,8 @@ public class Help implements Command {
 
     @Override
     public void execute() {
-        view.write("\nList of available commands:");
+        view.write("");
+        view.write("List of available commands:");
         view.write("\tlist");
         view.write("\t\tdisplay available tables in selected database");
         view.write("\tfind|tableName");
