@@ -20,7 +20,7 @@ public class List implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(String command) {
         view.write("Here's the names of available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
     }
 }

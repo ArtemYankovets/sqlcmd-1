@@ -7,7 +7,6 @@ public class Clear implements Command {
 
     DataBaseManager dataBaseManager;
     View view;
-    String command;
 
     public Clear(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -16,12 +15,11 @@ public class Clear implements Command {
 
     @Override
     public boolean isDetected(String command) {
-        this.command = command;
         return command.startsWith("clear|");
     }
 
     @Override
-    public void execute() {
+    public void execute(String command) {
         if (command.split("\\|").length != 2) {
             view.write("clear command failed because of wrong input. Use 'help' command for details");
             return;

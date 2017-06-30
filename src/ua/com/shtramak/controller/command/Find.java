@@ -10,7 +10,6 @@ public class Find implements Command {
 
     DataBaseManager dataBaseManager;
     View view;
-    String command;
 
     public Find(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -21,12 +20,11 @@ public class Find implements Command {
     public boolean isDetected(String command) {
         if (!command.startsWith("find|")) return false;
 
-        this.command = command;
         return true;
     }
 
     @Override
-    public void execute() {
+    public void execute(String command) {
         String tableName = command.split("\\|")[1];
         boolean fakeName = true;
 

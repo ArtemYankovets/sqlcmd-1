@@ -15,7 +15,7 @@ public class Help implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(String command) {
         view.write("");
         view.write("List of available commands:");
         view.write("\tlist");

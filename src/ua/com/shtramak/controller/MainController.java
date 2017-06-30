@@ -53,7 +53,7 @@ public class MainController {
             boolean exist = false;
             for (Command command : commands) {
                 if (command.isDetected(inputCommand)) {
-                    command.execute();
+                    command.execute(inputCommand);
                     exist = true;
                     break;
                 }
@@ -69,7 +69,7 @@ public class MainController {
     private void requestMandatoryConnection(String inputCommand) {
         while (true) {
             if (commands[0].isDetected(inputCommand)) {
-                commands[0].execute();
+                commands[0].execute(inputCommand);
             } else {
                 view.write(String.format("Invalid data! Your input is %s: ", inputCommand) + " Try again using next format:" + LINE_SEPARATOR +
                         "connect|database|userName|password");

@@ -7,7 +7,6 @@ import ua.com.shtramak.view.View;
 public class Insert implements Command {
     DataBaseManager dataBaseManager;
     View view;
-    String command;
 
     public Insert(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -16,12 +15,11 @@ public class Insert implements Command {
 
     @Override
     public boolean isDetected(String command) {
-        this.command = command;
         return command.startsWith("insert|");
     }
 
     @Override
-    public void execute() {
+    public void execute(String command) {
         String[] commands = command.split("\\|");
         int commandSize = commands.length % 2;
         if (commandSize == 1) {

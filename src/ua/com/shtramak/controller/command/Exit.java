@@ -17,7 +17,7 @@ public class Exit implements Command {
     }
 
     @Override
-    public void execute() {
+    public void execute(String command) {
         dataBaseManager.disconnect();
         new Console().write("Good Luck!");
     }

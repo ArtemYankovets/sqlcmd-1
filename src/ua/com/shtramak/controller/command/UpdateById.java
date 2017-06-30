@@ -8,7 +8,6 @@ public class UpdateById implements Command {
 
     DataBaseManager dataBaseManager;
     View view;
-    String command;
 
     public UpdateById(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -17,12 +16,11 @@ public class UpdateById implements Command {
 
     @Override
     public boolean isDetected(String command) {
-        this.command = command;
         return command.startsWith("update|");
     }
 
     @Override
-    public void execute() {
+    public void execute(String command) {
         if (command.split("\\|").length != 2) {
             view.write("update command failed because of wrong input. Use 'help' command for details");
             return;

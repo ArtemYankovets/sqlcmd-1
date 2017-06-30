@@ -7,7 +7,6 @@ public class Connect implements Command{
 
     private DataBaseManager dataBaseManager;
     private View view;
-    private String command;
 
     public Connect(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -16,7 +15,6 @@ public class Connect implements Command{
 
     @Override
     public boolean isDetected(String command) {
-        this.command = command;
         if (!command.startsWith("connect|")) return false;
 
         if (dataBaseManager.isConnected())
@@ -26,7 +24,7 @@ public class Connect implements Command{
     }
 
     @Override
-    public void execute() {
+    public void execute(String command) {
         try {
             String[] inputData = command.split("\\|");
             if (inputData.length != 4) {
