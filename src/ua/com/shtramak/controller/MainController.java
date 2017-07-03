@@ -26,7 +26,7 @@ public class MainController {
     }
 
     public void run() {
-        view.write("Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        view.write("Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password");
 
         String inputCommand = view.read();

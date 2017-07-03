@@ -30,7 +30,7 @@ public class IntegrationTest {
 
         Main.main(new String[0]);
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
         assertEquals(expected, getData());
@@ -41,7 +41,7 @@ public class IntegrationTest {
         in.addCommand("list");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Invalid data! Your input is list:  Try again using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
@@ -57,7 +57,7 @@ public class IntegrationTest {
         in.addCommand("help");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Invalid data! Your input is help:  Try again using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
@@ -74,9 +74,9 @@ public class IntegrationTest {
         in.addCommand("connect|sqlcmd|postgres|postgres");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -91,9 +91,9 @@ public class IntegrationTest {
         in.addCommand("list");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Here's the names of available tables: [users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
@@ -110,11 +110,11 @@ public class IntegrationTest {
         in.addCommand("find|user");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Wrong table name! Check if your table exists from the list below" + LINE_SEPARATOR +
+                "Wrong table name! Check the list below to see if your table exists" + LINE_SEPARATOR +
                 "List with available tables: [users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
@@ -131,9 +131,9 @@ public class IntegrationTest {
         in.addCommand("yes");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -153,14 +153,14 @@ public class IntegrationTest {
         in.addCommand("find|users");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Nothig to show! No data find. First insert data to the table using 'insert' command" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Nothig to show! No data found. First insert data to the table using 'insert' command" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -180,18 +180,18 @@ public class IntegrationTest {
         in.addCommand("insert|users|id|1|name|Chupakabra|password|qwerty");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -217,18 +217,18 @@ public class IntegrationTest {
         in.addCommand("find|users");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR +
                 "| id         | name       | password   |" + LINE_SEPARATOR +
@@ -266,11 +266,11 @@ public class IntegrationTest {
         in.addCommand("connect|postgres|postgres|postgres");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to postgres database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to postgres database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -284,9 +284,9 @@ public class IntegrationTest {
         in.addCommand("connect|sqlcmd|postgres|wrongPassword");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Error message: Dear, postgres! Your input data was incorrect!" + LINE_SEPARATOR +
+                "Error message: Dear postgres! Your input data was incorrect!" + LINE_SEPARATOR +
                 "ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) " +
                 "(pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)" + LINE_SEPARATOR +
                 "Try again!" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -303,9 +303,9 @@ public class IntegrationTest {
         in.addCommand("help");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "List of available commands:" + LINE_SEPARATOR +
                 "\tlist" + LINE_SEPARATOR +
@@ -336,9 +336,9 @@ public class IntegrationTest {
         in.addCommand("hepl");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Command hepl doesn't exists. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
@@ -358,15 +358,15 @@ public class IntegrationTest {
         in.addCommand("no");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "clear command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from user! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Please enter Yes or No. No other options available" + LINE_SEPARATOR +
-                "Don't worry! Data is in safe" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "Don't worry! Data is safe" + LINE_SEPARATOR +LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -382,13 +382,13 @@ public class IntegrationTest {
         in.addCommand("insert|user|data");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Entered data can't be inserted to the table because of wrong format. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "Entered data cannot be inserted to the table because of wrong format. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "insert command failed because of wrong input: number of elements is incorrect. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -412,20 +412,20 @@ public class IntegrationTest {
         in.addCommand("password|ChuPass");
         in.addCommand("exit");
 
-        String expected = "Hello, user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello, postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
+                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "update command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Please input existing id number you want to update. Must be integer:" + LINE_SEPARATOR +
-                "Entered value is not an integer! Enter an integer value:" + LINE_SEPARATOR +
+                "The entered value is not an integer! Enter an integer value:" + LINE_SEPARATOR +
                 "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR +
                 "Update command failed!" + LINE_SEPARATOR +LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Please input existing id number you want to update. Must be integer:" + LINE_SEPARATOR +
                 "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR +
-                "Wrong input! Intput must be according to the template described above." + LINE_SEPARATOR +
+                "Wrong input! Input must be according to the template described above." + LINE_SEPARATOR +
                 "Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command" + LINE_SEPARATOR +
                 "Smth goes wrong... Reason: ОШИБКА: ошибка синтаксиса (примерное положение: \"user\")\n" + // This "\n" comes from postgres SQLException
                 "  Позиция: 8" + LINE_SEPARATOR +LINE_SEPARATOR +

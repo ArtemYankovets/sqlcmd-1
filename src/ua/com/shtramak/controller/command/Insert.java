@@ -23,7 +23,7 @@ public class Insert implements Command {
         String[] commands = command.split("\\|");
         int commandSize = commands.length % 2;
         if (commandSize == 1) {
-            view.write("insert command failed because of wrong input: number of elements is incorrect. Use 'help' command for details");
+            view.write("'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details");
             return;
         }
 
@@ -36,9 +36,9 @@ public class Insert implements Command {
         try {
             dataBaseManager.insert(tableName, insertData);
         } catch (Exception e) {
-            view.write("Entered data can't be inserted to the table because of wrong format. Use 'help' command for details");
+            view.write("Entered data cannot be inserted to the table because of wrong format. Use 'help' command for details");
             return;
         }
-        view.write("Data successfully added to current table");
+        view.write("Data successfully added to the current table");
     }
 }

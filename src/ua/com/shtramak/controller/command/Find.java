@@ -33,7 +33,7 @@ public class Find implements Command {
         }
 
         if (fakeName) {
-            view.write("Wrong table name! Check if your table exists from the list below");
+            view.write("Wrong table name! Check the list below to see if your table exists");
             view.write("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return;
         }
@@ -54,7 +54,7 @@ public class Find implements Command {
 
     private void printFormattedRow(String[] dataArray) {
         if (dataArray == null) {
-            view.write("Nothig to show! No data find. First insert data to the table using 'insert' command");
+            view.write("Nothig to show! No data found. First insert data to the table using 'insert' command");
             return;
         }
 

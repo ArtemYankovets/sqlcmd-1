@@ -33,7 +33,7 @@ public class UpdateById implements Command {
                 id = Integer.parseInt(view.read());
                 break;
             } catch (NumberFormatException e) {
-                view.write("Entered value is not an integer! Enter an integer value:");
+                view.write("The entered value is not an integer! Enter an integer value:");
             }
         }
 
@@ -48,7 +48,7 @@ public class UpdateById implements Command {
             }
 
             if (inputData.split("\\|").length == 0 || inputData.split("\\|").length % 2 == 1) {
-                view.write("Wrong input! Intput must be according to the template described above.");
+                view.write("Wrong input! Input must be according to the template described above.");
                 view.write("Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command");
                 inputData = view.read();
             } else {

@@ -29,7 +29,7 @@ public class Clear implements Command {
         if (isSure(tableName))
             dataBaseManager.clear(tableName);
         else
-            view.write("Don't worry! Data is in safe");
+            view.write("Don't worry! Data is safe");
     }
 
     private boolean isSure(String tableName) {
