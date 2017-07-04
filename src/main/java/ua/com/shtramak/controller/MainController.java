@@ -15,14 +15,7 @@ public class MainController {
     public MainController(View view, DataBaseManager dataBaseManager) {
         this.view = view;
         this.dataBaseManager = dataBaseManager;
-        commands = new Command[]{new Connect(dataBaseManager, view),
-                new List(dataBaseManager, view),
-                new Help(view),
-                new Find(dataBaseManager, view),
-                new Clear(dataBaseManager, view),
-                new Insert(dataBaseManager, view),
-                new UpdateById(dataBaseManager, view),
-                new Exit(dataBaseManager)};
+        commands = new CommandsArray(dataBaseManager,view).commandsList();
     }
 
     public void run() {
@@ -68,8 +61,9 @@ public class MainController {
 
     private void requestMandatoryConnection(String inputCommand) {
         while (true) {
-            if (commands[0].isDetected(inputCommand)) {
-                commands[0].execute(inputCommand);
+            int connectIndex = 0;
+            if (commands[connectIndex].isDetected(inputCommand)) {
+                commands[connectIndex].execute(inputCommand);
             } else {
                 view.write(String.format("Invalid data! Your input is %s: ", inputCommand) + " Try again using next format:" + LINE_SEPARATOR +
                         "connect|database|userName|password");

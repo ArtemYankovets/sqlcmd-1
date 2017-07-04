@@ -4,4 +4,6 @@ public interface Command {
     boolean isDetected(String command);
 
     void execute(String command);
+
+    String description();
 }

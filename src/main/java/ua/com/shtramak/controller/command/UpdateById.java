@@ -15,6 +15,14 @@ public class UpdateById implements Command {
     }
 
     @Override
+    public String description() {
+        final String LINE_SEPARATOR = System.lineSeparator();
+        return "\tupdate|tableName" +
+                LINE_SEPARATOR +
+                "\t\tupdate entry in selected table using own command interface";
+    }
+
+    @Override
     public boolean isDetected(String command) {
         return command.startsWith("update|");
     }

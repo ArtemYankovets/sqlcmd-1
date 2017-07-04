@@ -14,6 +14,14 @@ public class Insert implements Command {
     }
 
     @Override
+    public String description() {
+        final String LINE_SEPARATOR = System.lineSeparator();
+        return "\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#" +
+                LINE_SEPARATOR +
+                "\t\tinsert entered data to selected table";
+    }
+
+    @Override
     public boolean isDetected(String command) {
         return command.startsWith("insert|");
     }

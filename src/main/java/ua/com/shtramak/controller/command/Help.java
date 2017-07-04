@@ -1,12 +1,24 @@
 package ua.com.shtramak.controller.command;
 
+import ua.com.shtramak.controller.CommandsArray;
+import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
 public class Help implements Command {
     private View view;
+    private DataBaseManager dataBaseManager;
 
-    public Help(View view) {
+    public Help(DataBaseManager dataBaseManager, View view) {
         this.view = view;
+        this.dataBaseManager = dataBaseManager;
+    }
+
+    @Override
+    public String description() {
+        final String LINE_SEPARATOR = System.lineSeparator();
+        return "\thelp" +
+                LINE_SEPARATOR +
+                "\t\twill display this message again... try it! )";
     }
 
     @Override
@@ -16,21 +28,10 @@ public class Help implements Command {
 
     @Override
     public void execute(String command) {
-        view.write("");
-        view.write("List of available commands:");
-        view.write("\tlist");
-        view.write("\t\tdisplay available tables in selected database");
-        view.write("\tfind|tableName");
-        view.write("\t\tdisplay available tables in selected database");
-        view.write("\tclear|tableName");
-        view.write("\t\tdelete all data from selected table");
-        view.write("\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#");
-        view.write("\t\tinsert entered data to selected table");
-        view.write("\tupdate|tableName");
-        view.write("\t\tupdate entry in selected table using own command interface");
-        view.write("\texit");
-        view.write("\t\tto exit from this session");
-        view.write("\thelp");
-        view.write("\t\twill display this message again... try it! )");
+        Command[] commands = new CommandsArray(dataBaseManager, view).commandsList();
+        view.write(System.lineSeparator() + "List of available commands:");
+        for (Command element : commands) {
+            view.write(element.description());
+        }
     }
 }

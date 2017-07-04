@@ -17,6 +17,14 @@ public class Find implements Command {
     }
 
     @Override
+    public String description() {
+        final String LINE_SEPARATOR = System.lineSeparator();
+        return "\tfind|tableName" +
+                LINE_SEPARATOR +
+                "\t\tdisplay available tables in selected database";
+    }
+
+    @Override
     public boolean isDetected(String command) {
         return command.startsWith("find|");
     }

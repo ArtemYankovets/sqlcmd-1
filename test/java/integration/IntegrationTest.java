@@ -308,6 +308,8 @@ public class IntegrationTest {
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "List of available commands:" + LINE_SEPARATOR +
+                "\tconnect|database|userName|password" + LINE_SEPARATOR +
+                "\t\tconnection with database under userName with password" + LINE_SEPARATOR +
                 "\tlist" + LINE_SEPARATOR +
                 "\t\tdisplay available tables in selected database" + LINE_SEPARATOR +
                 "\tfind|tableName" + LINE_SEPARATOR +

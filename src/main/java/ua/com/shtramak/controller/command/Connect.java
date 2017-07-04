@@ -3,7 +3,7 @@ package ua.com.shtramak.controller.command;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
-public class Connect implements Command{
+public class Connect implements Command {
 
     private DataBaseManager dataBaseManager;
     private View view;
@@ -14,11 +14,19 @@ public class Connect implements Command{
     }
 
     @Override
+    public String description() {
+        final String LINE_SEPARATOR = System.lineSeparator();
+        return "\tconnect|database|userName|password" +
+                LINE_SEPARATOR +
+                "\t\tconnection with database under userName with password";
+    }
+
+    @Override
     public boolean isDetected(String command) {
         if (!command.startsWith("connect|")) return false;
 
         if (dataBaseManager.isConnected())
-        dataBaseManager.disconnect();
+            dataBaseManager.disconnect();
 
         return true;
     }
@@ -44,7 +52,7 @@ public class Connect implements Command{
         } catch (Exception e) {
             printError(e);
             if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) return;
-            view.write("Try again!"+System.lineSeparator());
+            view.write("Try again!" + System.lineSeparator());
         }
     }
 
