@@ -5,7 +5,7 @@ import ua.com.shtramak.view.Console;
 import ua.com.shtramak.view.View;
 
 public class Exit implements Command {
-    DataBaseManager dataBaseManager;
+    private DataBaseManager dataBaseManager;
 
     public Exit(DataBaseManager dataBaseManager) {
         this.dataBaseManager = dataBaseManager;

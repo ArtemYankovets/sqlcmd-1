@@ -5,8 +5,8 @@ import ua.com.shtramak.model.DataSet;
 import ua.com.shtramak.view.View;
 
 public class Insert implements Command {
-    DataBaseManager dataBaseManager;
-    View view;
+    private DataBaseManager dataBaseManager;
+    private View view;
 
     public Insert(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -32,7 +32,8 @@ public class Insert implements Command {
             insertData.put(commands[i],commands[++i]);
         }
 
-        String tableName = commands[1];
+        int tableNameIndex = 1;
+        String tableName = commands[tableNameIndex];
         try {
             dataBaseManager.insert(tableName, insertData);
         } catch (Exception e) {

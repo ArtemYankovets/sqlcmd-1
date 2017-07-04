@@ -5,8 +5,8 @@ import ua.com.shtramak.view.View;
 
 public class Clear implements Command {
 
-    DataBaseManager dataBaseManager;
-    View view;
+    private DataBaseManager dataBaseManager;
+    private View view;
 
     public Clear(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -20,12 +20,15 @@ public class Clear implements Command {
 
     @Override
     public void execute(String command) {
-        if (command.split("\\|").length != 2) {
+        final String[] COMMANDS_TEMPLATE = "clear|tableName".split("\\|");
+        String[] commands = command.split("\\|");
+        if (commands.length != COMMANDS_TEMPLATE.length) {
             view.write("clear command failed because of wrong input. Use 'help' command for details");
             return;
         }
 
-        String tableName = command.split("\\|")[1];
+        int tableNameIndex = 1;
+        String tableName = commands[tableNameIndex];
         if (isSure(tableName))
             dataBaseManager.clear(tableName);
         else

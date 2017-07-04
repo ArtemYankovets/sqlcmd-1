@@ -6,8 +6,8 @@ import ua.com.shtramak.view.View;
 
 public class UpdateById implements Command {
 
-    DataBaseManager dataBaseManager;
-    View view;
+    private DataBaseManager dataBaseManager;
+    private View view;
 
     public UpdateById(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -21,7 +21,8 @@ public class UpdateById implements Command {
 
     @Override
     public void execute(String command) {
-        if (command.split("\\|").length != 2) {
+        final String[] COMMANDS_TEMPLATE = "find|tableName".split("\\|");
+        if (command.split("\\|").length != COMMANDS_TEMPLATE.length) {
             view.write("update command failed because of wrong input. Use 'help' command for details");
             return;
         }
@@ -62,7 +63,8 @@ public class UpdateById implements Command {
             updateData.put(commands[i], commands[++i]);
         }
 
-        String tableName = command.split("\\|")[1];
+        int tabkeNameIndex = 1;
+        String tableName = command.split("\\|")[tabkeNameIndex];
         try {
             dataBaseManager.updateById(tableName, id, updateData);
         } catch (Exception e) {
