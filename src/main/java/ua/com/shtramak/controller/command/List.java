@@ -6,8 +6,8 @@ import ua.com.shtramak.view.View;
 import java.util.Arrays;
 
 public class List implements Command {
-    DataBaseManager dataBaseManager;
-    View view;
+    private DataBaseManager dataBaseManager;
+    private View view;
 
     public List(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;

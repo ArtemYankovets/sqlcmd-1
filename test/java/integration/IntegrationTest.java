@@ -362,11 +362,11 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "clear command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "clear command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from user! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Please enter Yes or No. No other options available" + LINE_SEPARATOR +
-                "Don't worry! Data is safe" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "Don't worry! Data is safe" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -386,9 +386,9 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Entered data cannot be inserted to the table because of wrong format. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "Entered data cannot be inserted to the table because of wrong format. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -416,19 +416,19 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "update command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "update command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Please input existing id number you want to update. Must be integer:" + LINE_SEPARATOR +
                 "The entered value is not an integer! Enter an integer value:" + LINE_SEPARATOR +
                 "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR +
-                "Update command failed!" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "Update command failed!" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Please input existing id number you want to update. Must be integer:" + LINE_SEPARATOR +
                 "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR +
                 "Wrong input! Input must be according to the template described above." + LINE_SEPARATOR +
                 "Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command" + LINE_SEPARATOR +
                 "Smth goes wrong... Reason: ОШИБКА: ошибка синтаксиса (примерное положение: \"user\")\n" + // This "\n" comes from postgres SQLException
-                "  Позиция: 8" + LINE_SEPARATOR +LINE_SEPARATOR +
+                "  Позиция: 8" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 

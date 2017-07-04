@@ -6,8 +6,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     private Connection connection;
 
-    private static final String LINE_SEPARATOR = System.lineSeparator();
-
     @Override
     public DataSet[] getTableData(String tableName) {
 

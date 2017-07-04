@@ -8,8 +8,8 @@ import java.util.Arrays;
 
 public class Find implements Command {
 
-    DataBaseManager dataBaseManager;
-    View view;
+    private DataBaseManager dataBaseManager;
+    private View view;
 
     public Find(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -18,14 +18,14 @@ public class Find implements Command {
 
     @Override
     public boolean isDetected(String command) {
-        if (!command.startsWith("find|")) return false;
-
-        return true;
+        return command.startsWith("find|");
     }
 
     @Override
     public void execute(String command) {
-        String tableName = command.split("\\|")[1];
+
+        int tableNameIndex = 1;
+        String tableName = command.split("\\|")[tableNameIndex];
         boolean fakeName = true;
 
         for (String name : dataBaseManager.getTableNames()) {

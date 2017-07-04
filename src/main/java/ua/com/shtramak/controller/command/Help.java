@@ -3,7 +3,7 @@ package ua.com.shtramak.controller.command;
 import ua.com.shtramak.view.View;
 
 public class Help implements Command {
-    View view;
+    private View view;
 
     public Help(View view) {
         this.view = view;

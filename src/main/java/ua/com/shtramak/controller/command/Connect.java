@@ -26,21 +26,25 @@ public class Connect implements Command{
     @Override
     public void execute(String command) {
         try {
+            final String[] COMMANDS_TEMPLATE = "connect|database|userName|password".split("\\|");
             String[] inputData = command.split("\\|");
-            if (inputData.length != 4) {
+            if (inputData.length != COMMANDS_TEMPLATE.length) {
                 view.write("Connection failed!");
                 String message = "Incorrect input. Please enter required input data in format: connect|database|userName|password";
                 throw new IllegalArgumentException(message);
             }
-            String database = inputData[1];
-            String userName = inputData[2];
-            String password = inputData[3];
+
+            int dbIndex = 1;
+            int userNameIndex = 2;
+            int userPasswordIndex = 3;
+            String database = inputData[dbIndex];
+            String userName = inputData[userNameIndex];
+            String password = inputData[userPasswordIndex];
             dataBaseManager.connect(database, userName, password);
         } catch (Exception e) {
             printError(e);
             if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) return;
-            view.write("Try again!");
-            view.write("");
+            view.write("Try again!"+System.lineSeparator());
         }
     }
 
