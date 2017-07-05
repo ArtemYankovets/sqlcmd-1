@@ -71,8 +71,8 @@ public class UpdateById implements Command {
             updateData.put(commands[i], commands[++i]);
         }
 
-        int tabkeNameIndex = 1;
-        String tableName = command.split("\\|")[tabkeNameIndex];
+        int tableNameIndex = 1;
+        String tableName = command.split("\\|")[tableNameIndex];
         try {
             dataBaseManager.updateById(tableName, id, updateData);
         } catch (Exception e) {

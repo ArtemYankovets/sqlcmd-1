@@ -117,7 +117,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
         try (PreparedStatement prprStmt = connection.prepareStatement(sql)) {
             int index = 1;
             for (int i = 0; i < newValue.size(); i++) {
-                prprStmt.setObject(index++, newValue.getValues()[i]);
+                prprStmt.setObject(index++, newValue.values()[i]);
             }
             prprStmt.setInt(index, id);
             prprStmt.executeUpdate();
@@ -167,7 +167,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
         String sql = "SELECT COUNT(*) FROM " + tableName;
         int result = 0;
         try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql);
+             ResultSet resultSet = statement.executeQuery(sql)
         ) {
             resultSet.next();
             result = resultSet.getInt(1);
@@ -179,7 +179,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     private String getFormattedColumnData(DataSet dataSet, String format) {
         StringBuilder result = new StringBuilder();
-        for (Object colName : dataSet.getValues()) {
+        for (Object colName : dataSet.values()) {
             result.append("'");
             result.append(colName);
             result.append("'");
@@ -191,7 +191,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     private String getFormattedColumnNames(DataSet dataSet, String format) {
         StringBuilder result = new StringBuilder();
-        for (String colName : dataSet.getNames()) {
+        for (String colName : dataSet.names()) {
             result.append(colName);
             result.append(format);
         }

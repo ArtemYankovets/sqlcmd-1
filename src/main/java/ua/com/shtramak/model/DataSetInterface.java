@@ -11,23 +11,17 @@ public interface DataSetInterface {
     /**
      * @return values from data field
      */
-    Object[] getValues();
+    Object[] values();
 
     /**
      * @return names from data field
      */
-    String[] getNames();
+    String[] names();
 
     /**
      *
      * @param name name of an object wanted in data field
      * @return Object references to specified name, null otherwise
      */
-    Object getValue(String name);
-
-    /**
-     * This method updates entries in data field starting from 0 up to newValue.freeIndex with newValue entries
-     * @param newValue DataSet for updating a data field with entries from newValue
-     */
-    void updateFrom(DataSet newValue);
+    Object value(String name);
 }

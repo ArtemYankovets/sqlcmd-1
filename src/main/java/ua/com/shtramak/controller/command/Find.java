@@ -62,7 +62,7 @@ public class Find implements Command {
 
     private void printFormattedRow(String[] dataArray) {
         if (dataArray == null) {
-            view.write("Nothig to show! No data found. First insert data to the table using 'insert' command");
+            view.write("Nothing to show! No data found. First insert data to the table using 'insert' command");
             return;
         }
 

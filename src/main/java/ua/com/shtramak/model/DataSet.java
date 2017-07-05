@@ -1,11 +1,14 @@
 package ua.com.shtramak.model;
 
+import java.util.NoSuchElementException;
+
 public class DataSet implements DataSetInterface {
     private Data[] data = new Data[100];
     private int freeIndex;
 
     @Override
     public void put(String name, Object value) {
+        if (value == null) throw new RuntimeException("An attempt to add 'null' in DataSet. 'null' is not permitted");
         for (int i = 0; i < data.length; i++) {
             if (data[i] == null) {
                 freeIndex = i;
@@ -16,8 +19,8 @@ public class DataSet implements DataSetInterface {
     }
 
     @Override
-    public Object[] getValues() {
-        if (data == null || data.length == 0) return null;
+    public Object[] values() {
+        if (isEmpty()) throw new RuntimeException("DataSet is empty");
 
         Object[] result = new Object[freeIndex + 1];
         for (int i = 0; i <= freeIndex; i++) {
@@ -27,8 +30,8 @@ public class DataSet implements DataSetInterface {
     }
 
     @Override
-    public String[] getNames() {
-        if (data == null || data.length == 0) return null;
+    public String[] names() {
+        if (isEmpty()) throw new RuntimeException("DataSet is empty");
 
         String[] result = new String[freeIndex + 1];
         for (int i = 0; i <= freeIndex; i++) {
@@ -38,31 +41,24 @@ public class DataSet implements DataSetInterface {
     }
 
     @Override
-    public Object getValue(String name) {
-        if (data == null || data.length == 0) return null;
+    public Object value(String name) {
+        if (isEmpty()) throw new RuntimeException("DataSet is empty");
 
         for (int i = 0; i <= freeIndex; i++) {
             if (data[i].getName().equals(name)) {
                 return data[i].getValue();
             }
         }
-        return null;
+
+        throw new NoSuchElementException("There's no such name in DataSet");
     }
 
-    @Override
-    public void updateFrom(DataSet newValue) {
-        if (newValue.size() > this.size()) {
-            freeIndex = newValue.size();
-        }
-        String[] names = newValue.getNames();
-        Object[] values = newValue.getValues();
-        for (int i = 0; i < newValue.size(); i++) {
-            data[i] = new Data(names[i], values[i]);
-        }
-    }
-
-    public int size() {
+    int size() {
         return freeIndex + 1;
+    }
+
+    boolean isEmpty(){
+        return data[0]==null;
     }
 
     @Override
@@ -70,8 +66,8 @@ public class DataSet implements DataSetInterface {
         if (data[0] == null) return "";
         StringBuilder result = new StringBuilder("[");
         int index = 0;
-        String[] names = getNames();
-        Object[] values = getValues();
+        String[] names = names();
+        Object[] values = values();
         for (int i = 0; i < data.length; i++) {
             if (data[i] == null) break;
             result.append("{");

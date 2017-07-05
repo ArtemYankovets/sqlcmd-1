@@ -62,7 +62,6 @@ public class IntegrationTest {
                 "Invalid data! Your input is help:  Try again using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Exiting before connection... Good luck!" + LINE_SEPARATOR;
-        ;
 
         Main.main(new String[0]);
 
@@ -160,7 +159,7 @@ public class IntegrationTest {
                 "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Nothig to show! No data found. First insert data to the table using 'insert' command" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Nothing to show! No data found. First insert data to the table using 'insert' command" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
