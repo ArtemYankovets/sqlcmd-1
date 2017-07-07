@@ -15,9 +15,8 @@ public class Help implements Command {
 
     @Override
     public String description() {
-        final String LINE_SEPARATOR = System.lineSeparator();
         return "\thelp" +
-                LINE_SEPARATOR +
+                System.lineSeparator() +
                 "\t\twill display this message again... try it! )";
     }
 

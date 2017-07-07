@@ -387,7 +387,7 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Entered data cannot be inserted to the table because of wrong format. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "DataSet is empty" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +

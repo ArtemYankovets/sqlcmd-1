@@ -16,9 +16,8 @@ public class List implements Command {
 
     @Override
     public String description() {
-        final String LINE_SEPARATOR = System.lineSeparator();
         return "\tlist" +
-                LINE_SEPARATOR +
+                System.lineSeparator() +
                 "\t\tdisplay available tables in selected database";
     }
 

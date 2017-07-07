@@ -34,9 +34,9 @@ public class Connect implements Command {
     @Override
     public void execute(String command) {
         try {
-            final String[] COMMANDS_TEMPLATE = "connect|database|userName|password".split("\\|");
+            final String[] commandsTemplate = "connect|database|userName|password".split("\\|");
             String[] inputData = command.split("\\|");
-            if (inputData.length != COMMANDS_TEMPLATE.length) {
+            if (inputData.length != commandsTemplate.length) {
                 view.write("Connection failed!");
                 String message = "Incorrect input. Please enter required input data in format: connect|database|userName|password";
                 throw new IllegalArgumentException(message);

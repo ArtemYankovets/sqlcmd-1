@@ -15,9 +15,8 @@ public class Clear implements Command {
 
     @Override
     public String description() {
-        final String LINE_SEPARATOR = System.lineSeparator();
         return "\tclear|tableName" +
-                LINE_SEPARATOR +
+                System.lineSeparator() +
                 "\t\tdelete all data from selected table";
     }
 

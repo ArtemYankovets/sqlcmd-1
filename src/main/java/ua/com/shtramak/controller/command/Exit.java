@@ -19,9 +19,8 @@ public class Exit implements Command {
 
     @Override
     public String description() {
-        final String LINE_SEPARATOR = System.lineSeparator();
         return "\texit" +
-                LINE_SEPARATOR +
+                System.lineSeparator() +
                 "\t\tto exit from this session";
     }
 

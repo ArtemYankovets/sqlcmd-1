@@ -15,9 +15,8 @@ public class Insert implements Command {
 
     @Override
     public String description() {
-        final String LINE_SEPARATOR = System.lineSeparator();
         return "\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#" +
-                LINE_SEPARATOR +
+                System.lineSeparator() +
                 "\t\tinsert entered data to selected table";
     }
 
@@ -44,10 +43,9 @@ public class Insert implements Command {
         String tableName = commands[tableNameIndex];
         try {
             dataBaseManager.insert(tableName, insertData);
+            view.write("Data successfully added to the current table");
         } catch (Exception e) {
-            view.write("Entered data cannot be inserted to the table because of wrong format. Use 'help' command for details");
-            return;
+            view.write(e.getMessage());
         }
-        view.write("Data successfully added to the current table");
     }
 }

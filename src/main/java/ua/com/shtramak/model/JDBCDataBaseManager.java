@@ -7,9 +7,30 @@ public class JDBCDataBaseManager implements DataBaseManager {
     private Connection connection;
 
     @Override
+    public void connect(String database, String userName, String password) {
+
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            String message = String.format("Dear %s! Connection to database was failed. JDBC driver doesn't exist." + System.lineSeparator() +
+                    "Please install required JDBC diver and try again.", userName);
+            throw new UnsupportedOperationException(message);
+        }
+
+        try {
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database + "?loggerLevel=OFF", userName, password);
+            System.out.printf("Hello %s! Welcome to %s database", userName, database);
+        } catch (SQLException e) {
+            connection = null;
+            throw new RuntimeException(String.format("Dear %s! Your input data was incorrect!" + System.lineSeparator(), userName), e);
+        }
+
+    }
+
+    @Override
     public DataSet[] getTableData(String tableName) {
 
-        String sql = "SELECT * FROM " + tableName;
+        String sql = String.format("SELECT * FROM %s", tableName);
         DataSet[] result = new DataSet[getTableSize(tableName)];
 
         try (Statement statement = connection.createStatement();
@@ -34,45 +55,22 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public String[] getTableNames() {
-        String[] warehouse = new String[100];
-        int index = 0;
 
+        int index = 0;
+        String[] storage = new String[100];
         try {
             DatabaseMetaData md = connection.getMetaData();
             ResultSet rs = md.getTables(null, null, "%", new String[]{"TABLE"});
             while (rs.next()) {
-                warehouse[index++] = rs.getString(3);
+                storage[index++] = rs.getString(3);
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
         String[] result = new String[index];
-        for (int i = 0; i < index; i++) {
-            result[i] = warehouse[i];
-        }
+        System.arraycopy(storage, 0, result, 0, index);
         return result;
-    }
-
-    @Override
-    public void connect(String database, String userName, String password) {
-
-        try {
-            Class.forName("org.postgresql.Driver");
-        } catch (ClassNotFoundException e) {
-            String message = String.format("Dear %s! Connection to database was failed. JDBC driver doesn't exist." + System.lineSeparator() +
-                    "Please install required JDBC diver and try again.", userName);
-            throw new UnsupportedOperationException(message);
-        }
-
-        try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database + "?loggerLevel=OFF", userName, password);
-            System.out.printf("Hello %s! Welcome to %s database", userName, database);
-        } catch (SQLException e) {
-            connection = null;
-            throw new RuntimeException(String.format("Dear %s! Your input data was incorrect!" + System.lineSeparator(), userName), e);
-        }
-
     }
 
     @Override
@@ -80,7 +78,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
         try {
             Statement statement = connection.createStatement();
-            String sql = "DELETE FROM " + tableName;
+            String sql = String.format("DELETE FROM %s", tableName);
             statement.execute(sql);
             System.out.println(String.format("Data from %s was successfully deleted", tableName));
 
@@ -96,8 +94,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
         String colNames = getFormattedColumnNames(input, ",");
         String colValue = getFormattedColumnData(input, ",");
 
-        String sql = "INSERT INTO " + tableName + " (" + colNames + ") "
-                + "VALUES (" + colValue + ");";
+        String sql = String.format("INSERT INTO %s (%s) VALUES (%s);", tableName, colNames, colValue);
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
@@ -105,14 +102,14 @@ public class JDBCDataBaseManager implements DataBaseManager {
             String message = "Smth goes wrong... Reason: " + e.getMessage();
             if (e.getCause() != null)
                 message += "\n" + e.getCause();
-            System.out.println(message);
+            throw new IllegalArgumentException(message);
         }
     }
 
     @Override
     public void updateById(String tableName, int id, DataSet newValue) {
 
-        String sql = "UPDATE " + tableName + " SET " + getFormattedColumnNames(newValue, " = ?, ") + " WHERE id = ?";
+        String sql = String.format("UPDATE %s SET %s WHERE id = ?", tableName, getFormattedColumnNames(newValue, " = ?, "));
 
         try (PreparedStatement prprStmt = connection.prepareStatement(sql)) {
             int index = 1;
@@ -128,14 +125,14 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public String[] getTableColumns(String tableName) {
-        String sql = "SELECT * FROM " + tableName;
+        String sql = String.format("SELECT * FROM %s", tableName);
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
 
             ResultSetMetaData rsmd = resultSet.getMetaData();
 
-            if (!resultSet.next()) return null;
+            if (!resultSet.next()) return null; //TODO
 
             String[] result = new String[rsmd.getColumnCount()];
             for (int i = 0; i < rsmd.getColumnCount(); i++) {
@@ -145,7 +142,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
             return result;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return null; //TODO
         }
     }
 
@@ -164,7 +161,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     private int getTableSize(String tableName) {
-        String sql = "SELECT COUNT(*) FROM " + tableName;
+        String sql = String.format("SELECT COUNT(*) FROM %s", tableName);
         int result = 0;
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)
