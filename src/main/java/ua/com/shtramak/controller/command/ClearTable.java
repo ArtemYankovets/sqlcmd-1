@@ -3,12 +3,12 @@ package ua.com.shtramak.controller.command;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
-public class Clear implements Command {
+public class ClearTable implements Command {
 
     private DataBaseManager dataBaseManager;
     private View view;
 
-    public Clear(DataBaseManager dataBaseManager, View view) {
+    public ClearTable(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
@@ -30,7 +30,7 @@ public class Clear implements Command {
         final String[] COMMANDS_TEMPLATE = "clear|tableName".split("\\|");
         String[] commands = command.split("\\|");
         if (commands.length != COMMANDS_TEMPLATE.length) {
-            view.write("clear command failed because of wrong input. Use 'help' command for details");
+            view.writeln("clear command failed because of wrong input. Use 'help' command for details");
             return;
         }
 
@@ -39,11 +39,11 @@ public class Clear implements Command {
         if (isSure(tableName))
             dataBaseManager.clear(tableName);
         else
-            view.write("Don't worry! Data is safe");
+            view.writeln("Don't worry! Data is safe");
     }
 
     private boolean isSure(String tableName) {
-        view.write(String.format("You are going to delete all data from %s! Are you sure? [Yes/No]", tableName));
+        view.writeln(String.format("You are going to delete all data from %s! Are you sure? [Yes/No]", tableName));
         while (true) {
             String answer = view.read().toLowerCase();
             if (answer.equals("yes"))
@@ -51,7 +51,7 @@ public class Clear implements Command {
             if (answer.equals("no"))
                 return false;
             else
-                view.write("Please enter Yes or No. No other options available");
+                view.writeln("Please enter Yes or No. No other options available");
         }
     }
 }

@@ -31,34 +31,30 @@ public class UpdateById implements Command {
     public void execute(String command) {
         final String[] COMMANDS_TEMPLATE = "find|tableName".split("\\|");
         if (command.split("\\|").length != COMMANDS_TEMPLATE.length) {
-            view.write("update command failed because of wrong input. Use 'help' command for details");
+            view.writeln("update command failed because of wrong input. Use 'help' command for details");
             return;
         }
+        // TODO Проверить что введенная таблица существует до того как продолжать работу
+        view.writeln("Please input colName and its value you want to find for update: ");
+        view.write("Enter column name: ");
+        String colName = view.read();
+        view.write("Enter value: ");
+        String value = view.read();
 
-        view.write("Please input existing id number you want to update. Must be integer:");
-        int id;
-        while (true) {
-            try {
-                id = Integer.parseInt(view.read());
-                break;
-            } catch (NumberFormatException e) {
-                view.write("The entered value is not an integer! Enter an integer value:");
-            }
-        }
-
-        view.write("Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#");
+        // TODO Проверить введенные данные
+        view.writeln("Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#");
 
         String inputData = view.read();
         while (true) {
 
             if (inputData.equals("exit")) {
-                view.write("Update command failed!");
+                view.writeln("Update command failed!");
                 return;
             }
 
             if (inputData.split("\\|").length == 0 || inputData.split("\\|").length % 2 == 1) {
-                view.write("Wrong input! Input must be according to the template described above.");
-                view.write("Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command");
+                view.writeln("Wrong input! Input must be according to the template described above.");
+                view.writeln("Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command");
                 inputData = view.read();
             } else {
                 break;
@@ -74,10 +70,10 @@ public class UpdateById implements Command {
         int tableNameIndex = 1;
         String tableName = command.split("\\|")[tableNameIndex];
         try {
-            dataBaseManager.updateById(tableName, id, updateData);
+            dataBaseManager.update(tableName, colName, value, updateData);
         } catch (Exception e) {
             String message = "Smth goes wrong... Reason: " + e.getMessage();
-            view.write(message);
+            view.writeln(message);
         }
     }
 }

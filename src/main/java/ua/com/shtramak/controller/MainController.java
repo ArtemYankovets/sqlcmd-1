@@ -19,27 +19,27 @@ public class MainController {
     }
 
     public void run() {
-        view.write("Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
+        view.writeln("Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password");
 
         String inputCommand = view.read();
 
         if (inputCommand.equals("exit")) {
-            view.write("Good Luck!");
+            view.writeln("Good Luck!");
             return;
         }
 
         requestMandatoryConnection(inputCommand);
 
         if (!dataBaseManager.isConnected()) {
-            view.write("Exiting before connection... Good luck!");
+            view.writeln("Exiting before connection... Good luck!");
             return;
         }
 
         while (true) {
 
-            view.write("");
-            view.write("Type a command or 'help' to see the command list");
+            view.writeln("");
+            view.writeln("Type a command or 'help' to see the command list");
 
             inputCommand = view.read();
 
@@ -55,7 +55,7 @@ public class MainController {
             if (inputCommand.equals("exit")) break;
 
             if (!exist)
-                view.write(String.format("Command %s doesn't exists. Use 'help' command for details", inputCommand));
+                view.writeln(String.format("Command %s doesn't exists. Use 'help' command for details", inputCommand));
         }
     }
 
@@ -65,7 +65,7 @@ public class MainController {
             if (commands[connectIndex].isDetected(inputCommand)) {
                 commands[connectIndex].execute(inputCommand);
             } else {
-                view.write(String.format("Invalid data! Your input is %s: ", inputCommand) + " Try again using next format:" + LINE_SEPARATOR +
+                view.writeln(String.format("Invalid data! Your input is %s: ", inputCommand) + " Try again using next format:" + LINE_SEPARATOR +
                         "connect|database|userName|password");
             }
 

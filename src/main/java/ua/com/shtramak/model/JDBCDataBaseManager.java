@@ -106,17 +106,16 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
     }
 
-    @Override
-    public void updateById(String tableName, int id, DataSet newValue) {
+    @Override //TODO Пока работает только для одного аргумента. Реализовать под формат - col1Name|value1|col2Name|value2|...col#Name|value#
+    public void update(String tableName, String colName, Object rowValue, DataSet newValue) {
 
-        String sql = String.format("UPDATE %s SET %s WHERE id = ?", tableName, getFormattedColumnNames(newValue, " = ?, "));
+        String sql = String.format("UPDATE %s SET %s WHERE %s = '%s'", tableName, getFormattedColumnNames(newValue, " = ?, "), colName, rowValue);
 
         try (PreparedStatement prprStmt = connection.prepareStatement(sql)) {
             int index = 1;
             for (int i = 0; i < newValue.size(); i++) {
                 prprStmt.setObject(index++, newValue.values()[i]);
             }
-            prprStmt.setInt(index, id);
             prprStmt.executeUpdate();
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());

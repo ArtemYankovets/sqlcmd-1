@@ -27,6 +27,6 @@ public class Exit implements Command {
     @Override
     public void execute(String command) {
         dataBaseManager.disconnect();
-        view.write("Good Luck!");
+        view.writeln("Good Luck!");
     }
 }

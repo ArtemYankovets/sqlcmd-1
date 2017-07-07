@@ -14,10 +14,10 @@ public class CommandsArray {
     }
 
     public Command[] commandsList() {
-        return new Command[]{ new Connect(dataBaseManager,view),
+        return new Command[]{ new ConnectToDB(dataBaseManager,view),
                 new List(dataBaseManager, view),
                 new Find(dataBaseManager, view),
-                new Clear(dataBaseManager, view),
+                new ClearTable(dataBaseManager, view),
                 new Insert(dataBaseManager, view),
                 new UpdateById(dataBaseManager, view),
                 new Exit(dataBaseManager, view),

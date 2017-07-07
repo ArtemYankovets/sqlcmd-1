@@ -30,7 +30,7 @@ public class Insert implements Command {
         String[] commands = command.split("\\|");
         int commandSize = commands.length % 2;
         if (commandSize == 1) {
-            view.write("'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details");
+            view.writeln("'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details");
             return;
         }
 
@@ -43,9 +43,9 @@ public class Insert implements Command {
         String tableName = commands[tableNameIndex];
         try {
             dataBaseManager.insert(tableName, insertData);
-            view.write("Data successfully added to the current table");
+            view.writeln("Data successfully added to the current table");
         } catch (Exception e) {
-            view.write(e.getMessage());
+            view.writeln(e.getMessage());
         }
     }
 }

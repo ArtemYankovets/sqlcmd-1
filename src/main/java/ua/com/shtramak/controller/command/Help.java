@@ -28,9 +28,9 @@ public class Help implements Command {
     @Override
     public void execute(String command) {
         Command[] commands = new CommandsArray(dataBaseManager, view).commandsList();
-        view.write(System.lineSeparator() + "List of available commands:");
+        view.writeln(System.lineSeparator() + "List of available commands:");
         for (Command element : commands) {
-            view.write(element.description());
+            view.writeln(element.description());
         }
     }
 }

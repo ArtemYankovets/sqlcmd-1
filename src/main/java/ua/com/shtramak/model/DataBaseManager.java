@@ -39,10 +39,11 @@ public interface DataBaseManager {
     /**
      *
      * @param tableName name of the specified table in database
-     * @param id id-number of the wanted element from table to be updated
-     * @param newValue new DataSet entry for the specified element
+     * @param colName id-number of the wanted element from table to be updated
+     * @param rowValue wanted value from column
+     * @param newValue new DataSet entry for the specified row
      */
-    void updateById(String tableName, int id, DataSet newValue);
+    void update(String tableName, String colName, Object rowValue, DataSet newValue);
 
     /**
      *
@@ -51,7 +52,14 @@ public interface DataBaseManager {
      */
     String[] getTableColumns(String tableName);
 
+    /**
+     * Provide disconnecting from current database
+     */
     void disconnect();
 
+    /**
+     * Checks if connection to data base is available
+     * @return true if connection is available, false otherwise
+     */
     boolean isConnected();
 }

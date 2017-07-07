@@ -2,10 +2,15 @@ package ua.com.shtramak.view;
 
 import java.util.Scanner;
 
-public class Console implements View {
+public class ConsoleView implements View {
+    @Override
+    public void writeln(String message) {
+        System.out.println(message);
+    }
+
     @Override
     public void write(String message) {
-        System.out.println(message);
+        System.out.print(message);
     }
 
     @Override

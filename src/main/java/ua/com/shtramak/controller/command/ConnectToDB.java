@@ -3,12 +3,12 @@ package ua.com.shtramak.controller.command;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
-public class Connect implements Command {
+public class ConnectToDB implements Command {
 
     private DataBaseManager dataBaseManager;
     private View view;
 
-    public Connect(DataBaseManager dataBaseManager, View view) {
+    public ConnectToDB(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
@@ -37,7 +37,7 @@ public class Connect implements Command {
             final String[] commandsTemplate = "connect|database|userName|password".split("\\|");
             String[] inputData = command.split("\\|");
             if (inputData.length != commandsTemplate.length) {
-                view.write("Connection failed!");
+                view.writeln("Connection failed!");
                 String message = "Incorrect input. Please enter required input data in format: connect|database|userName|password";
                 throw new IllegalArgumentException(message);
             }
@@ -52,7 +52,7 @@ public class Connect implements Command {
         } catch (Exception e) {
             printError(e);
             if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) return;
-            view.write("Try again!" + System.lineSeparator());
+            view.writeln("Try again!" + System.lineSeparator());
         }
     }
 
@@ -60,6 +60,6 @@ public class Connect implements Command {
         String reason = e.getMessage();
         if (e.getCause() != null)
             reason += e.getCause().getMessage();
-        view.write("Error message: " + reason);
+        view.writeln("Error message: " + reason);
     }
 }

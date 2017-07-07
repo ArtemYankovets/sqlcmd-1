@@ -40,8 +40,8 @@ public class Find implements Command {
         }
 
         if (fakeName) {
-            view.write("Wrong table name! Check the list below to see if your table exists");
-            view.write("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+            view.writeln("Wrong table name! Check the list below to see if your table exists");
+            view.writeln("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return;
         }
 
@@ -56,21 +56,21 @@ public class Find implements Command {
             printFormattedRow(tableItem.getStringValues());
         }
         if (tableColumns != null)
-            view.write("----------------------------------------");
+            view.writeln("----------------------------------------");
     }
 
     private void printFormattedRow(String[] dataArray) {
         if (dataArray == null) {
-            view.write("Nothing to show! No data found. First insert data to the table using 'insert' command");
+            view.writeln("Nothing to show! No data found. First insert data to the table using 'insert' command");
             return;
         }
 
         String row = "|";
-        view.write("----------------------------------------");
+        view.writeln("----------------------------------------");
         for (String rowItem : dataArray) {
             row += String.format(" %-10s |", rowItem);
         }
-        view.write(row);
+        view.writeln(row);
 
     }
 }
