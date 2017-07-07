@@ -57,7 +57,7 @@ public class DataSet implements DataSetInterface {
         return freeIndex + 1;
     }
 
-    private boolean isEmpty(){
+    boolean isEmpty(){
         return data[0]==null;
     }
 

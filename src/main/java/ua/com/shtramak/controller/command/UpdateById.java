@@ -35,7 +35,7 @@ public class UpdateById implements Command {
             return;
         }
         // TODO Проверить что введенная таблица существует до того как продолжать работу
-        view.writeln("Please input colName and its value you want to find for update: ");
+        view.writeln("Please input colName and its value you want to find for update:");
         view.write("Enter column name: ");
         String colName = view.read();
         view.write("Enter value: ");
@@ -63,7 +63,7 @@ public class UpdateById implements Command {
         String[] commands = inputData.split("\\|");
 
         DataSet updateData = new DataSet();
-        for (int i = 0; i < commands.length / 2; i++) {
+        for (int i = 0; i <= commands.length / 2; i++) {
             updateData.put(commands[i], commands[++i]);
         }
 

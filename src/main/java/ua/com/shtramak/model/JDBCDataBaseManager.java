@@ -106,20 +106,36 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
     }
 
-    @Override //TODO Пока работает только для одного аргумента. Реализовать под формат - col1Name|value1|col2Name|value2|...col#Name|value#
+    @Override
     public void update(String tableName, String colName, Object rowValue, DataSet newValue) {
+        String updateLine = updateDataLine(newValue);
+        String sql = String.format("UPDATE %s SET %s WHERE %s = '%s'", tableName, updateLine, colName, rowValue);
 
-        String sql = String.format("UPDATE %s SET %s WHERE %s = '%s'", tableName, getFormattedColumnNames(newValue, " = ?, "), colName, rowValue);
-
-        try (PreparedStatement prprStmt = connection.prepareStatement(sql)) {
-            int index = 1;
-            for (int i = 0; i < newValue.size(); i++) {
-                prprStmt.setObject(index++, newValue.values()[i]);
-            }
-            prprStmt.executeUpdate();
+        try (Statement statement = connection.createStatement()) {
+            statement.executeUpdate(sql);
         } catch (SQLException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
+    }
+
+    private String updateDataLine(DataSet newValue) {
+        StringBuilder updateLine = new StringBuilder();
+        if (!newValue.isEmpty()) {
+            String[] names = newValue.names();
+            Object[] values = newValue.values();
+            for (int i = 0; i < newValue.size(); i++) {
+                updateLine.append(names[i])
+                        .append(" = '")
+                        .append(values[i])
+                        .append("',");
+            }
+            int lastComma = updateLine.lastIndexOf(",");
+            updateLine.deleteCharAt(lastComma);
+        } else {
+            throw new RuntimeException("DataSet is empty!");
+        }
+
+        return updateLine.toString();
     }
 
     @Override

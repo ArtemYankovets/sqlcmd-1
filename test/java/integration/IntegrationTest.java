@@ -203,7 +203,6 @@ public class IntegrationTest {
     }
 
     @Test
-    @Ignore //TODO Переделать тест по окончанию реализации update команды
     public void testFindAndUpdate() {
         in.addCommand("connect|sqlcmd|postgres|postgres");
         in.addCommand("clear|users");
@@ -213,8 +212,9 @@ public class IntegrationTest {
         in.addCommand("insert|users|id|1|name|Chupakabra|password|qwerty");
         in.addCommand("find|users");
         in.addCommand("update|users");
-        in.addCommand("1");
-        in.addCommand("password|ChuPass");
+        in.addCommand("name");
+        in.addCommand("shtramak");
+        in.addCommand("name|Test|password|TestPass");
         in.addCommand("find|users");
         in.addCommand("exit");
 
@@ -241,17 +241,17 @@ public class IntegrationTest {
                 "| 1          | Chupakabra | qwerty     |" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input existing id number you want to update. Must be integer:" + LINE_SEPARATOR +
-                "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Please input colName and its value you want to find for update:" + LINE_SEPARATOR +
+                "Enter column name: Enter value: Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR +
                 "| id         | name       | password   |" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR +
-                "| 11         | shtramak   | qqq        |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
                 "| 8          | Cheburator | qwerty     |" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR +
-                "| 1          | Chupakabra | ChuPass    |" + LINE_SEPARATOR +
+                "| 1          | Chupakabra | qwerty     |" + LINE_SEPARATOR +
+                "----------------------------------------" + LINE_SEPARATOR +
+                "| 11         | Test       | TestPass   |" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
