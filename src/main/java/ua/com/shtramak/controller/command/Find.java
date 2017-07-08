@@ -33,14 +33,9 @@ public class Find implements Command {
 
         int tableNameIndex = 1;
         String tableName = command.split("\\|")[tableNameIndex];
-        boolean fakeName = true;
 
-        for (String name : dataBaseManager.getTableNames()) {
-            if (name.equals(tableName)) fakeName = false;
-        }
-
-        if (fakeName) {
-            view.writeln("Wrong table name! Check the list below to see if your table exists");
+        if (!dataBaseManager.tableExists(tableName)) { //TODO утилитный клас под методы в командах
+            view.writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
             view.writeln("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return;
         }

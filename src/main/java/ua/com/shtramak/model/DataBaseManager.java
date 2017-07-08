@@ -62,4 +62,6 @@ public interface DataBaseManager {
      * @return true if connection is available, false otherwise
      */
     boolean isConnected();
+
+    boolean tableExists(String tableName);
 }

@@ -1,6 +1,7 @@
 package ua.com.shtramak.model;
 
 import java.sql.*;
+import java.util.Arrays;
 
 public class JDBCDataBaseManager implements DataBaseManager {
 
@@ -129,8 +130,8 @@ public class JDBCDataBaseManager implements DataBaseManager {
                         .append(values[i])
                         .append("',");
             }
-            int lastComma = updateLine.lastIndexOf(",");
-            updateLine.deleteCharAt(lastComma);
+            int lastCommaIndex = updateLine.lastIndexOf(",");
+            updateLine.deleteCharAt(lastCommaIndex);
         } else {
             throw new RuntimeException("DataSet is empty!");
         }
@@ -147,7 +148,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
             ResultSetMetaData rsmd = resultSet.getMetaData();
 
-            if (!resultSet.next()) return null; //TODO
+            if (!resultSet.next()) return null;
 
             String[] result = new String[rsmd.getColumnCount()];
             for (int i = 0; i < rsmd.getColumnCount(); i++) {
@@ -157,7 +158,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
             return result;
         } catch (SQLException e) {
             e.printStackTrace();
-            return null; //TODO
+            return null;
         }
     }
 
@@ -173,6 +174,15 @@ public class JDBCDataBaseManager implements DataBaseManager {
     @Override
     public boolean isConnected() {
         return connection != null;
+    }
+
+    @Override
+    public boolean tableExists(String tableName) {
+        for (String name : getTableNames()) {
+            if (name.equals(tableName)) return true;
+        }
+
+        return false;
     }
 
     private int getTableSize(String tableName) {

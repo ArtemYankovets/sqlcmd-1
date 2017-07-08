@@ -4,19 +4,21 @@ import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
 import ua.com.shtramak.view.View;
 
-public class UpdateById implements Command {
+import java.util.Arrays;
+
+public class UpdateTableData implements Command {
 
     private DataBaseManager dataBaseManager;
     private View view;
 
-    public UpdateById(DataBaseManager dataBaseManager, View view) {
+    public UpdateTableData(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
 
     @Override
     public String description() {
-        final String LINE_SEPARATOR = System.lineSeparator();
+        final String LINE_SEPARATOR = System.lineSeparator();//TODO Заменить в классах команд LINE_SEPARATOR на System.lineSeparator()
         return "\tupdate|tableName" +
                 LINE_SEPARATOR +
                 "\t\tupdate entry in selected table using own command interface";
@@ -29,20 +31,26 @@ public class UpdateById implements Command {
 
     @Override
     public void execute(String command) {
-        final String[] COMMANDS_TEMPLATE = "find|tableName".split("\\|");
-        if (command.split("\\|").length != COMMANDS_TEMPLATE.length) {
+        final String[] commandsTemplate = "find|tableName".split("\\|");
+        String[] inputCommands = command.split("\\|");
+        if (inputCommands.length != commandsTemplate.length) {
             view.writeln("update command failed because of wrong input. Use 'help' command for details");
             return;
         }
-        // TODO Проверить что введенная таблица существует до того как продолжать работу
-        view.writeln("Please input colName and its value you want to find for update:");
+
+        int tableNameIndex = 1;
+        String tableName = inputCommands[tableNameIndex];
+        if (!isAcceptableTableName(tableName)) return;
+
+        view.writeln("Please input wanted colName and value of the row you want to update:");
         view.write("Enter column name: ");
         String colName = view.read();
         view.write("Enter value: ");
         String value = view.read();
 
-        // TODO Проверить введенные данные
-        view.writeln("Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#");
+        if (!isAcceptableColumnName(tableName, colName)) return;
+
+        view.writeln("Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
 
         String inputData = view.read();
         while (true) {
@@ -67,13 +75,30 @@ public class UpdateById implements Command {
             updateData.put(commands[i], commands[++i]);
         }
 
-        int tableNameIndex = 1;
-        String tableName = command.split("\\|")[tableNameIndex];
         try {
             dataBaseManager.update(tableName, colName, value, updateData);
+            view.writeln("Data successfully updated...");
         } catch (Exception e) {
             String message = "Smth goes wrong... Reason: " + e.getMessage();
             view.writeln(message);
         }
+    }
+
+    private boolean isAcceptableColumnName(String tableName, String colName) {
+        for (String element : dataBaseManager.getTableColumns(tableName)) {
+            if (element.equals(colName)) return true;
+        }
+            view.writeln(String.format("Column '%s' doesn't exists! See below the list with available columns of table %s:",colName, tableName));
+            view.writeln("Available columns: " + Arrays.toString(dataBaseManager.getTableColumns(tableName)));
+        return false;
+    }
+
+    private boolean isAcceptableTableName(String tableName) {
+        if (!dataBaseManager.tableExists(tableName)) {
+            view.writeln(String.format("Table '%s' doesn't exists! See below the list with available tables:", tableName));
+            view.writeln("Available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+            return false;
+        }
+        return true;
     }
 }

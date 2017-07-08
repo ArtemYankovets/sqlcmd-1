@@ -19,7 +19,7 @@ public class CommandsArray {
                 new Find(dataBaseManager, view),
                 new ClearTable(dataBaseManager, view),
                 new Insert(dataBaseManager, view),
-                new UpdateById(dataBaseManager, view),
+                new UpdateTableData(dataBaseManager, view),
                 new Exit(dataBaseManager, view),
                 new Help(dataBaseManager,view)};
     }
