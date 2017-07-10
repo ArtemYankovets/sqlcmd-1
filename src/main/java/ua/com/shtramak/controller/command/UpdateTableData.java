@@ -18,9 +18,8 @@ public class UpdateTableData implements Command {
 
     @Override
     public String description() {
-        final String LINE_SEPARATOR = System.lineSeparator();//TODO Заменить в классах команд LINE_SEPARATOR на System.lineSeparator()
         return "\tupdate|tableName" +
-                LINE_SEPARATOR +
+                System.lineSeparator() +
                 "\t\tupdate entry in selected table using own command interface";
     }
 
@@ -61,7 +60,7 @@ public class UpdateTableData implements Command {
             }
 
             if (inputData.split("\\|").length == 0 || inputData.split("\\|").length % 2 == 1) {
-                view.writeln("Wrong input! Input must be according to the template described above.");
+                view.writeln("Wrong input! Input must be according to the template");
                 view.writeln("Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command");
                 inputData = view.read();
             } else {

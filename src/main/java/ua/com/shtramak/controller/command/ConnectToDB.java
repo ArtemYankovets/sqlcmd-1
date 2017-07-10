@@ -15,9 +15,8 @@ public class ConnectToDB implements Command {
 
     @Override
     public String description() {
-        final String LINE_SEPARATOR = System.lineSeparator();
         return "\tconnect|database|userName|password" +
-                LINE_SEPARATOR +
+                System.lineSeparator() +
                 "\t\tconnection with database under userName with password";
     }
 

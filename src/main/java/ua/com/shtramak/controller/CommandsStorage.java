@@ -4,11 +4,11 @@ import ua.com.shtramak.controller.command.*;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
-public class CommandsArray {
+public class CommandsStorage {
     private DataBaseManager dataBaseManager;
     private View view;
 
-    public CommandsArray(DataBaseManager dataBaseManager, View view) {
+    public CommandsStorage(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }

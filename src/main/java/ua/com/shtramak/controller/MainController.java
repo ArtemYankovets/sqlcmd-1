@@ -15,7 +15,7 @@ public class MainController {
     public MainController(View view, DataBaseManager dataBaseManager) {
         this.view = view;
         this.dataBaseManager = dataBaseManager;
-        commands = new CommandsArray(dataBaseManager,view).commandsList();
+        commands = new CommandsStorage(dataBaseManager,view).commandsList();
     }
 
     public void run() {

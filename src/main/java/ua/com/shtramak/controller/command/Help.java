@@ -1,6 +1,6 @@
 package ua.com.shtramak.controller.command;
 
-import ua.com.shtramak.controller.CommandsArray;
+import ua.com.shtramak.controller.CommandsStorage;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
@@ -27,7 +27,7 @@ public class Help implements Command {
 
     @Override
     public void execute(String command) {
-        Command[] commands = new CommandsArray(dataBaseManager, view).commandsList();
+        Command[] commands = new CommandsStorage(dataBaseManager, view).commandsList();
         view.writeln(System.lineSeparator() + "List of available commands:");
         for (Command element : commands) {
             view.writeln(element.description());

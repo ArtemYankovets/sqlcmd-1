@@ -1,7 +1,6 @@
 package integration;
 
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import ua.com.shtramak.controller.Main;
 
@@ -114,7 +113,7 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Wrong table name! Check the list below to see if your table exists" + LINE_SEPARATOR +
+                "Table user doesn't exists! See the list with available tables below:" + LINE_SEPARATOR +
                 "List with available tables: [users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
@@ -241,8 +240,9 @@ public class IntegrationTest {
                 "| 1          | Chupakabra | qwerty     |" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input colName and its value you want to find for update:" + LINE_SEPARATOR +
-                "Enter column name: Enter value: Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Please input wanted colName and value of the row you want to update:" + LINE_SEPARATOR +
+                "Enter column name: Enter value: Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
+                "Data successfully updated..." + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR +
                 "| id         | name       | password   |" + LINE_SEPARATOR +
@@ -402,18 +402,15 @@ public class IntegrationTest {
     }
 
     @Test
-    @Ignore //TODO Переделать тест по окончанию реализации update команды
     public void testWrongUpdate() {
         in.addCommand("connect|sqlcmd|postgres|postgres");
         in.addCommand("update|user|user");
         in.addCommand("update|user");
-        in.addCommand("oops");
-        in.addCommand("1");
-        in.addCommand("exit");
-        in.addCommand("update|user");
-        in.addCommand("1");
+        in.addCommand("update|users");
+        in.addCommand("name");
+        in.addCommand("Chupakabra");
         in.addCommand("password|ChuPass|oops");
-        in.addCommand("password|ChuPass");
+        in.addCommand("exit");
         in.addCommand("exit");
 
         String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
@@ -422,17 +419,14 @@ public class IntegrationTest {
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "update command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input existing id number you want to update. Must be integer:" + LINE_SEPARATOR +
-                "The entered value is not an integer! Enter an integer value:" + LINE_SEPARATOR +
-                "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR +
-                "Update command failed!" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Table 'user' doesn't exists! See below the list with available tables:" + LINE_SEPARATOR +
+                "Available tables: [users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input existing id number you want to update. Must be integer:" + LINE_SEPARATOR +
-                "Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR +
-                "Wrong input! Input must be according to the template described above." + LINE_SEPARATOR +
+                "Please input wanted colName and value of the row you want to update:" + LINE_SEPARATOR +
+                "Enter column name: Enter value: Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
+                "Wrong input! Input must be according to the template" + LINE_SEPARATOR +
                 "Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command" + LINE_SEPARATOR +
-                "Smth goes wrong... Reason: ОШИБКА: ошибка синтаксиса (примерное положение: \"user\")\n" + // This "\n" comes from postgres SQLException
-                "  Позиция: 8" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Update command failed!" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
