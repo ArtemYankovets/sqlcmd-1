@@ -2,6 +2,7 @@ package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.util.Commands;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -32,9 +33,9 @@ public class Find implements Command {
     public void execute(String command) {
 
         int tableNameIndex = 1;
-        String tableName = command.split("\\|")[tableNameIndex];
+        String tableName = Commands.arrayOf(command)[tableNameIndex];
 
-        if (!dataBaseManager.tableExists(tableName)) { //TODO утилитный клас под методы в командах
+        if (!dataBaseManager.hasTable(tableName)) { //TODO утилитный клас под методы в командах
             view.writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
             view.writeln("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return;

@@ -1,6 +1,7 @@
 package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.util.Commands;
 import ua.com.shtramak.view.View;
 
 public class ConnectToDB implements Command {
@@ -33,9 +34,9 @@ public class ConnectToDB implements Command {
     @Override
     public void execute(String command) {
         try {
-            final String[] commandsTemplate = "connect|database|userName|password".split("\\|");
-            String[] inputData = command.split("\\|");
-            if (inputData.length != commandsTemplate.length) {
+            final String[] commandsTemplate = Commands.arrayOf("connect|database|userName|password");
+            String[] connectionData = Commands.arrayOf(command);
+            if (connectionData.length != commandsTemplate.length) {
                 view.writeln("Connection failed!");
                 String message = "Incorrect input. Please enter required input data in format: connect|database|userName|password";
                 throw new IllegalArgumentException(message);
@@ -44,9 +45,9 @@ public class ConnectToDB implements Command {
             int dbIndex = 1;
             int userNameIndex = 2;
             int userPasswordIndex = 3;
-            String database = inputData[dbIndex];
-            String userName = inputData[userNameIndex];
-            String password = inputData[userPasswordIndex];
+            String database = connectionData[dbIndex];
+            String userName = connectionData[userNameIndex];
+            String password = connectionData[userPasswordIndex];
             dataBaseManager.connect(database, userName, password);
         } catch (Exception e) {
             printError(e);

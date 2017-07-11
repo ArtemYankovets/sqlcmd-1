@@ -2,6 +2,7 @@ package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.util.Commands;
 import ua.com.shtramak.view.View;
 
 public class Insert implements Command {
@@ -27,23 +28,24 @@ public class Insert implements Command {
 
     @Override
     public void execute(String command) {
-        String[] commands = command.split("\\|");
-        int commandSize = commands.length % 2;
-        if (commandSize == 1) {
+        String[] commands = Commands.arrayOf(command);
+        int commandsSize = Commands.sizeOf(command);
+        if (commandsSize % 2 == 1) {
             view.writeln("'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details");
             return;
         }
 
         DataSet insertData = new DataSet();
-        for (int i = 2; i < commands.length; i++) {
-            insertData.put(commands[i],commands[++i]);
+        int firstCommandIndex = 2;
+        for (int i = firstCommandIndex; i < commandsSize; i++) {
+            insertData.put(commands[i], commands[++i]);
         }
 
         int tableNameIndex = 1;
         String tableName = commands[tableNameIndex];
         try {
             dataBaseManager.insert(tableName, insertData);
-            view.writeln("Data successfully added to the current table");
+            view.writeln(String.format("Data successfully added to %s", tableName));
         } catch (Exception e) {
             view.writeln(e.getMessage());
         }

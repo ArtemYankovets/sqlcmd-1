@@ -2,6 +2,7 @@ package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.util.Commands;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -30,8 +31,8 @@ public class UpdateTableData implements Command {
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = "find|tableName".split("\\|");
-        String[] inputCommands = command.split("\\|");
+        final String[] commandsTemplate = Commands.arrayOf("find|tableName");
+        String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
             view.writeln("update command failed because of wrong input. Use 'help' command for details");
             return;
@@ -41,13 +42,15 @@ public class UpdateTableData implements Command {
         String tableName = inputCommands[tableNameIndex];
         if (!isAcceptableTableName(tableName)) return;
 
-        view.writeln("Please input wanted colName and value of the row you want to update:");
+        view.writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
         view.write("Enter column name: ");
+
         String colName = view.read();
+        if (!isAcceptableColumnName(tableName, colName)) return;
+
         view.write("Enter value: ");
         String value = view.read();
-
-        if (!isAcceptableColumnName(tableName, colName)) return;
+        if(!isAcceptableColumnValue(tableName, colName, value)) return;
 
         view.writeln("Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
 
@@ -83,17 +86,25 @@ public class UpdateTableData implements Command {
         }
     }
 
-    private boolean isAcceptableColumnName(String tableName, String colName) {
-        for (String element : dataBaseManager.getTableColumns(tableName)) {
-            if (element.equals(colName)) return true;
+    private boolean isAcceptableColumnValue(String tableName, String colName, String value) {
+        if(!dataBaseManager.hasValue(tableName,colName,value)){
+            view.writeln(String.format("There's no value '%s' in column '%s')",value, colName));
+            return false;
         }
-            view.writeln(String.format("Column '%s' doesn't exists! See below the list with available columns of table %s:",colName, tableName));
+        return  true;
+    }
+
+    private boolean isAcceptableColumnName(String tableName, String colName) {
+        if (!dataBaseManager.hasColumn(tableName, colName)) {
+            view.writeln(String.format("Column '%s' doesn't exists! See below the list with available columns of table %s:", colName, tableName));
             view.writeln("Available columns: " + Arrays.toString(dataBaseManager.getTableColumns(tableName)));
-        return false;
+            return false;
+        }
+        return true;
     }
 
     private boolean isAcceptableTableName(String tableName) {
-        if (!dataBaseManager.tableExists(tableName)) {
+        if (!dataBaseManager.hasTable(tableName)) {
             view.writeln(String.format("Table '%s' doesn't exists! See below the list with available tables:", tableName));
             view.writeln("Available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return false;

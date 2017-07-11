@@ -1,7 +1,6 @@
 package ua.com.shtramak.model;
 
 import java.sql.*;
-import java.util.Arrays;
 
 public class JDBCDataBaseManager implements DataBaseManager {
 
@@ -81,7 +80,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
             Statement statement = connection.createStatement();
             String sql = String.format("DELETE FROM %s", tableName);
             statement.execute(sql);
-            System.out.println(String.format("Data from %s was successfully deleted", tableName));
 
 
         } catch (SQLException e) {
@@ -177,9 +175,37 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public boolean tableExists(String tableName) {
+    public boolean hasTable(String tableName) {
         for (String name : getTableNames()) {
             if (name.equals(tableName)) return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean hasColumn(String tableName, String columnName) {
+        for (String element : getTableColumns(tableName)) {
+            if (element.equals(columnName)) return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean hasValue(String tableName, String columnName, String value) {
+
+        if (!hasColumn(tableName, columnName)) return false;
+
+        String sql = String.format("SELECT %s FROM %s", columnName, tableName);
+        try (Statement statement = connection.createStatement()) {
+            ResultSet resultSet = statement.executeQuery(sql);
+            while (resultSet.next()){
+                String resValue = resultSet.getObject(columnName).toString();
+                if (resValue.equals(value)) return true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
 
         return false;

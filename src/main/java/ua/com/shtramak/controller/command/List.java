@@ -28,6 +28,8 @@ public class List implements Command {
 
     @Override
     public void execute(String command) {
-        view.writeln("Here's the names of available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+        if (dataBaseManager.getTableNames() != null)
+            view.writeln("Here's the names of available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+        else view.write("Database is empty. Nothing to show");
     }
 }

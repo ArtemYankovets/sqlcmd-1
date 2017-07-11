@@ -43,9 +43,9 @@ public class IntegrationTest {
 
         String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Invalid data! Your input is list:  Try again using next format:" + LINE_SEPARATOR +
+                "Invalid data! Your input was list:  Try again using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Exiting before connection... Good luck!" + LINE_SEPARATOR;
+                "Exiting before connection to database... Good luck!" + LINE_SEPARATOR;
 
         Main.main(new String[0]);
 
@@ -59,9 +59,9 @@ public class IntegrationTest {
 
         String expected = "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Invalid data! Your input is help:  Try again using next format:" + LINE_SEPARATOR +
+                "Invalid data! Your input was help:  Try again using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
-                "Exiting before connection... Good luck!" + LINE_SEPARATOR;
+                "Exiting before connection to database... Good luck!" + LINE_SEPARATOR;
 
         Main.main(new String[0]);
 
@@ -134,8 +134,8 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
-                "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "You are going to delete all data from table 'users'! Are you sure? [Yes/No]" +LINE_SEPARATOR +
+                "Data from 'users' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -156,8 +156,8 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
-                "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "You are going to delete all data from table 'users'! Are you sure? [Yes/No]" +LINE_SEPARATOR +
+                "Data from 'users' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Nothing to show! No data found. First insert data to the table using 'insert' command" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
@@ -183,14 +183,14 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
-                "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "You are going to delete all data from table 'users'! Are you sure? [Yes/No]" +LINE_SEPARATOR +
+                "Data from 'users' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to users" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to users" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to users" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -221,14 +221,14 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "You are going to delete all data from users! Are you sure? [Yes/No]" + LINE_SEPARATOR +
-                "Data from users was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "You are going to delete all data from table 'users'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
+                "Data from 'users' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to users" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to users" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Data successfully added to the current table" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Data successfully added to users" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR +
                 "| id         | name       | password   |" + LINE_SEPARATOR +
@@ -240,7 +240,7 @@ public class IntegrationTest {
                 "| 1          | Chupakabra | qwerty     |" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input wanted colName and value of the row you want to update:" + LINE_SEPARATOR +
+                "Please input wanted 'colName' and 'value' of the row you want to update:" + LINE_SEPARATOR +
                 "Enter column name: Enter value: Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
                 "Data successfully updated..." + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
@@ -291,7 +291,7 @@ public class IntegrationTest {
                 "ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) " +
                 "(pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)" + LINE_SEPARATOR +
                 "Try again!" + LINE_SEPARATOR + LINE_SEPARATOR +
-                "Exiting before connection... Good luck!" + LINE_SEPARATOR;
+                "Exiting before connection to database... Good luck!" + LINE_SEPARATOR;
 
         Main.main(new String[0]);
 
@@ -365,11 +365,13 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "clear command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "'clear' command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "You are going to delete all data from user! Are you sure? [Yes/No]" + LINE_SEPARATOR +
-                "Please enter Yes or No. No other options available" + LINE_SEPARATOR +
-                "Don't worry! Data is safe" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Table user doesn't exists! See the list with available tables below:" + LINE_SEPARATOR +
+                "List with available tables: [users]" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
+                "You are going to delete all data from table 'users'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
+                "Command 'clear' was canceled..." + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -422,7 +424,7 @@ public class IntegrationTest {
                 "Table 'user' doesn't exists! See below the list with available tables:" + LINE_SEPARATOR +
                 "Available tables: [users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input wanted colName and value of the row you want to update:" + LINE_SEPARATOR +
+                "Please input wanted 'colName' and 'value' of the row you want to update:" + LINE_SEPARATOR +
                 "Enter column name: Enter value: Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
                 "Wrong input! Input must be according to the template" + LINE_SEPARATOR +
                 "Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command" + LINE_SEPARATOR +

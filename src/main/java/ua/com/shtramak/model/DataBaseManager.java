@@ -4,7 +4,7 @@ public interface DataBaseManager {
 
     /**
      * @param tableName name of the specified table in database
-     * @return array of DataSet[] with data from a table
+     * @return arrayOf of DataSet[] with data from a table
      */
 
     DataSet[] getTableData(String tableName);
@@ -62,6 +62,10 @@ public interface DataBaseManager {
      * @return true if connection is available, false otherwise
      */
     boolean isConnected();
+    //TODO javaDoc
+    boolean hasTable(String tableName);
 
-    boolean tableExists(String tableName);
+    boolean hasColumn(String tableName, String columnName);
+
+    boolean hasValue(String tableName, String columnName, String value);
 }
