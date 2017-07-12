@@ -35,7 +35,7 @@ public class Find implements Command {
         int tableNameIndex = 1;
         String tableName = Commands.arrayOf(command)[tableNameIndex];
 
-        if (!dataBaseManager.hasTable(tableName)) { //TODO утилитный клас под методы в командах
+        if (!dataBaseManager.hasTable(tableName)) {
             view.writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
             view.writeln("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return;

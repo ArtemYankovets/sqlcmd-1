@@ -62,10 +62,27 @@ public interface DataBaseManager {
      * @return true if connection is available, false otherwise
      */
     boolean isConnected();
-    //TODO javaDoc
+
+    /**
+     * @param tableName name of the specified table in database
+     * @return true if specified table exists in database, false otherwise
+     */
     boolean hasTable(String tableName);
 
+    /**
+     *
+     * @param tableName name of the specified table in database
+     * @param columnName name of the wanted column in specified table
+     * @return true if specified column presents in the table, false otherwise
+     */
     boolean hasColumn(String tableName, String columnName);
 
+    /**
+     *
+     * @param tableName name of the specified table in database
+     * @param columnName name of column in specified table
+     * @param value wanted value in specified column
+     * @return true if value presents in column, false otherwise
+     */
     boolean hasValue(String tableName, String columnName, String value);
 }

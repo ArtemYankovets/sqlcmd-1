@@ -185,6 +185,9 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public boolean hasColumn(String tableName, String columnName) {
+
+        if (!hasTable(tableName)) return false;
+
         for (String element : getTableColumns(tableName)) {
             if (element.equals(columnName)) return true;
         }
@@ -197,18 +200,13 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
         if (!hasColumn(tableName, columnName)) return false;
 
-        String sql = String.format("SELECT %s FROM %s", columnName, tableName);
+        String sql = String.format("SELECT %s FROM %s where %1$s = '%s'", columnName, tableName, value);
         try (Statement statement = connection.createStatement()) {
             ResultSet resultSet = statement.executeQuery(sql);
-            while (resultSet.next()){
-                String resValue = resultSet.getObject(columnName).toString();
-                if (resValue.equals(value)) return true;
-            }
+            return resultSet.next();
         } catch (SQLException e) {
-            e.printStackTrace();
+            return false;
         }
-
-        return false;
     }
 
     private int getTableSize(String tableName) {
