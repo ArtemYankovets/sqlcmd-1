@@ -4,6 +4,10 @@ import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.util.Commands;
 import ua.com.shtramak.view.View;
 
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Properties;
+
 public class ConnectToDB implements Command {
 
     private DataBaseManager dataBaseManager;
@@ -61,5 +65,33 @@ public class ConnectToDB implements Command {
         if (e.getCause() != null)
             reason += e.getCause().getMessage();
         view.writeln("Error message: " + reason);
+    }
+
+    public static boolean connectedWithConfig(DataBaseManager dataBaseManager){
+        Properties properties = configData();
+        if (!properties.isEmpty()){
+            String host = properties.getProperty("db.host");
+            String name = properties.getProperty("db.name");
+            String user = properties.getProperty("db.user");
+            String password = properties.getProperty("db.password");
+
+            try {
+                dataBaseManager.connect(host,name,user,password);
+                return true;
+            } catch (Exception e) {
+                //NOP
+            }
+        }
+        return false;
+    }
+
+    private static Properties configData() {
+        Properties properties = new Properties();
+        try {
+            properties.load(new FileReader("src/main/resources/config.properties"));
+        } catch (IOException e) {
+            System.out.println("File config.properties not found!");
+        }
+        return properties;
     }
 }

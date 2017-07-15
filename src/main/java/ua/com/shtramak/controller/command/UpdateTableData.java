@@ -21,12 +21,12 @@ public class UpdateTableData implements Command {
     public String description() {
         return "\tupdateTableData|tableName" +
                 System.lineSeparator() +
-                "\t\tupdateTableData entry in selected table using own command interface";
+                "\t\tupdate entry in selected table using own command interface";
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("updateTableData|");
+        return command.startsWith("updateTable|");
     }
 
     @Override

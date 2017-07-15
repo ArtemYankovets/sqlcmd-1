@@ -18,21 +18,28 @@ public class MainController {
     }
 
     public void run() {
-        view.writeln("Hello user! For first connection to database please enter required input data using next format:" + System.lineSeparator() +
-                "connect|database|userName|password");
 
-        String inputCommand = view.read();
+        ConnectToDB.connectedWithConfig(dataBaseManager);
 
-        if (Commands.isExit(inputCommand)) {
-            view.writeln("Good Luck!");
-            return;
-        }
-
-        requestMandatoryConnection(inputCommand);
-
+        String inputCommand;
         if (!dataBaseManager.isConnected()) {
-            view.writeln("Exiting before connection to database... Good luck!");
-            return;
+            view.writeln("Automatically connection failed! Check \"config.properties\" file.");
+            view.writeln("Hello user! For first connection to database please enter required input data using next format:" + System.lineSeparator() +
+                    "connect|database|userName|password");
+
+            inputCommand = view.read();
+
+            if (Commands.isExit(inputCommand)) {
+                view.writeln("Good Luck!");
+                return;
+            }
+
+            requestMandatoryConnection(inputCommand);
+
+            if (!dataBaseManager.isConnected()) {
+                view.writeln("Exiting before connection to database... Good luck!");
+                return;
+            }
         }
 
         while (true) {

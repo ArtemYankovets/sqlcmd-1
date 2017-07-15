@@ -12,6 +12,12 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public void connect(String database, String userName, String password) {
+        String host = "//localhost:5432/";
+        connect(host,database,userName,password);
+    }
+
+    @Override
+    public void connect(String host, String database, String userName, String password) {
 
         try {
             Class.forName("org.postgresql.Driver");
@@ -22,8 +28,8 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
 
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/" + database + "?loggerLevel=OFF", userName, password);
-            System.out.printf("Hello %s! Welcome to %s database", userName, database);
+            connection = DriverManager.getConnection("jdbc:postgresql:" + host + database + "?loggerLevel=OFF", userName, password);
+            System.out.printf("Hello %s! You're automatically logged in to %s database", userName, database);
         } catch (SQLException e) {
             connection = null;
             throw new RuntimeException(String.format("Dear %s! Your input data was incorrect!" + System.lineSeparator(), userName), e);
@@ -244,7 +250,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     public void dropTable(String tableName) {
         String sql = String.format("DROP TABLE %s", tableName);
 
-        try (Statement statement = connection.createStatement()){
+        try (Statement statement = connection.createStatement()) {
             statement.execute(sql);
         } catch (SQLException e) {
             e.printStackTrace();

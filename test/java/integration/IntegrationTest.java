@@ -21,7 +21,7 @@ public class IntegrationTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     @BeforeClass
-    public static void initTestTable() { //TODO connect через properties
+    public static void initTestTable() { //TODO адаптировать тест под автоматический коннект
         DataBaseManager dataBaseManager = new JDBCDataBaseManager();
         dataBaseManager.connect("sqlcmd", "postgres", "postgres");
         if (dataBaseManager.hasTable("tmpusers")) {

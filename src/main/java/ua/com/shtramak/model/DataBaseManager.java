@@ -2,6 +2,8 @@ package ua.com.shtramak.model;
 
 public interface DataBaseManager {
 
+    void connect(String host, String database, String userName, String password);
+
     /**
      * @param tableName name of the specified table in database
      * @return arrayOf of DataSet[] with data from a table
