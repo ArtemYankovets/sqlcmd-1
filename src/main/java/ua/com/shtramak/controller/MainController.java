@@ -2,6 +2,7 @@ package ua.com.shtramak.controller;
 
 import ua.com.shtramak.controller.command.*;
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.util.Commands;
 import ua.com.shtramak.view.View;
 
 public class MainController {
@@ -22,7 +23,7 @@ public class MainController {
 
         String inputCommand = view.read();
 
-        if (inputCommand.equals("exit")) {
+        if (Commands.isExit(inputCommand)) {
             view.writeln("Good Luck!");
             return;
         }
@@ -50,7 +51,9 @@ public class MainController {
                 }
             }
 
-            if (inputCommand.equals("exit")) break;
+            if (Commands.isExit(inputCommand)) {
+                break;
+            }
 
             if (!exist)
                 view.writeln(String.format("Command %s doesn't exists. Use 'help' command for details", inputCommand));

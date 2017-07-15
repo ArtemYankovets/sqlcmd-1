@@ -48,6 +48,7 @@ public class ClearTable implements Command {
 
         if (!isSure(tableName)) {
             view.writeln("Command 'clear' was canceled...");
+            return;
         }
 
             dataBaseManager.clear(tableName);

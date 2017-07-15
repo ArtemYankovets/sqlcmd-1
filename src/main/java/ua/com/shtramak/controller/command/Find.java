@@ -21,7 +21,7 @@ public class Find implements Command {
     public String description() {
         return "\tfind|tableName" +
                 System.lineSeparator() +
-                "\t\tdisplay available tables in selected database";
+                "\t\tdisplay table data from selected database";
     }
 
     @Override
@@ -36,8 +36,8 @@ public class Find implements Command {
         String tableName = Commands.arrayOf(command)[tableNameIndex];
 
         if (!dataBaseManager.hasTable(tableName)) {
-            view.writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
-            view.writeln("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+            view.write(String.format("Table %s doesn't exists! Available tables: ", tableName));
+            view.writeln(Arrays.toString(dataBaseManager.getTableNames()));
             return;
         }
 

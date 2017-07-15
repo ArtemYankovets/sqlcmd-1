@@ -12,7 +12,7 @@ public class Commands {
         return line.split(splitter);
     }
 
-    public boolean isExit(String command) {
+    public static boolean isExit(String command) {
         return command.toLowerCase().equals("exit");
     }
 
