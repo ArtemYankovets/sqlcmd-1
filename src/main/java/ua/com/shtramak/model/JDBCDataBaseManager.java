@@ -41,11 +41,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
             ResultSetMetaData rsMetaData = resultSet.getMetaData();
             int index = 0;
             while (resultSet.next()) {
-                DataSet entry = new DataSet();
-                for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
-                    entry.put(rsMetaData.getColumnName(i), resultSet.getObject(i));
-                }
-                result[index++] = entry;
+                result[index++] = rowDataSet(rsMetaData, resultSet);
             }
 
         } catch (SQLException e) {
@@ -53,6 +49,14 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
 
         return result;
+    }
+
+    private DataSet rowDataSet(ResultSetMetaData rsMetaData, ResultSet resultSet) throws SQLException {
+        DataSet entry = new DataSet();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            entry.put(rsMetaData.getColumnName(i), resultSet.getObject(i));
+        }
+        return entry;
     }
 
     @Override

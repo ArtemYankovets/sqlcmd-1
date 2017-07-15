@@ -48,16 +48,20 @@ public class Find implements Command {
         String[] tableColumns = dataBaseManager.getTableColumns(tableName);
         printFormattedRow(tableColumns);
         DataSet[] tableData = dataBaseManager.getTableData(tableName);
+        if (tableData.length == 0) {
+            view.writeln("----------------------------------------");
+            view.write("The table is empty. Use 'insert' command for data insertion"+System.lineSeparator());
+            return;
+        }
         for (DataSet tableItem : tableData) {
             printFormattedRow(tableItem.getStringValues());
         }
-        if (tableColumns != null)
-            view.writeln("----------------------------------------");
+        view.writeln("----------------------------------------");
     }
 
     private void printFormattedRow(String[] dataArray) {
         if (dataArray == null) {
-            view.writeln("Nothing to show! No data found. First insert data to the table using 'insert' command");
+            view.writeln("Nothing to show! No data found");
             return;
         }
 
