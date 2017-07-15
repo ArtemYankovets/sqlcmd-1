@@ -1,6 +1,8 @@
 package ua.com.shtramak.model;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class JDBCDataBaseManager implements DataBaseManager {
 
@@ -139,24 +141,19 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public String[] getTableColumns(String tableName) {
-        String sql = String.format("SELECT * FROM %s", tableName);
+        try {
+            DatabaseMetaData dbmt = connection.getMetaData();
+            ResultSet resultSet = dbmt.getColumns(null,null,tableName,"%");
 
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)) {
-
-            ResultSetMetaData rsmd = resultSet.getMetaData();
-
-            if (!resultSet.next()) return null;
-
-            String[] result = new String[rsmd.getColumnCount()];
-            for (int i = 0; i < rsmd.getColumnCount(); i++) {
-                result[i] = rsmd.getColumnName(i + 1);
+            List<String> colNames = new ArrayList<>();
+            while (resultSet.next()){
+                colNames.add(resultSet.getString("COLUMN_NAME"));
             }
-
-            return result;
+            String[] result = new String[colNames.size()];
+            return colNames.toArray(result);
         } catch (SQLException e) {
             e.printStackTrace();
-            return null;
+            return new String[0];
         }
     }
 
