@@ -1,5 +1,8 @@
 package ua.com.shtramak.model;
 
+import ua.com.shtramak.controller.command.Find;
+import ua.com.shtramak.view.ConsoleView;
+
 import java.util.NoSuchElementException;
 
 public class DataSet implements DataSetInterface {
@@ -8,7 +11,7 @@ public class DataSet implements DataSetInterface {
 
     @Override
     public void put(String name, Object value) {
-        if (value == null) throw new RuntimeException("An attempt to add 'null' in DataSet. 'null' is not permitted");
+        if (value == null) value = "";
         for (int i = 0; i < data.length; i++) {
             if (data[i] == null) {
                 freeIndex = i;

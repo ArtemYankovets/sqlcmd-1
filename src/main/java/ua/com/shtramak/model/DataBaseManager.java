@@ -36,6 +36,8 @@ public interface DataBaseManager {
      */
     void insert(String tableName, DataSet input);
 
+    void createTable(String tableName, String columns);
+
     /**
      *
      * @param tableName name of the specified table in database

@@ -1,5 +1,7 @@
 package ua.com.shtramak.model;
 
+import ua.com.shtramak.util.Commands;
+
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -109,6 +111,34 @@ public class JDBCDataBaseManager implements DataBaseManager {
                 message += "\n" + e.getCause();
             throw new IllegalArgumentException(message);
         }
+    }
+
+    @Override
+    public void createTable(String tableName, String columns) {
+        String parsedColumns = parseColumnsData(columns);
+        String sql = String.format("CREATE TABLE %s ( %s );", tableName, parsedColumns);
+
+        try (Statement statement = connection.createStatement()) {
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private String parseColumnsData(String columns) {
+        String[] colArray = Commands.arrayOf(columns);
+
+        StringBuilder colDataBuilder = new StringBuilder();
+        for (int i = 0; i < colArray.length; i++) {
+            colDataBuilder
+                    .append(colArray[i])
+                    .append(" ")
+                    .append(colArray[++i])
+                    .append(", ");
+        }
+        int lastCommaIndex = colDataBuilder.lastIndexOf(",");
+        colDataBuilder.deleteCharAt(lastCommaIndex);
+        return colDataBuilder.toString().trim();
     }
 
     @Override
