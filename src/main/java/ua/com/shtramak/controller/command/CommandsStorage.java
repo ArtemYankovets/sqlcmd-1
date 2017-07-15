@@ -20,6 +20,7 @@ public class CommandsStorage {
                 new Insert(dataBaseManager, view),
                 new UpdateTableData(dataBaseManager, view),
                 new CreateTable(dataBaseManager, view),
+                new DropTable(dataBaseManager,view),
                 new Exit(dataBaseManager, view),
                 new Help(dataBaseManager, view)};
     }

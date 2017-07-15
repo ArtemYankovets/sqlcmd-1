@@ -142,7 +142,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public void update(String tableName, String colName, Object rowValue, DataSet newValue) {
+    public void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue) {
         String updateLine = updateDataLine(newValue);
         String sql = String.format("UPDATE %s SET %s WHERE %s = '%s'", tableName, updateLine, colName, rowValue);
 
@@ -177,10 +177,10 @@ public class JDBCDataBaseManager implements DataBaseManager {
     public String[] getTableColumns(String tableName) {
         try {
             DatabaseMetaData dbmt = connection.getMetaData();
-            ResultSet resultSet = dbmt.getColumns(null,null,tableName,"%");
+            ResultSet resultSet = dbmt.getColumns(null, null, tableName, "%");
 
             List<String> colNames = new ArrayList<>();
-            while (resultSet.next()){
+            while (resultSet.next()) {
                 colNames.add(resultSet.getString("COLUMN_NAME"));
             }
             String[] result = new String[colNames.size()];
@@ -237,6 +237,17 @@ public class JDBCDataBaseManager implements DataBaseManager {
             return resultSet.next();
         } catch (SQLException e) {
             return false;
+        }
+    }
+
+    @Override
+    public void dropTable(String tableName) {
+        String sql = String.format("DROP TABLE %s", tableName);
+
+        try (Statement statement = connection.createStatement()){
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
     }
 

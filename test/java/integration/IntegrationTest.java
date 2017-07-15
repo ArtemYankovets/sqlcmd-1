@@ -210,7 +210,7 @@ public class IntegrationTest {
         in.addCommand("insert|users|id|8|name|Cheburator|password|qwerty");
         in.addCommand("insert|users|id|1|name|Chupakabra|password|qwerty");
         in.addCommand("find|users");
-        in.addCommand("update|users");
+        in.addCommand("updateTableData|users");
         in.addCommand("name");
         in.addCommand("shtramak");
         in.addCommand("name|Test|password|TestPass");
@@ -240,8 +240,8 @@ public class IntegrationTest {
                 "| 1          | Chupakabra | qwerty     |" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input wanted 'colName' and 'value' of the row you want to update:" + LINE_SEPARATOR +
-                "Enter column name: Enter value: Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
+                "Please input wanted 'colName' and 'value' of the row you want to updateTableData:" + LINE_SEPARATOR +
+                "Enter column name: Enter value: Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
                 "Data successfully updated..." + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR +
@@ -319,8 +319,8 @@ public class IntegrationTest {
                 "\t\tdelete all data from selected table" + LINE_SEPARATOR +
                 "\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR +
                 "\t\tinsert entered data to selected table" + LINE_SEPARATOR +
-                "\tupdate|tableName" + LINE_SEPARATOR +
-                "\t\tupdate entry in selected table using own command interface" + LINE_SEPARATOR +
+                "\tupdateTableData|tableName" + LINE_SEPARATOR +
+                "\t\tupdateTableData entry in selected table using own command interface" + LINE_SEPARATOR +
                 "\texit" + LINE_SEPARATOR +
                 "\t\tto exit from this session" + LINE_SEPARATOR +
                 "\thelp" + LINE_SEPARATOR +
@@ -406,9 +406,9 @@ public class IntegrationTest {
     @Test
     public void testWrongUpdate() {
         in.addCommand("connect|sqlcmd|postgres|postgres");
-        in.addCommand("update|user|user");
-        in.addCommand("update|user");
-        in.addCommand("update|users");
+        in.addCommand("updateTableData|user|user");
+        in.addCommand("updateTableData|user");
+        in.addCommand("updateTableData|users");
         in.addCommand("name");
         in.addCommand("Chupakabra");
         in.addCommand("password|ChuPass|oops");
@@ -419,13 +419,13 @@ public class IntegrationTest {
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "update command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "updateTableData command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Table 'user' doesn't exists! See below the list with available tables:" + LINE_SEPARATOR +
                 "Available tables: [users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input wanted 'colName' and 'value' of the row you want to update:" + LINE_SEPARATOR +
-                "Enter column name: Enter value: Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
+                "Please input wanted 'colName' and 'value' of the row you want to updateTableData:" + LINE_SEPARATOR +
+                "Enter column name: Enter value: Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
                 "Wrong input! Input must be according to the template" + LINE_SEPARATOR +
                 "Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command" + LINE_SEPARATOR +
                 "Update command failed!" + LINE_SEPARATOR + LINE_SEPARATOR +

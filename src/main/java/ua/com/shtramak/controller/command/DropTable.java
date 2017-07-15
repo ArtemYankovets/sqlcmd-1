@@ -6,56 +6,46 @@ import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
 
-public class ClearTable implements Command {
+public class DropTable implements Command {
+    DataBaseManager dataBaseManager;
+    View view;
 
-    private DataBaseManager dataBaseManager;
-    private View view;
-
-    public ClearTable(DataBaseManager dataBaseManager, View view) {
+    public DropTable(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
 
     @Override
-    public String description() {
-        return "\tclear|tableName" +
-                System.lineSeparator() +
-                "\t\tdelete all data from selected table";
-    }
-
-    @Override
     public boolean isDetected(String command) {
-        return command.startsWith("clear|");
+        return command.startsWith("drop|");
     }
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf("clear|tableName");
+
         String[] commands = Commands.arrayOf(command);
-        if (commands.length != commandsTemplate.length) {
-            view.writeln("'clear' command failed because of wrong input. Use 'help' command for details");
-            return;
+        if (commands.length != 2) {
+            view.writeln("Incorrect usage of 'drop' command. Use 'help' command for details");
         }
 
         int tableNameIndex = 1;
         String tableName = commands[tableNameIndex];
-
         if (!dataBaseManager.hasTable(tableName)) {
             view.writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
             view.writeln("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return;
         }
 
-        if (!isSure(tableName)) {
-            view.writeln("Command 'clear' was canceled...");
+        if (!isSure(tableName)){
+            view.writeln("Command 'drop' was canceled...");
         }
 
-            dataBaseManager.clear(tableName);
-            view.writeln(String.format("Data from '%s' was successfully deleted", tableName));
+        dataBaseManager.dropTable(tableName);
+        view.writeln("The table was successfully dropped from database");
     }
 
-    private boolean isSure(String tableName) {
-        view.writeln(String.format("You are going to delete all data from table '%s'! Are you sure? [Yes/No]", tableName));
+    private boolean isSure(String tableName) { //TODO перенести метод в утилитный класс
+        view.writeln(String.format("You are going to drop existing table '%s'! Are you sure? [Yes/No]", tableName));
         while (true) {
             String answer = view.read().toLowerCase();
             if (answer.equals("yes")||answer.equals("y"))
@@ -65,5 +55,12 @@ public class ClearTable implements Command {
             else
                 view.writeln("Please enter Yes or No. No other options available");
         }
+    }
+
+    @Override
+    public String description() {
+        return "\tdrop|tableName" +
+                System.lineSeparator() +
+                "\t\tdrop an existing table in a database";
     }
 }

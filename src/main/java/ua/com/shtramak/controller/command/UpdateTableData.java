@@ -19,14 +19,14 @@ public class UpdateTableData implements Command {
 
     @Override
     public String description() {
-        return "\tupdate|tableName" +
+        return "\tupdateTableData|tableName" +
                 System.lineSeparator() +
-                "\t\tupdate entry in selected table using own command interface";
+                "\t\tupdateTableData entry in selected table using own command interface";
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("update|");
+        return command.startsWith("updateTableData|");
     }
 
     @Override
@@ -34,7 +34,7 @@ public class UpdateTableData implements Command {
         final String[] commandsTemplate = Commands.arrayOf("find|tableName");
         String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
-            view.writeln("update command failed because of wrong input. Use 'help' command for details");
+            view.writeln("updateTableData command failed because of wrong input. Use 'help' command for details");
             return;
         }
 
@@ -42,7 +42,7 @@ public class UpdateTableData implements Command {
         String tableName = inputCommands[tableNameIndex];
         if (!isAcceptableTableName(tableName)) return;
 
-        view.writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
+        view.writeln("Please input wanted 'colName' and 'value' of the row you want to updateTableData:");
         view.write("Enter column name: ");
 
         String colName = view.read();
@@ -52,7 +52,7 @@ public class UpdateTableData implements Command {
         String value = view.read();
         if(!isAcceptableColumnValue(tableName, colName, value)) return;
 
-        view.writeln("Now please input update data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
+        view.writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
 
         String inputData = view.read();
         while (true) {
@@ -78,7 +78,7 @@ public class UpdateTableData implements Command {
         }
 
         try {
-            dataBaseManager.update(tableName, colName, value, updateData);
+            dataBaseManager.updateTableData(tableName, colName, value, updateData);
             view.writeln("Data successfully updated...");
         } catch (Exception e) {
             String message = "Smth goes wrong... Reason: " + e.getMessage();

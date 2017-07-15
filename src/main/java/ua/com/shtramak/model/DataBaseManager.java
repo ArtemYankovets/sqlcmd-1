@@ -45,7 +45,7 @@ public interface DataBaseManager {
      * @param rowValue wanted value from column
      * @param newValue new DataSet entry for the specified row
      */
-    void update(String tableName, String colName, Object rowValue, DataSet newValue);
+    void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue);
 
     /**
      *
@@ -87,4 +87,6 @@ public interface DataBaseManager {
      * @return true if value presents in column, false otherwise
      */
     boolean hasValue(String tableName, String columnName, String value);
+
+    void dropTable(String tableName);
 }
