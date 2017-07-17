@@ -1,8 +1,5 @@
 package ua.com.shtramak.model;
 
-import ua.com.shtramak.controller.command.Find;
-import ua.com.shtramak.view.ConsoleView;
-
 import java.util.NoSuchElementException;
 
 public class DataSet implements DataSetInterface {

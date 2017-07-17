@@ -129,9 +129,9 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testWrongFindAfterConnection() {
+    public void testWrongShowAfterConnection() {
         in.addCommand("connect|sqlcmd|postgres|postgres");
-        in.addCommand("find|user");
+        in.addCommand("show|user");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
@@ -169,11 +169,11 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindInEmptyTable() {
+    public void testShowInEmptyTable() {
         in.addCommand("connect|sqlcmd|postgres|postgres");
         in.addCommand("clear|tmpusers");
         in.addCommand("yes");
-        in.addCommand("find|tmpusers");
+        in.addCommand("show|tmpusers");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
@@ -229,19 +229,19 @@ public class IntegrationTest {
     }
 
     @Test
-    public void testFindAndUpdate() {
+    public void testShowAndUpdate() {
         in.addCommand("connect|sqlcmd|postgres|postgres");
         in.addCommand("clear|tmpusers");
         in.addCommand("yes");
         in.addCommand("insert|tmpusers|id|11|name|TestName1|password|pass1");
         in.addCommand("insert|tmpusers|id|8|name|TestName2|password|pass2");
         in.addCommand("insert|tmpusers|id|1|name|TestName3|password|pass3");
-        in.addCommand("find|tmpusers");
+        in.addCommand("show|tmpusers");
         in.addCommand("updateTable|tmpusers");
         in.addCommand("name");
         in.addCommand("TestName1");
         in.addCommand("name|TestUpd|password|passUpd");
-        in.addCommand("find|tmpusers");
+        in.addCommand("show|tmpusers");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
@@ -337,12 +337,12 @@ public class IntegrationTest {
                 "Automatically connection failed!" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR + LINE_SEPARATOR +
-                "List of available commands:" + LINE_SEPARATOR +
+                "ShowTablesList of available commands:" + LINE_SEPARATOR +
                 "\tconnect|database|userName|password" + LINE_SEPARATOR +
                 "\t\tconnection with database under userName with password" + LINE_SEPARATOR +
                 "\tlist" + LINE_SEPARATOR +
                 "\t\tdisplay available tables in selected database" + LINE_SEPARATOR +
-                "\tfind|tableName" + LINE_SEPARATOR +
+                "\tshow|tableName" + LINE_SEPARATOR +
                 "\t\tdisplay table data from selected database" + LINE_SEPARATOR +
                 "\tclear|tableName" + LINE_SEPARATOR +
                 "\t\tdelete all data from selected table" + LINE_SEPARATOR +
@@ -401,7 +401,7 @@ public class IntegrationTest {
                 "'clear' command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Table user doesn't exists! See the list with available tables below:" + LINE_SEPARATOR +
-                "List with available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "ShowTablesList with available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Command 'clear' was canceled..." + LINE_SEPARATOR + LINE_SEPARATOR +

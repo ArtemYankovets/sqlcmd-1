@@ -7,26 +7,26 @@ import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
 
-public class Find implements Command {
+public class ShowTableData implements Command {
 
     private DataBaseManager dataBaseManager;
     private View view;
 
-    public Find(DataBaseManager dataBaseManager, View view) {
+    public ShowTableData(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
 
     @Override
     public String description() {
-        return "\tfind|tableName" +
+        return "\tshow|tableName" +
                 System.lineSeparator() +
                 "\t\tdisplay table data from selected database";
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("find|");
+        return command.startsWith("show|");
     }
 
     @Override

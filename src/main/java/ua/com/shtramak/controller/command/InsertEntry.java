@@ -5,11 +5,11 @@ import ua.com.shtramak.model.DataSet;
 import ua.com.shtramak.util.Commands;
 import ua.com.shtramak.view.View;
 
-public class Insert implements Command {
+public class InsertEntry implements Command {
     private DataBaseManager dataBaseManager;
     private View view;
 
-    public Insert(DataBaseManager dataBaseManager, View view) {
+    public InsertEntry(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }

@@ -5,11 +5,11 @@ import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
 
-public class List implements Command {
+public class ShowTablesList implements Command {
     private DataBaseManager dataBaseManager;
     private View view;
 
-    public List(DataBaseManager dataBaseManager, View view) {
+    public ShowTablesList(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }

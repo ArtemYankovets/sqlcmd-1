@@ -42,29 +42,17 @@ public class ClearTable implements Command {
 
         if (!dataBaseManager.hasTable(tableName)) {
             view.writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
-            view.writeln("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+            view.writeln("ShowTablesList with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return;
         }
 
-        if (!isSure(tableName)) {
+        String message = String.format("You are going to delete all data from table '%s'! Are you sure? [Yes/No]", tableName);
+        if (!Commands.isSureInActingWithTable(tableName, message, view)) {
             view.writeln("Command 'clear' was canceled...");
             return;
         }
 
-            dataBaseManager.clear(tableName);
-            view.writeln(String.format("Data from '%s' was successfully deleted", tableName));
-    }
-
-    private boolean isSure(String tableName) {
-        view.writeln(String.format("You are going to delete all data from table '%s'! Are you sure? [Yes/No]", tableName));
-        while (true) {
-            String answer = view.read().toLowerCase();
-            if (answer.equals("yes")||answer.equals("y"))
-                return true;
-            if (answer.equals("no")||answer.equals("n"))
-                return false;
-            else
-                view.writeln("Please enter Yes or No. No other options available");
-        }
+        dataBaseManager.clear(tableName);
+        view.writeln(String.format("Data from '%s' was successfully deleted", tableName));
     }
 }

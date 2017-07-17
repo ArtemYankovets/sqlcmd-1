@@ -1,5 +1,7 @@
 package ua.com.shtramak.util;
 
+import ua.com.shtramak.view.View;
+
 public class Commands {
 
     private static String splitter = "\\|";
@@ -16,6 +18,18 @@ public class Commands {
         return command.toLowerCase().equals("exit");
     }
 
+    public static boolean isSureInActingWithTable(String tableName, String message, View view){
+        view.writeln(message);
+        while (true) {
+            String answer = view.read().toLowerCase();
+            if (answer.equals("yes")||answer.equals("y"))
+                return true;
+            if (answer.equals("no")||answer.equals("n"))
+                return false;
+            else
+                view.writeln("Please enter Yes or No. No other options available");
+        }
+    }
 /*
     public static void setSplitter(String splitter) {
         Commands.splitter = splitter;

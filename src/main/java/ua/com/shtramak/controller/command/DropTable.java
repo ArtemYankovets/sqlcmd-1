@@ -32,29 +32,17 @@ public class DropTable implements Command {
         String tableName = commands[tableNameIndex];
         if (!dataBaseManager.hasTable(tableName)) {
             view.writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
-            view.writeln("List with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+            view.writeln("ShowTablesList with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
             return;
         }
 
-        if (!isSure(tableName)){
+        String message = String.format("You are going to drop existing table '%s'! Are you sure? [Yes/No]", tableName);
+        if (!Commands.isSureInActingWithTable(tableName, message, view)) {
             view.writeln("Command 'drop' was canceled...");
         }
 
         dataBaseManager.dropTable(tableName);
         view.writeln("The table was successfully dropped from database");
-    }
-
-    private boolean isSure(String tableName) { //TODO перенести метод в утилитный класс
-        view.writeln(String.format("You are going to drop existing table '%s'! Are you sure? [Yes/No]", tableName));
-        while (true) {
-            String answer = view.read().toLowerCase();
-            if (answer.equals("yes")||answer.equals("y"))
-                return true;
-            if (answer.equals("no")||answer.equals("n"))
-                return false;
-            else
-                view.writeln("Please enter Yes or No. No other options available");
-        }
     }
 
     @Override

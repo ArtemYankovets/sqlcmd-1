@@ -27,7 +27,7 @@ public class Help implements Command {
     @Override
     public void execute(String command) {
         Command[] commands = new CommandsStorage(dataBaseManager, view).commandsList();
-        view.writeln(System.lineSeparator() + "List of available commands:");
+        view.writeln(System.lineSeparator() + "ShowTablesList of available commands:");
         for (Command element : commands) {
             view.writeln(element.description());
         }
