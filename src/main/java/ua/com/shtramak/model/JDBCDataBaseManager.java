@@ -29,7 +29,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
         try {
             connection = DriverManager.getConnection("jdbc:postgresql:" + host + database + "?loggerLevel=OFF", userName, password);
-            System.out.printf("Hello %s! You're automatically logged in to %s database", userName, database);
         } catch (SQLException e) {
             connection = null;
             throw new RuntimeException(String.format("Dear %s! Your input data was incorrect!" + System.lineSeparator(), userName), e);

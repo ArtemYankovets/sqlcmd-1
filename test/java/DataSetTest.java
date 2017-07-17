@@ -23,11 +23,6 @@ public class DataSetTest {
         assertEquals(expected, dataSet.toString());
     }
 
-    @Test(expected = RuntimeException.class)
-    public void testPutWithNull(){
-        dataSet.put("Null",null);
-    }
-
     @Test
     public void testValuesWithRegularData() {
         String expected = "[string, 1, 1.5]";

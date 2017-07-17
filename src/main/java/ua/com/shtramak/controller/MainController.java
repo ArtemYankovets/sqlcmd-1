@@ -1,6 +1,8 @@
 package ua.com.shtramak.controller;
 
-import ua.com.shtramak.controller.command.*;
+import ua.com.shtramak.controller.command.Command;
+import ua.com.shtramak.controller.command.CommandsStorage;
+import ua.com.shtramak.controller.command.ConnectToDB;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.util.Commands;
 import ua.com.shtramak.view.View;
@@ -14,21 +16,24 @@ public class MainController {
     public MainController(View view, DataBaseManager dataBaseManager) {
         this.view = view;
         this.dataBaseManager = dataBaseManager;
-        commands = new CommandsStorage(dataBaseManager,view).commandsList();
+        commands = new CommandsStorage(dataBaseManager, view).commandsList();
     }
 
     public void run() {
 
-        ConnectToDB.connectedWithConfig(dataBaseManager);
+        view.writeln("Hello user! For connection to database using config file, please enter command 'connect'");
+        view.writeln("For connection to database using your login and password enter required input command in format: 'connect|database|userName|password'");
+        view.writeln("Enter 'exit' command to leave the application. 'exit' command is always available");
 
-        String inputCommand;
-        if (!dataBaseManager.isConnected()) {
-            view.writeln("Automatically connection failed! Check \"config.properties\" file.");
-            view.writeln("Hello user! For first connection to database please enter required input data using next format:" + System.lineSeparator() +
-                    "connect|database|userName|password");
+        String inputCommand = view.read();
 
-            inputCommand = view.read();
-
+        if (inputCommand.equals("connect")) {
+            ConnectToDB.connectedWithConfig(dataBaseManager);
+            String userName = ConnectToDB.configData().getProperty("db.user");
+            String dbName = ConnectToDB.configData().getProperty("db.name");
+            view.writeln(String.format("Hello %s! You're automatically logged in to %s database", userName, dbName));
+        } else {
+            view.writeln("Automatically connection failed!");
             if (Commands.isExit(inputCommand)) {
                 view.writeln("Good Luck!");
                 return;
@@ -63,7 +68,7 @@ public class MainController {
             }
 
             if (!exist)
-                view.writeln(String.format("Command %s doesn't exists. Use 'help' command for details", inputCommand));
+                view.writeln(String.format("Command '%s' doesn't exists. Use 'help' command for details", inputCommand));
         }
     }
 
