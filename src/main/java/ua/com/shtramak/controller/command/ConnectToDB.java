@@ -49,10 +49,11 @@ public class ConnectToDB implements Command {
             int dbIndex = 1;
             int userNameIndex = 2;
             int userPasswordIndex = 3;
-            String database = connectionData[dbIndex];
+            String dbName = connectionData[dbIndex];
             String userName = connectionData[userNameIndex];
             String password = connectionData[userPasswordIndex];
-            dataBaseManager.connect(database, userName, password);
+            dataBaseManager.connect(dbName, userName, password);
+            view.writeln(String.format("Hello %s! Welcome to %s database", userName, dbName));
         } catch (Exception e) {
             printError(e);
             if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) return;
@@ -71,12 +72,12 @@ public class ConnectToDB implements Command {
         Properties properties = configData();
         if (!properties.isEmpty()){
             String host = properties.getProperty("db.host");
-            String name = properties.getProperty("db.name");
-            String user = properties.getProperty("db.user");
-            String password = properties.getProperty("db.password");
+            String dbName = properties.getProperty("db.name");
+            String userName = properties.getProperty("db.user");
+            String userPassword = properties.getProperty("db.password");
 
             try {
-                dataBaseManager.connect(host,name,user,password);
+                dataBaseManager.connect(host,dbName,userName,userPassword);
                 return true;
             } catch (Exception e) {
                 //NOP
@@ -85,7 +86,7 @@ public class ConnectToDB implements Command {
         return false;
     }
 
-    private static Properties configData() {
+    public static Properties configData() {
         Properties properties = new Properties();
         try {
             properties.load(new FileReader("src/main/resources/config.properties"));

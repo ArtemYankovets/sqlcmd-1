@@ -19,7 +19,7 @@ public class UpdateTableData implements Command {
 
     @Override
     public String description() {
-        return "\tupdateTableData|tableName" +
+        return "\tupdateTable|tableName" +
                 System.lineSeparator() +
                 "\t\tupdate entry in selected table using own command interface";
     }
@@ -48,8 +48,10 @@ public class UpdateTableData implements Command {
         String colName = view.read();
         if (!isAcceptableColumnName(tableName, colName)) return;
 
+        view.writeln("");
         view.write("Enter value: ");
         String value = view.read();
+        view.writeln("");
         if(!isAcceptableColumnValue(tableName, colName, value)) return;
 
         view.writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
@@ -88,7 +90,7 @@ public class UpdateTableData implements Command {
 
     private boolean isAcceptableColumnValue(String tableName, String colName, String value) {
         if(!dataBaseManager.hasValue(tableName,colName,value)){
-            view.writeln(String.format("There's no value '%s' in column '%s')",value, colName));
+            view.writeln(String.format("There's no value '%s' in column '%s'",value, colName));
             return false;
         }
         return  true;
