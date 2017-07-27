@@ -29,8 +29,10 @@ public class ConnectToDB implements Command {
     public boolean isDetected(String command) {
         if (!command.startsWith("connect|")) return false;
 
-        if (dataBaseManager.isConnected())
+        if (dataBaseManager.isConnected()) {
+            view.writeln("Disconnection from current database...");
             dataBaseManager.disconnect();
+        }
 
         return true;
     }

@@ -13,7 +13,8 @@ public class CommandsStorage {
     }
 
     public Command[] commandsList() {
-        return new Command[]{new ConnectToDB(dataBaseManager, view),
+        return new Command[]{
+                new ConnectToDB(dataBaseManager, view),
                 new ShowTablesList(dataBaseManager, view),
                 new ShowTableData(dataBaseManager, view),
                 new ClearTable(dataBaseManager, view),

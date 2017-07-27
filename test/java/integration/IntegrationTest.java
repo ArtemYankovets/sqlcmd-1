@@ -300,6 +300,7 @@ public class IntegrationTest {
                 "Automatically connection failed!" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
+                "Disconnection from current database..." + LINE_SEPARATOR +
                 "Hello postgres! Welcome to postgres database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;

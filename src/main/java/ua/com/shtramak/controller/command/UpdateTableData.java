@@ -75,7 +75,7 @@ public class UpdateTableData implements Command {
         String[] commands = inputData.split("\\|");
 
         DataSet updateData = new DataSet();
-        for (int i = 0; i <= commands.length / 2; i++) {
+        for (int i = 0; i < commands.length; i++) {
             updateData.put(commands[i], commands[++i]);
         }
 
