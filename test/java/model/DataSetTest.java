@@ -1,3 +1,5 @@
+package model;
+
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.shtramak.model.DataSet;
