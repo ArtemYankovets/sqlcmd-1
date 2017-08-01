@@ -12,10 +12,10 @@ import java.util.Arrays;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-public class TestClearTable {
+public class ClearTableTest {
+    private DataBaseManager dataBaseManager;
     private View view;
     private Command command;
-    private DataBaseManager dataBaseManager;
 
     @Before
     public void init() {

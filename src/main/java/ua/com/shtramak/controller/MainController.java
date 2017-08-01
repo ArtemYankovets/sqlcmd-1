@@ -1,7 +1,7 @@
 package ua.com.shtramak.controller;
 
 import ua.com.shtramak.controller.command.Command;
-import ua.com.shtramak.controller.command.CommandsStorage;
+import ua.com.shtramak.util.CommandsStorage;
 import ua.com.shtramak.controller.command.ConnectToDB;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.util.Commands;

@@ -19,7 +19,7 @@ public class CreateTable implements Command{
         return command.equals("create");
     }
 
-    @Override //TODO реализовать диалог с пользователем для выполнения команды
+    @Override
     public void execute(String command) {
         view.write("Please enter a name of table you want to create: ");
         String tableName = view.read();
@@ -38,6 +38,7 @@ public class CreateTable implements Command{
         }
 
         dataBaseManager.createTable(tableName,columnsData);
+        view.writeln("Table successfully created...");
     }
 
     @Override
