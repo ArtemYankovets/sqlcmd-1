@@ -28,12 +28,13 @@ public class MainController {
         String inputCommand = view.read();
 
         if (inputCommand.equals("connect")) {
-            ConnectToDB.connectedWithConfig(dataBaseManager);
-            String userName = ConnectToDB.configData().getProperty("db.user");
-            String dbName = ConnectToDB.configData().getProperty("db.name");
-            view.writeln(String.format("Hello %s! You're automatically logged in to %s database", userName, dbName));
+            if (ConnectToDB.connectedWithConfig(dataBaseManager)) {
+                String userName = ConnectToDB.configData().getProperty("db.user");
+                String dbName = ConnectToDB.configData().getProperty("db.name");
+                view.writeln(String.format("Hello %s! You're automatically logged in to %s database", userName, dbName));
+            }
         } else {
-            view.writeln("Automatically connection failed!");
+            view.writeln("Automatically connection failed! Check if file 'config.properties' is correct");
             if (Commands.isExit(inputCommand)) {
                 view.writeln("Good Luck!");
                 return;
@@ -78,7 +79,7 @@ public class MainController {
             if (commands[connectIndex].isDetected(inputCommand)) {
                 commands[connectIndex].execute(inputCommand);
             } else {
-                view.writeln(String.format("Invalid data! Your input was %s: ", inputCommand) + " Try again using next format:" + System.lineSeparator() +
+                view.writeln(String.format("Invalid data! Your input was %s: ", inputCommand) + "Try again using next format:" + System.lineSeparator() +
                         "connect|database|userName|password");
             }
 

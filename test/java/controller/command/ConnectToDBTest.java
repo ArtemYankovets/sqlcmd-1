@@ -7,12 +7,8 @@ import ua.com.shtramak.controller.command.ConnectToDB;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 public class ConnectToDBTest {
     private DataBaseManager dataBaseManager;
@@ -20,10 +16,10 @@ public class ConnectToDBTest {
     private Command command;
 
     @Before
-    public void init(){
+    public void init() {
         dataBaseManager = mock(DataBaseManager.class);
         view = mock(View.class);
-        command = new ConnectToDB(dataBaseManager,view);
+        command = new ConnectToDB(dataBaseManager, view);
     }
 
     @Test
@@ -45,10 +41,27 @@ public class ConnectToDBTest {
     }
 
     @Test
-    public void testConnectAfterConnection(){
+    public void testConnectAfterConnection() {
         when(dataBaseManager.isConnected()).thenReturn(true);
         command.isDetected("connect|");
         verify(view).writeln("Disconnection from current database...");
+    }
+
+    @Test
+    public void testWrongConnectCommandLength() {
+        command.execute("connect|database|userName");
+        verify(view).writeln("Connection failed!");
+    }
+
+    @Test
+    public void testConnectWithFullCommand() {
+        String fullCommand = "connect|database|userName|userPassword";
+        command.execute(fullCommand);
+        String dbName = fullCommand.split("\\|")[1];
+        String userName = fullCommand.split("\\|")[2];
+        String userPassword = fullCommand.split("\\|")[3];
+        verify(dataBaseManager).connect(dbName, userName, userPassword);
+        verify(view).writeln(String.format("Hello %s! Welcome to %s database", userName, dbName));
     }
 
 }
