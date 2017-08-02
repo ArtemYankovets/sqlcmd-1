@@ -43,7 +43,6 @@ public class ConnectToDB implements Command {
             if (command.equals("connect")){
                 autoConnect();
             }else {
-
                 final String[] commandsTemplate = Commands.arrayOf("connect|database|userName|password");
                 String[] connectionData = Commands.arrayOf(command);
                 if (connectionData.length != commandsTemplate.length) {

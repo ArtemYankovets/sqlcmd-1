@@ -1,5 +1,6 @@
 package ua.com.shtramak.model;
 
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 public class DataSet implements DataSetInterface {
@@ -88,6 +89,24 @@ public class DataSet implements DataSetInterface {
         }
         return result;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DataSet dataSet = (DataSet) o;
+
+        if (freeIndex != dataSet.freeIndex) return false;
+        return Arrays.equals(data, dataSet.data);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Arrays.hashCode(data);
+        result = 31 * result + freeIndex;
+        return result;
+    }
 }
 
 class Data {
@@ -107,4 +126,21 @@ class Data {
         return value;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Data data = (Data) o;
+
+        if (!name.equals(data.name)) return false;
+        return value.equals(data.value);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + value.hashCode();
+        return result;
+    }
 }
