@@ -67,8 +67,10 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Invalid data! Your input was list: Try again using next format:" + LINE_SEPARATOR +
-                "connect|database|userName|password" + LINE_SEPARATOR +
+                "Incorrect input! You have 3 options:" + LINE_SEPARATOR +
+                "1. For auto connect using config file enter command 'connect'" + LINE_SEPARATOR +
+                "2. For connection to database using your login and password enter command in format: 'connect|database|userName|password'" + LINE_SEPARATOR +
+                "3. Enter 'exit' command to stop the program" + LINE_SEPARATOR +
                 "Exiting before connection to database... Good luck!" + LINE_SEPARATOR;
 
         Main.main(new String[0]);
@@ -82,8 +84,10 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Invalid data! Your input was help: Try again using next format:" + LINE_SEPARATOR +
-                "connect|database|userName|password" + LINE_SEPARATOR +
+                "Incorrect input! You have 3 options:" + LINE_SEPARATOR +
+                "1. For auto connect using config file enter command 'connect'" + LINE_SEPARATOR +
+                "2. For connection to database using your login and password enter command in format: 'connect|database|userName|password'" + LINE_SEPARATOR +
+                "3. Enter 'exit' command to stop the program" + LINE_SEPARATOR +
                 "Exiting before connection to database... Good luck!" + LINE_SEPARATOR;
 
         Main.main(new String[0]);
