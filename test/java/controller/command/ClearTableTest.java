@@ -69,7 +69,7 @@ public class ClearTableTest {
     }
 
     @Test
-    public void testClearWronNumberOfParameters(){
+    public void testClearWrongNumberOfParameters(){
         command.execute("clear|");
         verify(view).writeln("'clear' command failed because of wrong input. Use 'help' command for details");
     }

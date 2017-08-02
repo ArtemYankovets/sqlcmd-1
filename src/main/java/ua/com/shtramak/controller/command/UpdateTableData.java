@@ -83,7 +83,7 @@ public class UpdateTableData implements Command {
             dataBaseManager.updateTableData(tableName, colName, value, updateData);
             view.writeln("Data successfully updated...");
         } catch (Exception e) {
-            String message = "Smth goes wrong... Reason: " + e.getMessage();
+            String message = "Something goes wrong... Reason: " + e.getMessage();
             view.writeln(message);
         }
     }

@@ -26,6 +26,7 @@ public class DropTable implements Command {
         String[] commands = Commands.arrayOf(command);
         if (commands.length != 2) {
             view.writeln("Incorrect usage of 'drop' command. Use 'help' command for details");
+            return;
         }
 
         int tableNameIndex = 1;
@@ -39,10 +40,11 @@ public class DropTable implements Command {
         String message = String.format("You are going to drop existing table '%s'! Are you sure? [Yes/No]", tableName);
         if (!Commands.isSureInActingWithTable(tableName, message, view)) {
             view.writeln("Command 'drop' was canceled...");
+            return;
         }
 
         dataBaseManager.dropTable(tableName);
-        view.writeln("The table was successfully dropped from database");
+        view.writeln(String.format("Table %s was successfully dropped from database",tableName));
     }
 
     @Override
