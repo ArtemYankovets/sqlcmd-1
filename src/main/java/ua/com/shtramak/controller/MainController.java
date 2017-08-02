@@ -1,10 +1,10 @@
 package ua.com.shtramak.controller;
 
 import ua.com.shtramak.controller.command.Command;
-import ua.com.shtramak.util.CommandsStorage;
 import ua.com.shtramak.controller.command.ConnectToDB;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.util.Commands;
+import ua.com.shtramak.util.CommandsStorage;
 import ua.com.shtramak.view.View;
 
 public class MainController {
@@ -20,10 +20,12 @@ public class MainController {
     }
 
     public void run() {
-
-        view.writeln("Hello user! For connection to database using config file, please enter command 'connect'");
-        view.writeln("For connection to database using your login and password enter required input command in format: 'connect|database|userName|password'");
-        view.writeln("Enter 'exit' command to leave the application. 'exit' command is always available");
+        String lineSeparator = System.lineSeparator();
+        final String greetingMessage =
+                "Hello user! For connection to database using config file, please enter command 'connect'" +lineSeparator +
+                "For connection to database using your login and password enter required input command in format: 'connect|database|userName|password'" +lineSeparator +
+                "Enter 'exit' command to leave the application. 'exit' command is always available";
+        view.writeln(greetingMessage);
 
         String inputCommand = view.read();
 
@@ -34,7 +36,9 @@ public class MainController {
                 view.writeln(String.format("Hello %s! You're automatically logged in to %s database", userName, dbName));
             }
         } else {
-            view.writeln("Automatically connection failed! Check if file 'config.properties' is correct");
+            if (inputCommand.equals("connect")) {
+                view.writeln("Automatically connection failed! Check if file 'config.properties' is correct");
+            }
             if (Commands.isExit(inputCommand)) {
                 view.writeln("Good Luck!");
                 return;
@@ -48,8 +52,12 @@ public class MainController {
             }
         }
 
-        while (true) {
+        executeCommands();
+    }
 
+    private void executeCommands() {
+        String inputCommand;
+        while (true) {
             view.writeln("");
             view.writeln("Type a command or 'help' to see the command list");
 

@@ -67,7 +67,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Invalid data! Your input was list: Try again using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Exiting before connection to database... Good luck!" + LINE_SEPARATOR;
@@ -83,7 +82,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Invalid data! Your input was help: Try again using next format:" + LINE_SEPARATOR +
                 "connect|database|userName|password" + LINE_SEPARATOR +
                 "Exiting before connection to database... Good luck!" + LINE_SEPARATOR;
@@ -99,7 +97,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
@@ -116,7 +113,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Here's the names of available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -135,7 +131,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Table user doesn't exists! Available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -155,7 +150,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
@@ -177,7 +171,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
@@ -207,7 +200,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
@@ -245,7 +237,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
@@ -297,7 +288,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Disconnection from current database..." + LINE_SEPARATOR +
@@ -316,7 +306,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Error message: Dear postgres! Your input data was incorrect!" + LINE_SEPARATOR +
                 "ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) " +
                 "(pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)" + LINE_SEPARATOR +
@@ -335,7 +324,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "List of available commands:" + LINE_SEPARATOR +
@@ -374,7 +362,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Command 'hepl' doesn't exists. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -396,7 +383,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "'clear' command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -421,7 +407,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "DataSet is empty" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -449,7 +434,6 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Automatically connection failed! Check if file 'config.properties' is correct" + LINE_SEPARATOR +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "updateTableData command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
