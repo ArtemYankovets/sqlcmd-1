@@ -82,7 +82,7 @@ public class DataSet implements DataSetInterface {
         return result.toString();
     }
 
-    public String[] getStringValues() {
+    public String[] stringValues() {
         String[] result = new String[freeIndex + 1];
         for (int i = 0; i <= freeIndex; i++) {
             result[i] = data[i].getValue().toString();

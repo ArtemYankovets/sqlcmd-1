@@ -54,7 +54,7 @@ public class ShowTableData implements Command {
             return;
         }
         for (DataSet tableItem : tableData) {
-            printFormattedRow(tableItem.getStringValues());
+            printFormattedRow(tableItem.stringValues());
         }
         view.writeln("----------------------------------------");
     }

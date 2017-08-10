@@ -46,7 +46,7 @@ public class InsertEntry implements Command {
         try {
             dataBaseManager.insert(tableName, insertData);
             view.writeln(String.format("Data successfully added to %s", tableName));
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             view.writeln(e.getMessage());
         }
     }
