@@ -70,5 +70,4 @@ public class InsertEntryTest {
         verify(dataBaseManager).insert(tableName, insertData);
         verify(view, times(1)).writeln("Exception message");
     }
-
 }

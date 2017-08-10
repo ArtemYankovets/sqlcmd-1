@@ -1,5 +1,7 @@
 package ua.com.shtramak.model;
 
+import java.io.FileNotFoundException;
+
 public interface DataBaseManager {
 
     void connect(String host, String database, String userName, String password);

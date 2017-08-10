@@ -13,7 +13,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     @Override
     public void connect(String database, String userName, String password) {
         String host = "//localhost:5432/";
-        connect(host,database,userName,password);
+        connect(host, database, userName, password);
     }
 
     @Override
@@ -69,21 +69,33 @@ public class JDBCDataBaseManager implements DataBaseManager {
     @Override
     public String[] getTableNames() {
 
-        int index = 0;
-        String[] storage = new String[100];
+        DatabaseMetaData md;
         try {
-            DatabaseMetaData md = connection.getMetaData();
-            ResultSet rs = md.getTables(null, null, "%", new String[]{"TABLE"});
-            while (rs.next()) {
-                storage[index++] = rs.getString(3);
+            md = connection.getMetaData();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new String[0];
+        }
+
+        String[] res = null;
+        try (ResultSet resultSet = md.getTables(null, null, "%", new String[]{"TABLE"})) {
+
+            resultSet.last();
+            int resultSetSize = resultSet.getRow();
+            resultSet.beforeFirst();
+            res = new String[resultSetSize];
+
+            int index = 0;
+            int tableNameIndex = 3;
+            while (resultSet.next()) {
+                res[index++] = resultSet.getString(tableNameIndex);
             }
+
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
-        String[] result = new String[index];
-        System.arraycopy(storage, 0, result, 0, index);
-        return result;
+        return res;
     }
 
     @Override
@@ -181,7 +193,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     @Override
     public String[] getTableColumns(String tableName) {
         try {
-            DatabaseMetaData dbmt = connection.getMetaData();
+            DatabaseMetaData dbmt = connection.getMetaData(); //TODO метод для возврата метаданных с обработкой исключения
             ResultSet resultSet = dbmt.getColumns(null, null, tableName, "%");
 
             List<String> colNames = new ArrayList<>();

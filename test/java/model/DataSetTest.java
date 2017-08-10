@@ -11,7 +11,7 @@ import static org.junit.Assert.assertEquals;
 
 
 public class DataSetTest {
-    DataSet dataSet;
+    private DataSet dataSet;
 
     @Before
     public void setup() {
@@ -58,6 +58,7 @@ public class DataSetTest {
     public void testValueWithUnexistingElement(){
         dataSet.value("Fake");
     }
+
     @Test(expected = RuntimeException.class)
     public void testValueWithFromEmptyDataSet(){
         dataSet = new DataSet();
