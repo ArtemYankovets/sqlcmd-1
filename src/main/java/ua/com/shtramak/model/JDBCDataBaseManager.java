@@ -1,6 +1,6 @@
 package ua.com.shtramak.model;
 
-import ua.com.shtramak.util.Commands;
+import ua.com.shtramak.utils.Commands;
 
 import java.sql.*;
 import java.util.ArrayList;

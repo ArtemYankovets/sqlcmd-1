@@ -5,7 +5,7 @@ import org.junit.Test;
 import ua.com.shtramak.controller.command.Command;
 import ua.com.shtramak.controller.command.CreateTable;
 import ua.com.shtramak.model.DataBaseManager;
-import ua.com.shtramak.util.Commands;
+import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
 import static org.junit.Assert.*;

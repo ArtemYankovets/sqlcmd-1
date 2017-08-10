@@ -1,7 +1,7 @@
 package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
-import ua.com.shtramak.util.Commands;
+import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
 import java.io.FileReader;

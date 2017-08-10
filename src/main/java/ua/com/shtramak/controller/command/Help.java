@@ -1,7 +1,7 @@
 package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
-import ua.com.shtramak.util.CommandsStorage;
+import ua.com.shtramak.utils.CommandsStorage;
 import ua.com.shtramak.view.View;
 
 public class Help implements Command {

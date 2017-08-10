@@ -1,4 +1,4 @@
-package ua.com.shtramak.util;
+package ua.com.shtramak.utils;
 
 import ua.com.shtramak.controller.command.*;
 import ua.com.shtramak.model.DataBaseManager;

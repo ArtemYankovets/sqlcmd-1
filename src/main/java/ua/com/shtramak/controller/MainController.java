@@ -2,8 +2,8 @@ package ua.com.shtramak.controller;
 
 import ua.com.shtramak.controller.command.Command;
 import ua.com.shtramak.model.DataBaseManager;
-import ua.com.shtramak.util.Commands;
-import ua.com.shtramak.util.CommandsStorage;
+import ua.com.shtramak.utils.Commands;
+import ua.com.shtramak.utils.CommandsStorage;
 import ua.com.shtramak.view.View;
 
 public class MainController {
