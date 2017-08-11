@@ -262,7 +262,7 @@ public class IntegrationTest {
                 "| 1          | TestName3  | pass3      |" + LINE_SEPARATOR +
                 "----------------------------------------" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input wanted 'colName' and 'value' of the row you want to updateTableData:" + LINE_SEPARATOR +
+                "Please input wanted 'colName' and 'value' of the row you want to update:" + LINE_SEPARATOR +
                 "Enter column name: " + LINE_SEPARATOR +
                 "Enter value: " + LINE_SEPARATOR +
                 "Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
@@ -445,7 +445,7 @@ public class IntegrationTest {
                 "Table 'user' doesn't exists! See below the list with available tables:" + LINE_SEPARATOR +
                 "Available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Please input wanted 'colName' and 'value' of the row you want to updateTableData:" + LINE_SEPARATOR +
+                "Please input wanted 'colName' and 'value' of the row you want to update:" + LINE_SEPARATOR +
                 "Enter column name: " + LINE_SEPARATOR +
                 "Enter value: " + LINE_SEPARATOR +
                 "There's no value 'TestName' in column 'name'" + LINE_SEPARATOR + LINE_SEPARATOR +

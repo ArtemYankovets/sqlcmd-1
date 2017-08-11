@@ -31,7 +31,7 @@ public class UpdateTableData implements Command {
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf("find|tableName");
+        final String[] commandsTemplate = Commands.arrayOf("updateTable|tableName");
         String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
             view.writeln("updateTableData command failed because of wrong input. Use 'help' command for details");
@@ -42,7 +42,7 @@ public class UpdateTableData implements Command {
         String tableName = inputCommands[tableNameIndex];
         if (!isAcceptableTableName(tableName)) return;
 
-        view.writeln("Please input wanted 'colName' and 'value' of the row you want to updateTableData:");
+        view.writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
         view.write("Enter column name: ");
 
         String colName = view.read();
@@ -72,7 +72,7 @@ public class UpdateTableData implements Command {
                 break;
             }
         }
-        String[] commands = inputData.split("\\|");
+        String[] commands = Commands.arrayOf(inputData);
 
         DataSet updateData = new DataSet();
         for (int i = 0; i < commands.length; i++) {
