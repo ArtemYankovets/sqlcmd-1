@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.shtramak.controller.command.Command;
 import ua.com.shtramak.controller.command.UpdateTableData;
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.DataSet;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -91,6 +92,76 @@ public class UpdateTableDataTest {
         verify(view,times(2)).writeln("");
         verify(view).write("Enter value: ");
         verify(view).writeln(String.format("There's no value '%s' in column '%s'",value, colName));
+    }
+
+    @Test
+    public void testUpdateTableDataOfExistingTableWithWrongDataFormatInput(){
+        String tableName = "ExistTable";
+        when(dataBaseManager.hasTable(tableName)).thenReturn(true);
+        String colName = "col1";
+        String value = "value1";
+        String inputUpdateData = "col1Name|value1|col2Name";
+        when(view.read()).thenReturn(colName).thenReturn(value).thenReturn(inputUpdateData).thenReturn("exit");
+        when(dataBaseManager.hasColumn(tableName, colName)).thenReturn(true);
+        when(dataBaseManager.hasValue(tableName,colName,value)).thenReturn(true);
+        command.execute("updateTable|"+tableName);
+        verify(view).writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
+        verify(view).write("Enter column name: ");
+        verify(view,times(2)).writeln("");
+        verify(view).write("Enter value: ");
+        verify(view).writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
+        verify(view).writeln("Wrong input! Input must be according to the template");
+        verify(view).writeln("Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command");
+        verify(view).writeln("Update command failed!");
+    }
+
+    @Test
+    public void testUpdateTableDataOfExistingTableWithFullCorrectData(){
+        String tableName = "ExistTable";
+        when(dataBaseManager.hasTable(tableName)).thenReturn(true);
+        String colName = "col1";
+        String value = "value1";
+        String inputUpdateData = "col1Name|value1|col2Name|value2";
+        when(view.read()).thenReturn(colName).thenReturn(value).thenReturn(inputUpdateData).thenReturn("exit");
+        when(dataBaseManager.hasColumn(tableName, colName)).thenReturn(true);
+        when(dataBaseManager.hasValue(tableName,colName,value)).thenReturn(true);
+        DataSet updateData = new DataSet();
+        updateData.put("col1Name","value1");
+        updateData.put("col2Name","value2");
+        command.execute("updateTable|"+tableName);
+        verify(view).writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
+        verify(view).write("Enter column name: ");
+        verify(view,times(2)).writeln("");
+        verify(view).write("Enter value: ");
+        verify(view).writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
+        verify(dataBaseManager).updateTableData(tableName, colName, value, updateData);
+        verify(view).writeln("Data successfully updated...");
+    }
+
+    @Test
+    public void testUpdateTableDataOfExistingTableWithDataBaseManagerException(){
+        String tableName = "ExistTable";
+        when(dataBaseManager.hasTable(tableName)).thenReturn(true);
+        String colName = "col1";
+        String value = "value1";
+        String inputUpdateData = "col1Name|value1|col2Name|value2";
+        when(view.read()).thenReturn(colName).thenReturn(value).thenReturn(inputUpdateData).thenReturn("exit");
+        when(dataBaseManager.hasColumn(tableName, colName)).thenReturn(true);
+        when(dataBaseManager.hasValue(tableName,colName,value)).thenReturn(true);
+        DataSet updateData = new DataSet();
+        updateData.put("col1Name","value1");
+        updateData.put("col2Name","value2");
+        doThrow(new IllegalArgumentException("Exception message")).when(dataBaseManager).updateTableData(tableName, colName, value, updateData);
+        String message = "Something goes wrong... Reason: " + "Exception message";
+        command.execute("updateTable|"+tableName);
+        verify(view).writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
+        verify(view).write("Enter column name: ");
+        verify(view,times(2)).writeln("");
+        verify(view).write("Enter value: ");
+        verify(view).writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
+        verify(dataBaseManager).updateTableData(tableName, colName, value, updateData);
+        verify(view).writeln(message);
+
     }
 
 }

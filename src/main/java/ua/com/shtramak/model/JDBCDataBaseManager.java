@@ -193,7 +193,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     @Override
     public String[] getTableColumns(String tableName) {
         try {
-            DatabaseMetaData dbmt = connection.getMetaData(); //TODO метод для возврата метаданных с обработкой исключения
+            DatabaseMetaData dbmt = connection.getMetaData();
             ResultSet resultSet = dbmt.getColumns(null, null, tableName, "%");
 
             List<String> colNames = new ArrayList<>();
