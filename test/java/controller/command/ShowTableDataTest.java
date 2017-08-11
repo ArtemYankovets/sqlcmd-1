@@ -46,7 +46,7 @@ public class ShowTableDataTest {
     }
 
     @Test
-    public void testShowWithUnexistingTable() {
+    public void testShowTableDataWithUnexistingTable() {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
         String[] names = new String[]{"users", "cars"};
@@ -58,7 +58,7 @@ public class ShowTableDataTest {
     }
 
     @Test
-    public void testShowEmtyTable() {
+    public void testShowTableDataEmtyTable() {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String[] columnsNames = new String[]{"id", "name", "password"};
@@ -76,7 +76,7 @@ public class ShowTableDataTest {
     }
 
     @Test
-    public void testShowCorrectTable() {
+    public void testShowTableDataCorrectTable() {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
 

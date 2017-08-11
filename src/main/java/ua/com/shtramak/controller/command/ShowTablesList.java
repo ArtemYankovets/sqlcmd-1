@@ -30,6 +30,6 @@ public class ShowTablesList implements Command {
     public void execute(String command) {
         if (dataBaseManager.getTableNames() != null)
             view.writeln("Here's the names of available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
-        else view.write("Database is empty. Nothing to show");
+        else view.writeln("Database is empty. Nothing to show");
     }
 }
