@@ -73,7 +73,7 @@ public class UpdateTableDataTest {
         command.execute("updateTable|"+tableName);
         verify(view).writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
         verify(view).write("Enter column name: ");
-        verify(view).writeln(String.format("Column '%s' doesn't exists! See below the list with available columns of table %s:", colName, tableName));;
+        verify(view).writeln(String.format("Column '%s' doesn't exists! See below the list with available columns of table %s:", colName, tableName));
         verify(view).writeln("Available columns: " + Arrays.toString(dataBaseManager.getTableColumns(tableName)));
     }
 

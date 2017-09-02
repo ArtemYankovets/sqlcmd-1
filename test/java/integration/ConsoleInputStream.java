@@ -3,7 +3,7 @@ package integration;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class ConsoleInputStream extends InputStream {
+class ConsoleInputStream extends InputStream {
     private String commands;
     private boolean firstRead = true;
     private byte[] bytes;

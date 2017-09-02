@@ -1,6 +1,6 @@
 package ua.com.shtramak.model;
 
-public interface DataSetInterface {
+interface DataSetInterface {
     /**
      * This method adds a Data object into data field
      * @param name name of an object to be put in data field

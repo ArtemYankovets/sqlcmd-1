@@ -75,6 +75,6 @@ public class DropTableTest {
         when(view.read()).thenReturn("no");
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         command.execute("drop|tableName");
-        verify(view).writeln("AbstractCommand 'drop' was canceled...");
+        verify(view).writeln("Command 'drop' was canceled...");
     }
 }

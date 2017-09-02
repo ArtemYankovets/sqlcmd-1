@@ -55,7 +55,7 @@ public class ClearTableTest {
     public void testClearExecuteWithAnswerNo() {
         when(view.read()).thenReturn("no");
         correctExecuting("user");
-        verify(view).writeln("AbstractCommand 'clear' was canceled...");
+        verify(view).writeln("Command 'clear' was canceled...");
     }
 
     @Test

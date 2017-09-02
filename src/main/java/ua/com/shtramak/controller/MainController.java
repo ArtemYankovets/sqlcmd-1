@@ -8,9 +8,9 @@ import ua.com.shtramak.view.View;
 
 public class MainController {
 
-    private View view;
-    private DataBaseManager dataBaseManager;
-    private AbstractCommand[] commands;
+    private final View view;
+    private final DataBaseManager dataBaseManager;
+    private final AbstractCommand[] commands;
 
     public MainController(View view, DataBaseManager dataBaseManager) {
         this.view = view;

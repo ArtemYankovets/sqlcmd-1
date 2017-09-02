@@ -4,7 +4,7 @@ import ua.com.shtramak.view.View;
 
 public class Commands {
 
-    private static String splitter = "\\|";
+    private static final String splitter = "\\|";
 
     public static int sizeOf(String line) {
         return line.split(splitter).length;

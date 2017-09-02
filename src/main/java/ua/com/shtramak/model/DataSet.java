@@ -58,15 +58,14 @@ public class DataSet implements DataSetInterface {
         return freeIndex + 1;
     }
 
-    boolean isEmpty(){
-        return data[0]==null;
+    boolean isEmpty() {
+        return data[0] == null;
     }
 
     @Override
     public String toString() {
         if (data[0] == null) return "";
         StringBuilder result = new StringBuilder("[");
-        int index = 0;
         String[] names = names();
         Object[] values = values();
         for (int i = 0; i < data.length; i++) {
@@ -97,8 +96,7 @@ public class DataSet implements DataSetInterface {
 
         DataSet dataSet = (DataSet) o;
 
-        if (freeIndex != dataSet.freeIndex) return false;
-        return Arrays.equals(data, dataSet.data);
+        return (freeIndex == dataSet.freeIndex && Arrays.equals(data, dataSet.data));
     }
 
     @Override
@@ -133,8 +131,7 @@ class Data {
 
         Data data = (Data) o;
 
-        if (!name.equals(data.name)) return false;
-        return value.equals(data.value);
+        return (name.equals(data.name) && value.equals(data.value));
     }
 
     @Override

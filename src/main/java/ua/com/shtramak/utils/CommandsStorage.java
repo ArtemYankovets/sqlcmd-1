@@ -5,8 +5,8 @@ import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
 public class CommandsStorage {
-    private DataBaseManager dataBaseManager;
-    private View view;
+    private final DataBaseManager dataBaseManager;
+    private final View view;
 
     public CommandsStorage(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;

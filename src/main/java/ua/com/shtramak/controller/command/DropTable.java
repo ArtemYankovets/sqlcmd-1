@@ -19,7 +19,6 @@ public class DropTable extends AbstractCommand {
 
     @Override
     public void execute(String command) {
-
         String[] commands = Commands.arrayOf(command);
         if (commands.length != 2) {
             view.writeln("Incorrect usage of 'drop' command. Use 'help' command for details");
@@ -35,13 +34,12 @@ public class DropTable extends AbstractCommand {
         }
 
         String message = String.format("You are going to drop existing table '%s'! Are you sure? [Yes/No]", tableName);
-        if (!Commands.isSureInActingWithTable(tableName, message, view)) {
-            view.writeln("AbstractCommand 'drop' was canceled...");
+        if (Commands.isSureInActingWithTable(tableName, message, view)) {
+            dataBaseManager.dropTable(tableName);
+            view.writeln(String.format("Table %s was successfully dropped from database", tableName));
             return;
         }
-
-        dataBaseManager.dropTable(tableName);
-        view.writeln(String.format("Table %s was successfully dropped from database",tableName));
+        view.writeln("Command 'drop' was canceled...");
     }
 
     @Override

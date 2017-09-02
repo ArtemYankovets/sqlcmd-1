@@ -394,7 +394,7 @@ public class IntegrationTest {
                 "Table user doesn't exists! See the list with available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
-                "AbstractCommand 'clear' was canceled..." + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Command 'clear' was canceled..." + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -465,14 +465,7 @@ public class IntegrationTest {
                 "Enter 'exit' command to leave the application. 'exit' command is always available" + LINE_SEPARATOR;
     }
 
-    private String expectedMessageAfterConnection() {
-        return "Hello user! For first connection to database please enter required input data using next format:" + LINE_SEPARATOR +
-                "connect|database|userName|password" + LINE_SEPARATOR +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR +
-                "Type a command or 'help' to see the command list" + LINE_SEPARATOR;
-    }
-
-    public String getData() {
+    private String getData() {
         String result = "";
         try {
             result += new String(out.toByteArray(), "UTF-8");

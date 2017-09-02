@@ -42,12 +42,11 @@ public class ClearTable extends AbstractCommand {
         }
 
         String message = String.format("You are going to delete all data from table '%s'! Are you sure? [Yes/No]", tableName);
-        if (!Commands.isSureInActingWithTable(tableName, message, view)) {
-            view.writeln("AbstractCommand 'clear' was canceled...");
+        if (Commands.isSureInActingWithTable(tableName, message, view)) {
+            dataBaseManager.clear(tableName);
+            view.writeln(String.format("Data from '%s' was successfully deleted", tableName));
             return;
         }
-
-        dataBaseManager.clear(tableName);
-        view.writeln(String.format("Data from '%s' was successfully deleted", tableName));
+        view.writeln("Command 'clear' was canceled...");
     }
 }
