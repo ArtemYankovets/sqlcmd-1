@@ -1,5 +1,7 @@
 package ua.com.shtramak.model;
 
+import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.utils.Commands;
 
 import java.sql.*;
@@ -11,27 +13,28 @@ public class JDBCDataBaseManager implements DataBaseManager {
     private Connection connection;
 
     @Override
-    public void connect(String database, String userName, String password) {
+    public void connect(String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException {
         String host = "//localhost:5432/";
         connect(host, database, userName, password);
     }
 
     @Override
-    public void connect(String host, String database, String userName, String password) {
+    public void connect(String host, String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException {
 
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
             String message = String.format("Dear %s! Connection to database was failed. JDBC driver doesn't exist." + System.lineSeparator() +
                     "Please install required JDBC diver and try again.", userName);
-            throw new UnsupportedOperationException(message);
+            throw new NoJDBCDriverException(message);
         }
 
         try {
             connection = DriverManager.getConnection("jdbc:postgresql:" + host + database + "?loggerLevel=OFF", userName, password);
         } catch (SQLException e) {
             connection = null;
-            throw new RuntimeException(String.format("Dear %s! Your input data was incorrect!" + System.lineSeparator(), userName), e);
+            String message = String.format("Dear, %s! Unsuccessful connection to %s... Reason: %s" + System.lineSeparator(), userName, database, e.getMessage());
+            throw new UnsuccessfulConnectionException(message);
         }
 
     }

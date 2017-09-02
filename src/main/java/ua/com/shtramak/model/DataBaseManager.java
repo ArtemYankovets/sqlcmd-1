@@ -1,8 +1,11 @@
 package ua.com.shtramak.model;
 
+import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
+
 public interface DataBaseManager {
 
-    void connect(String host, String database, String userName, String password);
+    void connect(String host, String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException;
 
     /**
      * @param tableName name of the specified table in database
@@ -24,7 +27,7 @@ public interface DataBaseManager {
      * @param password password
      */
 
-    void connect(String database, String userName, String password);
+    void connect(String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException;
 
     /**
      * This method deletes all rows from the specified table

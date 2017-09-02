@@ -7,6 +7,8 @@ import org.junit.Test;
 import ua.com.shtramak.controller.Main;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.JDBCDataBaseManager;
+import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
@@ -21,7 +23,7 @@ public class IntegrationTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     @BeforeClass
-    public static void initTestTable() {
+    public static void initTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException {
         DataBaseManager dataBaseManager = new JDBCDataBaseManager();
         dataBaseManager.connect("sqlcmd", "postgres", "postgres");
         if (dataBaseManager.hasTable("tmpusers")) {
@@ -32,7 +34,7 @@ public class IntegrationTest {
     }
 
     @AfterClass
-    public static void dropTestTable() {
+    public static void dropTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException {
         DataBaseManager dataBaseManager = new JDBCDataBaseManager();
         dataBaseManager.connect("sqlcmd", "postgres", "postgres");
         dataBaseManager.dropTable("tmpusers");
@@ -310,9 +312,10 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Error message: Dear postgres! Your input data was incorrect!" + LINE_SEPARATOR +
-                "ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) " +
-                "(pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please check database logs and/or host, port, dbname, user, password, pg_hba.conf)" + LINE_SEPARATOR +
+                "Error message: Dear, postgres! Unsuccessful connection to sqlcmd... " +
+                "Reason: ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) " +
+                "(pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please " +
+                "check database logs and/or host, port, dbname, user, password, pg_hba.conf)" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Try again!" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Exiting before connection to database... Good luck!" + LINE_SEPARATOR;
 

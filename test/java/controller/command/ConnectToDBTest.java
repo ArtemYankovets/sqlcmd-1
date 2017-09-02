@@ -5,6 +5,8 @@ import org.junit.Test;
 import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.ConnectToDB;
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.view.View;
 
 import static org.junit.Assert.*;
@@ -54,7 +56,7 @@ public class ConnectToDBTest {
     }
 
     @Test
-    public void testConnectWithFullCommand() {
+    public void testConnectWithFullCommand() throws NoJDBCDriverException, UnsuccessfulConnectionException {
         String fullCommand = "connect|database|userName|userPassword";
         command.execute(fullCommand);
         String dbName = fullCommand.split("\\|")[1];

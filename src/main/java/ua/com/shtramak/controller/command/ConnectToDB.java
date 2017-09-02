@@ -1,6 +1,8 @@
 package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
@@ -91,8 +93,8 @@ public class ConnectToDB extends AbstractCommand {
             try {
                 dataBaseManager.connect(host,dbName,userName,userPassword);
                 return true;
-            } catch (Exception e) {
-                //NOP
+            } catch (NoJDBCDriverException | UnsuccessfulConnectionException e) {
+                view.writeln(e.getMessage());
             }
         }
         return false;
