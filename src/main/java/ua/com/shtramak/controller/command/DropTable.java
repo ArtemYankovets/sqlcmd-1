@@ -6,10 +6,7 @@ import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
 
-public class DropTable implements Command {
-    DataBaseManager dataBaseManager;
-    View view;
-
+public class DropTable extends AbstractCommand {
     public DropTable(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
@@ -39,7 +36,7 @@ public class DropTable implements Command {
 
         String message = String.format("You are going to drop existing table '%s'! Are you sure? [Yes/No]", tableName);
         if (!Commands.isSureInActingWithTable(tableName, message, view)) {
-            view.writeln("Command 'drop' was canceled...");
+            view.writeln("AbstractCommand 'drop' was canceled...");
             return;
         }
 

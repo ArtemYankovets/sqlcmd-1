@@ -8,11 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
-public class ConnectToDB implements Command {
-
-    private DataBaseManager dataBaseManager;
-    private View view;
-
+public class ConnectToDB extends AbstractCommand {
     public ConnectToDB(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;

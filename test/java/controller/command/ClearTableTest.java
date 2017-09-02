@@ -3,7 +3,7 @@ package controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import ua.com.shtramak.controller.command.ClearTable;
-import ua.com.shtramak.controller.command.Command;
+import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
@@ -15,7 +15,7 @@ import static org.mockito.Mockito.*;
 public class ClearTableTest {
     private DataBaseManager dataBaseManager;
     private View view;
-    private Command command;
+    private AbstractCommand command;
 
     @Before
     public void init() {
@@ -55,7 +55,7 @@ public class ClearTableTest {
     public void testClearExecuteWithAnswerNo() {
         when(view.read()).thenReturn("no");
         correctExecuting("user");
-        verify(view).writeln("Command 'clear' was canceled...");
+        verify(view).writeln("AbstractCommand 'clear' was canceled...");
     }
 
     @Test

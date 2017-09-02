@@ -4,10 +4,7 @@ import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.utils.CommandsStorage;
 import ua.com.shtramak.view.View;
 
-public class Help implements Command {
-    private View view;
-    private DataBaseManager dataBaseManager;
-
+public class Help extends AbstractCommand {
     public Help(DataBaseManager dataBaseManager, View view) {
         this.view = view;
         this.dataBaseManager = dataBaseManager;
@@ -27,9 +24,9 @@ public class Help implements Command {
 
     @Override
     public void execute(String command) {
-        Command[] commands = new CommandsStorage(dataBaseManager, view).commandsList();
+        AbstractCommand[] commands = new CommandsStorage(dataBaseManager, view).commandsList();
         view.writeln(System.lineSeparator() + "List of available commands:");
-        for (Command element : commands) {
+        for (AbstractCommand element : commands) {
             view.writeln(element.description());
         }
     }

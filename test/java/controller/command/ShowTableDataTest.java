@@ -3,7 +3,7 @@ package controller.command;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
-import ua.com.shtramak.controller.command.Command;
+import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.ShowTableData;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
@@ -18,7 +18,7 @@ import static org.mockito.Mockito.*;
 public class ShowTableDataTest {
     private DataBaseManager dataBaseManager;
     private View view;
-    private Command command;
+    private AbstractCommand command;
 
     @Before
     public void init() {

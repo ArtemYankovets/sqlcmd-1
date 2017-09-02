@@ -3,10 +3,7 @@ package ua.com.shtramak.controller.command;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.view.View;
 
-public class Exit implements Command {
-    private DataBaseManager dataBaseManager;
-    private View view;
-
+public class Exit extends AbstractCommand {
     public Exit(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;

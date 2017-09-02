@@ -7,11 +7,7 @@ import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
 
-public class UpdateTableData implements Command {
-
-    private DataBaseManager dataBaseManager;
-    private View view;
-
+public class UpdateTableData extends AbstractCommand {
     public UpdateTableData(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;

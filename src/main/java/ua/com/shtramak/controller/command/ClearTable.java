@@ -6,11 +6,7 @@ import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
 
-public class ClearTable implements Command {
-
-    private DataBaseManager dataBaseManager;
-    private View view;
-
+public class ClearTable extends AbstractCommand {
     public ClearTable(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
@@ -47,7 +43,7 @@ public class ClearTable implements Command {
 
         String message = String.format("You are going to delete all data from table '%s'! Are you sure? [Yes/No]", tableName);
         if (!Commands.isSureInActingWithTable(tableName, message, view)) {
-            view.writeln("Command 'clear' was canceled...");
+            view.writeln("AbstractCommand 'clear' was canceled...");
             return;
         }
 

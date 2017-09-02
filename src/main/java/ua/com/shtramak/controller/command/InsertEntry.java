@@ -5,10 +5,7 @@ import ua.com.shtramak.model.DataSet;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
-public class InsertEntry implements Command {
-    private DataBaseManager dataBaseManager;
-    private View view;
-
+public class InsertEntry extends AbstractCommand {
     public InsertEntry(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;

@@ -1,6 +1,6 @@
 package ua.com.shtramak.controller;
 
-import ua.com.shtramak.controller.command.Command;
+import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.utils.CommandsStorage;
@@ -10,7 +10,7 @@ public class MainController {
 
     private View view;
     private DataBaseManager dataBaseManager;
-    private Command[] commands;
+    private AbstractCommand[] commands;
 
     public MainController(View view, DataBaseManager dataBaseManager) {
         this.view = view;
@@ -45,7 +45,7 @@ public class MainController {
             String inputCommand = view.read();
 
             boolean exist = false;
-            for (Command command : commands) {
+            for (AbstractCommand command : commands) {
                 if (command.isDetected(inputCommand)) {
                     command.execute(inputCommand);
                     exist = true;

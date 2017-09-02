@@ -394,7 +394,7 @@ public class IntegrationTest {
                 "Table user doesn't exists! See the list with available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
-                "Command 'clear' was canceled..." + LINE_SEPARATOR + LINE_SEPARATOR +
+                "AbstractCommand 'clear' was canceled..." + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 

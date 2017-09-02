@@ -5,10 +5,7 @@ import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
 
-public class ShowTablesList implements Command {
-    private DataBaseManager dataBaseManager;
-    private View view;
-
+public class ShowTablesList extends AbstractCommand {
     public ShowTablesList(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;

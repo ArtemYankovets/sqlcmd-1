@@ -4,10 +4,7 @@ import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
-public class CreateTable implements Command{
-    DataBaseManager dataBaseManager;
-    View view;
-
+public class CreateTable extends AbstractCommand {
     public CreateTable(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;

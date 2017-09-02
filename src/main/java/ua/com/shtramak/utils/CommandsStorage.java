@@ -13,8 +13,8 @@ public class CommandsStorage {
         this.view = view;
     }
 
-    public Command[] commandsList() {
-        return new Command[]{
+    public AbstractCommand[] commandsList() {
+        return new AbstractCommand[]{
                 new ConnectToDB(dataBaseManager, view),
                 new ShowTablesList(dataBaseManager, view),
                 new ShowTableData(dataBaseManager, view),

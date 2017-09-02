@@ -2,7 +2,7 @@ package controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import ua.com.shtramak.controller.command.Command;
+import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.CreateTable;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.utils.Commands;
@@ -15,7 +15,7 @@ public class CreateTableTest {
 
     private DataBaseManager dataBaseManager;
     private View view;
-    private Command command;
+    private AbstractCommand command;
 
     @Before
     public void init() {
