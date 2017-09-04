@@ -2,6 +2,7 @@ package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
@@ -27,9 +28,14 @@ public class ConnectToDB extends AbstractCommand {
     public boolean isDetected(String command) {
         if (!command.startsWith("connect")) return false;
 
-        if (dataBaseManager.isConnected()) {
-            view.writeln("Disconnection from current database...");
-            dataBaseManager.disconnect();
+        try {
+            if (dataBaseManager.isConnected()) {
+                view.writeln("Disconnection from current database...");
+                dataBaseManager.disconnect();
+            }
+        } catch (NotExecutedRequestException e) {
+            view.writeln("Disconnection from current database failed! Try again!" +
+                    "Reason: "+e.getMessage());
         }
 
         return true;
@@ -46,7 +52,7 @@ public class ConnectToDB extends AbstractCommand {
                 if (connectionData.length != commandsTemplate.length) {
                     view.writeln("Connection failed!");
                     String message = "Incorrect input. Please enter required input data in format: connect|database|userName|password";
-                    throw new IllegalArgumentException(message);
+                    throw new UnsuccessfulConnectionException(message);
                 }
 
                 int dbIndex = 1;
@@ -58,9 +64,8 @@ public class ConnectToDB extends AbstractCommand {
                 dataBaseManager.connect(dbName, userName, password);
                 view.writeln(String.format("Hello %s! Welcome to %s database", userName, dbName));
             }
-        } catch (Exception e) {
+        } catch (NoJDBCDriverException | UnsuccessfulConnectionException e) {
             printError(e);
-            if (e.getClass().getSimpleName().equals("UnsupportedOperationException")) return;
             view.writeln("Try again!" + System.lineSeparator());
         }
     }
@@ -105,7 +110,7 @@ public class ConnectToDB extends AbstractCommand {
         try {
             properties.load(new FileReader("src/main/resources/config.properties"));
         } catch (IOException e) {
-            System.out.println("File config.properties not found!");
+            view.writeln(e.getMessage());
         }
         return properties;
     }

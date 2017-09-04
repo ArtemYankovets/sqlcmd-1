@@ -1,6 +1,7 @@
 package ua.com.shtramak.model;
 
 import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
 
 public interface DataBaseManager {
@@ -12,12 +13,12 @@ public interface DataBaseManager {
      * @return arrayOf of DataSet[] with data from a table
      */
 
-    DataSet[] getTableData(String tableName);
+    DataSet[] getTableData(String tableName) throws NotExecutedRequestException;
 
     /**
      * @return array with available tables in database
      */
-    String[] getTableNames();
+    String[] getTableNames() throws NotExecutedRequestException;
 
     /**
      * This method makes connection to the specified database
@@ -34,7 +35,7 @@ public interface DataBaseManager {
      *
      * @param tableName name of the table rows to be deleted
      */
-    void clear(String tableName);
+    void clear(String tableName) throws NotExecutedRequestException;
 
     /**
      * Creates an entry in the specified table of database
@@ -42,9 +43,9 @@ public interface DataBaseManager {
      * @param tableName name of the specified table in database
      * @param input     DataSet entry to be added in database
      */
-    void insert(String tableName, DataSet input);
+    void insert(String tableName, DataSet input) throws NotExecutedRequestException;
 
-    void createTable(String tableName, String columns);
+    void createTable(String tableName, String columns) throws NotExecutedRequestException;
 
     /**
      * @param tableName name of the specified table in database
@@ -52,18 +53,18 @@ public interface DataBaseManager {
      * @param rowValue  wanted value from column
      * @param newValue  new DataSet entry for the specified row
      */
-    void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue);
+    void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue) throws NotExecutedRequestException;
 
     /**
      * @param tableName name of the specified table in database
      * @return a names of a columns in specified table
      */
-    String[] getTableColumns(String tableName);
+    String[] getTableColumns(String tableName) throws NotExecutedRequestException;
 
     /**
      * Provide disconnecting from current database
      */
-    void disconnect();
+    void disconnect() throws NotExecutedRequestException;
 
     /**
      * Checks if connection to data base is available
@@ -76,14 +77,14 @@ public interface DataBaseManager {
      * @param tableName name of the specified table in database
      * @return true if specified table exists in database, false otherwise
      */
-    boolean hasTable(String tableName);
+    boolean hasTable(String tableName) throws NotExecutedRequestException;
 
     /**
      * @param tableName  name of the specified table in database
      * @param columnName name of the wanted column in specified table
      * @return true if specified column presents in the table, false otherwise
      */
-    boolean hasColumn(String tableName, String columnName);
+    boolean hasColumn(String tableName, String columnName) throws NotExecutedRequestException;
 
     /**
      * @param tableName  name of the specified table in database
@@ -91,7 +92,7 @@ public interface DataBaseManager {
      * @param value      wanted value in specified column
      * @return true if value presents in column, false otherwise
      */
-    boolean hasValue(String tableName, String columnName, String value);
+    boolean hasValue(String tableName, String columnName, String value) throws NotExecutedRequestException;
 
-    void dropTable(String tableName);
+    void dropTable(String tableName) throws NotExecutedRequestException;
 }

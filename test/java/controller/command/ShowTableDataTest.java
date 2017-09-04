@@ -7,6 +7,7 @@ import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.ShowTableData;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -46,7 +47,7 @@ public class ShowTableDataTest {
     }
 
     @Test
-    public void testShowTableDataWithUnexistingTable() {
+    public void testShowTableDataWithUnexistingTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
         String[] names = new String[]{"users", "cars"};
@@ -58,7 +59,7 @@ public class ShowTableDataTest {
     }
 
     @Test
-    public void testShowTableDataEmtyTable() {
+    public void testShowTableDataEmtyTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String[] columnsNames = new String[]{"id", "name", "password"};
@@ -76,7 +77,7 @@ public class ShowTableDataTest {
     }
 
     @Test
-    public void testShowTableDataCorrectTable() {
+    public void testShowTableDataCorrectTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
 

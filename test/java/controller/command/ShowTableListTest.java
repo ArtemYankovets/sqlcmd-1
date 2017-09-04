@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.ShowTablesList;
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class ShowTableListTest {
     }
 
     @Test
-    public void testShowTableListEmptyData(){
+    public void testShowTableListEmptyData() throws NotExecutedRequestException {
         String[] tableNames = null;
         when(dataBaseManager.getTableNames()).thenReturn(tableNames);
         command.execute("list");
@@ -51,7 +52,7 @@ public class ShowTableListTest {
     }
 
     @Test
-    public void testShowTableListWithData(){
+    public void testShowTableListWithData() throws NotExecutedRequestException {
         String[] tableNames = new  String[]{"table1","table2"};
         when(dataBaseManager.getTableNames()).thenReturn(tableNames);
         command.execute("list");

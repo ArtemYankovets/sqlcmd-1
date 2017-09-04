@@ -2,6 +2,7 @@ package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
@@ -27,32 +28,33 @@ public class ShowTableData extends AbstractCommand {
 
     @Override
     public void execute(String command) {
-
         int tableNameIndex = 1;
         String tableName = Commands.arrayOf(command)[tableNameIndex];
-
-        if (!dataBaseManager.hasTable(tableName)) {
-            view.write(String.format("Table %s doesn't exists! Available tables: ", tableName));
-            view.writeln(Arrays.toString(dataBaseManager.getTableNames()));
-            return;
+        try {
+            if (!dataBaseManager.hasTable(tableName)) {
+                view.write(String.format("Table %s doesn't exists! Available tables: ", tableName));
+                view.writeln(Arrays.toString(dataBaseManager.getTableNames()));
+                return;
+            }
+            printTableData(tableName);
+        } catch (NotExecutedRequestException e) {
+            view.writeln(e.getMessage());
         }
-
-        printTableData(tableName);
     }
 
-    private void printTableData(String tableName) {
-        String[] tableColumns = dataBaseManager.getTableColumns(tableName);
-        printFormattedRow(tableColumns);
-        DataSet[] tableData = dataBaseManager.getTableData(tableName);
-        if (tableData.length == 0) {
+    private void printTableData(String tableName) throws NotExecutedRequestException {
+            DataSet[] tableData = dataBaseManager.getTableData(tableName);
+            String[] tableColumns = dataBaseManager.getTableColumns(tableName);
+            printFormattedRow(tableColumns);
+            if (tableData.length == 0) {
+                view.writeln("----------------------------------------");
+                view.write("The table is empty. Use 'insert' command for data insertion"+System.lineSeparator());
+                return;
+            }
+            for (DataSet tableItem : tableData) {
+                printFormattedRow(tableItem.stringValues());
+            }
             view.writeln("----------------------------------------");
-            view.write("The table is empty. Use 'insert' command for data insertion"+System.lineSeparator());
-            return;
-        }
-        for (DataSet tableItem : tableData) {
-            printFormattedRow(tableItem.stringValues());
-        }
-        view.writeln("----------------------------------------");
     }
 
     private void printFormattedRow(String[] dataArray) {

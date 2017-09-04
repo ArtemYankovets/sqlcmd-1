@@ -21,7 +21,7 @@ public class DataSet implements DataSetInterface {
 
     @Override
     public Object[] values() {
-        if (isEmpty()) throw new RuntimeException("DataSet is empty");
+        if (isEmpty()) return new String[]{""};
 
         Object[] result = new Object[freeIndex + 1];
         for (int i = 0; i <= freeIndex; i++) {
@@ -32,7 +32,7 @@ public class DataSet implements DataSetInterface {
 
     @Override
     public String[] names() {
-        if (isEmpty()) throw new RuntimeException("DataSet is empty");
+        if (isEmpty()) return new String[]{""};
 
         String[] result = new String[freeIndex + 1];
         for (int i = 0; i <= freeIndex; i++) {

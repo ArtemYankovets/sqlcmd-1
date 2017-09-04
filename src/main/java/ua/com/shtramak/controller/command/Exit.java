@@ -1,6 +1,7 @@
 package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.view.View;
 
 public class Exit extends AbstractCommand {
@@ -23,7 +24,11 @@ public class Exit extends AbstractCommand {
 
     @Override
     public void execute(String command) {
-        dataBaseManager.disconnect();
-        view.writeln("Good Luck!");
+        try {
+            dataBaseManager.disconnect();
+            view.writeln("Good Luck!");
+        } catch (NotExecutedRequestException e) {
+            view.writeln(e.getMessage());
+        }
     }
 }

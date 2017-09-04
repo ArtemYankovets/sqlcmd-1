@@ -6,6 +6,7 @@ import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.UpdateTableData;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -51,7 +52,7 @@ public class UpdateTableDataTest {
     }
 
     @Test
-    public void testUpdateTableDataOfUnexistTable(){
+    public void testUpdateTableDataOfUnexistTable() throws NotExecutedRequestException {
         String tableName = "UnexistingTable";
         String[] existingTables = new String[]{"table1","table2"};
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
@@ -62,7 +63,7 @@ public class UpdateTableDataTest {
     }
 
     @Test
-    public void testUpdateTableDataOfExistingTableWithWrongColumnName(){
+    public void testUpdateTableDataOfExistingTableWithWrongColumnName() throws NotExecutedRequestException {
         String tableName = "ExistingTable";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String colName = "UnexistingColumnName";
@@ -78,7 +79,7 @@ public class UpdateTableDataTest {
     }
 
     @Test
-    public void testUpdateTableDataOfExistingTableUsingUnexistValue(){
+    public void testUpdateTableDataOfExistingTableUsingUnexistValue() throws NotExecutedRequestException {
         String tableName = "ExistTable";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String colName = "col1";
@@ -95,7 +96,7 @@ public class UpdateTableDataTest {
     }
 
     @Test
-    public void testUpdateTableDataOfExistingTableWithWrongDataFormatInput(){
+    public void testUpdateTableDataOfExistingTableWithWrongDataFormatInput() throws NotExecutedRequestException {
         String tableName = "ExistTable";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String colName = "col1";
@@ -116,7 +117,7 @@ public class UpdateTableDataTest {
     }
 
     @Test
-    public void testUpdateTableDataOfExistingTableWithFullCorrectData(){
+    public void testUpdateTableDataOfExistingTableWithFullCorrectData() throws NotExecutedRequestException {
         String tableName = "ExistTable";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String colName = "col1";
@@ -139,7 +140,7 @@ public class UpdateTableDataTest {
     }
 
     @Test
-    public void testUpdateTableDataOfExistingTableWithDataBaseManagerException(){
+    public void testUpdateTableDataOfExistingTableWithDataBaseManagerException() throws NotExecutedRequestException {
         String tableName = "ExistTable";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String colName = "col1";
@@ -151,8 +152,8 @@ public class UpdateTableDataTest {
         DataSet updateData = new DataSet();
         updateData.put("col1Name","value1");
         updateData.put("col2Name","value2");
-        doThrow(new IllegalArgumentException("Exception message")).when(dataBaseManager).updateTableData(tableName, colName, value, updateData);
-        String message = "Something goes wrong... Reason: " + "Exception message";
+        String message = "Exception message";
+        doThrow(new NotExecutedRequestException(message)).when(dataBaseManager).updateTableData(tableName, colName, value, updateData);
         command.execute("updateTable|"+tableName);
         verify(view).writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
         verify(view).write("Enter column name: ");

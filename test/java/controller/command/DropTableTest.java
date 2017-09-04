@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.DropTable;
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -49,7 +50,7 @@ public class DropTableTest {
     }
 
     @Test
-    public void testDropUnexistingTable() {
+    public void testDropUnexistingTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
         String[] tables = new String[]{"table1", "table2"};
@@ -60,7 +61,7 @@ public class DropTableTest {
     }
 
     @Test
-    public void testDropTableWithYesAnswer() {
+    public void testDropTableWithYesAnswer() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(view.read()).thenReturn("yes");
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
@@ -70,7 +71,7 @@ public class DropTableTest {
     }
 
     @Test
-    public void testDropTableWithNoAnswer() {
+    public void testDropTableWithNoAnswer() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(view.read()).thenReturn("no");
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);

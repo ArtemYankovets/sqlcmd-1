@@ -2,6 +2,7 @@ package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
@@ -34,57 +35,62 @@ public class UpdateTableData extends AbstractCommand {
             return;
         }
 
-        int tableNameIndex = 1;
-        String tableName = inputCommands[tableNameIndex];
-        if (!isAcceptableTableName(tableName)) return;
+        try {
+            int tableNameIndex = 1;
+            String tableName = inputCommands[tableNameIndex];
+            if (!isAcceptableTableName(tableName)) return;
 
-        view.writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
-        view.write("Enter column name: ");
+            view.writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
+            view.write("Enter column name: ");
 
-        String colName = view.read();
-        if (!isAcceptableColumnName(tableName, colName)) return;
+            String colName = view.read();
+            if (!isAcceptableColumnName(tableName, colName)) return;
 
-        view.writeln("");
-        view.write("Enter value: ");
-        String value = view.read();
-        view.writeln("");
-        if(!isAcceptableColumnValue(tableName, colName, value)) return;
+            view.writeln("");
+            view.write("Enter value: ");
+            String value = view.read();
+            view.writeln("");
+            if(!isAcceptableColumnValue(tableName, colName, value)) return;
 
-        view.writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
+            view.writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
+            String inputData = readUpdateData();
 
-        String inputData = view.read();
+            if (inputData.equals("exit")) return;
+
+            String[] commands = Commands.arrayOf(inputData);
+            DataSet updateData = new DataSet();
+            for (int i = 0; i < commands.length; i++) {
+                updateData.put(commands[i], commands[++i]);
+            }
+
+            dataBaseManager.updateTableData(tableName, colName, value, updateData);
+            view.writeln("Data successfully updated...");
+        } catch (NotExecutedRequestException e) {
+            view.writeln(e.getMessage());
+        }
+    }
+
+    private String readUpdateData(){
+        String inputData;
         while (true) {
-
+            inputData = view.read();
             if (inputData.equals("exit")) {
                 view.writeln("Update command failed!");
-                return;
+                break;
             }
 
             if (inputData.split("\\|").length == 0 || inputData.split("\\|").length % 2 == 1) {
                 view.writeln("Wrong input! Input must be according to the template");
                 view.writeln("Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command");
-                inputData = view.read();
             } else {
                 break;
             }
         }
-        String[] commands = Commands.arrayOf(inputData);
 
-        DataSet updateData = new DataSet();
-        for (int i = 0; i < commands.length; i++) {
-            updateData.put(commands[i], commands[++i]);
-        }
-
-        try {
-            dataBaseManager.updateTableData(tableName, colName, value, updateData);
-            view.writeln("Data successfully updated...");
-        } catch (IllegalArgumentException e) {
-            String message = "Something goes wrong... Reason: " + e.getMessage();
-            view.writeln(message);
-        }
+        return inputData;
     }
 
-    private boolean isAcceptableColumnValue(String tableName, String colName, String value) {
+    private boolean isAcceptableColumnValue(String tableName, String colName, String value) throws NotExecutedRequestException {
         if(!dataBaseManager.hasValue(tableName,colName,value)){
             view.writeln(String.format("There's no value '%s' in column '%s'",value, colName));
             return false;
@@ -92,7 +98,7 @@ public class UpdateTableData extends AbstractCommand {
         return  true;
     }
 
-    private boolean isAcceptableColumnName(String tableName, String colName) {
+    private boolean isAcceptableColumnName(String tableName, String colName) throws NotExecutedRequestException {
         if (!dataBaseManager.hasColumn(tableName, colName)) {
             view.writeln(String.format("Column '%s' doesn't exists! See below the list with available columns of table %s:", colName, tableName));
             view.writeln("Available columns: " + Arrays.toString(dataBaseManager.getTableColumns(tableName)));
@@ -101,7 +107,7 @@ public class UpdateTableData extends AbstractCommand {
         return true;
     }
 
-    private boolean isAcceptableTableName(String tableName) {
+    private boolean isAcceptableTableName(String tableName) throws NotExecutedRequestException {
         if (!dataBaseManager.hasTable(tableName)) {
             view.writeln(String.format("Table '%s' doesn't exists! See below the list with available tables:", tableName));
             view.writeln("Available tables: " + Arrays.toString(dataBaseManager.getTableNames()));

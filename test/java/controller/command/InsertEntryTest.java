@@ -6,6 +6,7 @@ import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.InsertEntry;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.view.View;
 
 import static org.junit.Assert.*;
@@ -49,7 +50,7 @@ public class InsertEntryTest {
     }
 
     @Test
-    public void testInsertWithCorrectData() {
+    public void testInsertWithCorrectData() throws NotExecutedRequestException {
         command.execute("insert|tableName|col1Name|value1|col2Name|value2");
         DataSet insertData = new DataSet();
         insertData.put("col1Name", "value1");
@@ -60,12 +61,12 @@ public class InsertEntryTest {
     }
 
     @Test
-    public void testInsertWithWrongData() {
+    public void testInsertWithWrongData() throws NotExecutedRequestException {
         DataSet insertData = new DataSet();
         insertData.put("col1Name", "value1");
         insertData.put("col2Name", "value2");
         String tableName = "tableName";
-        doThrow(new IllegalArgumentException("Exception message")).when(dataBaseManager).insert(tableName, insertData);
+        doThrow(new NotExecutedRequestException("Exception message")).when(dataBaseManager).insert(tableName, insertData);
         command.execute("insert|tableName|col1Name|value1|col2Name|value2");
         verify(dataBaseManager).insert(tableName, insertData);
         verify(view, times(1)).writeln("Exception message");

@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.shtramak.controller.command.ClearTable;
 import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -43,7 +44,7 @@ public class ClearTableTest {
     }
 
     @Test
-    public void testClearExecuteWithAnswerYes() {
+    public void testClearExecuteWithAnswerYes() throws NotExecutedRequestException {
         when(view.read()).thenReturn("yes");
         String tableName = "user";
         correctExecuting(tableName);
@@ -52,14 +53,14 @@ public class ClearTableTest {
     }
 
     @Test
-    public void testClearExecuteWithAnswerNo() {
+    public void testClearExecuteWithAnswerNo() throws NotExecutedRequestException {
         when(view.read()).thenReturn("no");
         correctExecuting("user");
         verify(view).writeln("Command 'clear' was canceled...");
     }
 
     @Test
-    public void testClearWrongTable(){
+    public void testClearWrongTable() throws NotExecutedRequestException {
         String tableName="wrongName";
         when((dataBaseManager).hasTable(tableName)).thenReturn(false);
         String[] tables = new String[]{"users"};
@@ -74,7 +75,7 @@ public class ClearTableTest {
         verify(view).writeln("'clear' command failed because of wrong input. Use 'help' command for details");
     }
 
-    private void correctExecuting(String tableName) {
+    private void correctExecuting(String tableName) throws NotExecutedRequestException {
         when((dataBaseManager).hasTable(tableName)).thenReturn(true);
         command.execute("clear|" + tableName);
         verify(view).writeln(String.format("You are going to delete all data from table '%s'! Are you sure? [Yes/No]", tableName));

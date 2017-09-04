@@ -1,6 +1,7 @@
 package ua.com.shtramak.model;
 
 import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.utils.Commands;
 
@@ -40,7 +41,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public DataSet[] getTableData(String tableName) {
+    public DataSet[] getTableData(String tableName) throws NotExecutedRequestException {
 
         String sql = String.format("SELECT * FROM %s", tableName);
         DataSet[] result = new DataSet[getTableSize(tableName)];
@@ -55,7 +56,8 @@ public class JDBCDataBaseManager implements DataBaseManager {
             }
 
         } catch (SQLException e) {
-            e.printStackTrace();
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
 
         return result;
@@ -70,19 +72,17 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public String[] getTableNames() {
-
+    public String[] getTableNames() throws NotExecutedRequestException {
         DatabaseMetaData md;
         try {
             md = connection.getMetaData();
         } catch (SQLException e) {
-            e.printStackTrace();
-            return new String[0];
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
 
-        String[] res = null;
+        String[] res;
         try (ResultSet resultSet = md.getTables(null, null, "%", new String[]{"TABLE"})) {
-
             resultSet.last();
             int resultSetSize = resultSet.getRow();
             resultSet.beforeFirst();
@@ -93,16 +93,16 @@ public class JDBCDataBaseManager implements DataBaseManager {
             while (resultSet.next()) {
                 res[index++] = resultSet.getString(tableNameIndex);
             }
-
         } catch (SQLException e) {
-            e.printStackTrace();
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
 
         return res;
     }
 
     @Override
-    public void clear(String tableName) {
+    public void clear(String tableName) throws NotExecutedRequestException {
 
         try {
             Statement statement = connection.createStatement();
@@ -111,12 +111,13 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
 
         } catch (SQLException e) {
-            System.out.println("An error occurred. Check if entered table exists. Reason: " + e.getMessage());
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
     }
 
     @Override
-    public void insert(String tableName, DataSet input) {
+    public void insert(String tableName, DataSet input) throws NotExecutedRequestException {
 
         String colNames = getFormattedColumnNames(input, ",");
         String colValue = getFormattedColumnData(input, ",");
@@ -126,22 +127,21 @@ public class JDBCDataBaseManager implements DataBaseManager {
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            String message = "Smth goes wrong... Reason: " + e.getMessage();
-            if (e.getCause() != null)
-                message += "\n" + e.getCause();
-            throw new IllegalArgumentException(message);
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
     }
 
     @Override
-    public void createTable(String tableName, String columns) {
+    public void createTable(String tableName, String columns) throws NotExecutedRequestException {
         String parsedColumns = parseColumnsData(columns);
         String sql = String.format("CREATE TABLE %s ( %s );", tableName, parsedColumns);
 
         try (Statement statement = connection.createStatement()) {
             statement.execute(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
     }
 
@@ -162,14 +162,15 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue) {
+    public void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue) throws NotExecutedRequestException {
         String updateLine = updateDataLine(newValue);
         String sql = String.format("UPDATE %s SET %s WHERE %s = '%s'", tableName, updateLine, colName, rowValue);
 
         try (Statement statement = connection.createStatement()) {
             statement.executeUpdate(sql);
         } catch (SQLException e) {
-            throw new IllegalArgumentException(e.getMessage());
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
     }
 
@@ -187,14 +188,14 @@ public class JDBCDataBaseManager implements DataBaseManager {
             int lastCommaIndex = updateLine.lastIndexOf(",");
             updateLine.deleteCharAt(lastCommaIndex);
         } else {
-            throw new RuntimeException("DataSet is empty!");
+            return "";
         }
 
         return updateLine.toString();
     }
 
     @Override
-    public String[] getTableColumns(String tableName) {
+    public String[] getTableColumns(String tableName) throws NotExecutedRequestException {
         try {
             DatabaseMetaData dbmt = connection.getMetaData();
             ResultSet resultSet = dbmt.getColumns(null, null, tableName, "%");
@@ -206,17 +207,17 @@ public class JDBCDataBaseManager implements DataBaseManager {
             String[] result = new String[colNames.size()];
             return colNames.toArray(result);
         } catch (SQLException e) {
-            e.printStackTrace();
-            return new String[0];
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
     }
 
     @Override
-    public void disconnect() {
+    public void disconnect() throws NotExecutedRequestException {
         try {
             this.connection.close();
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new NotExecutedRequestException("Request to database was not executed. " + e.getMessage());
         }
     }
 
@@ -226,7 +227,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public boolean hasTable(String tableName) {
+    public boolean hasTable(String tableName) throws NotExecutedRequestException {
         for (String name : getTableNames()) {
             if (name.equals(tableName)) return true;
         }
@@ -235,7 +236,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public boolean hasColumn(String tableName, String columnName) {
+    public boolean hasColumn(String tableName, String columnName) throws NotExecutedRequestException {
 
         if (!hasTable(tableName)) return false;
 
@@ -247,7 +248,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public boolean hasValue(String tableName, String columnName, String value) {
+    public boolean hasValue(String tableName, String columnName, String value) throws NotExecutedRequestException {
 
         if (!hasColumn(tableName, columnName)) return false;
 
@@ -256,22 +257,24 @@ public class JDBCDataBaseManager implements DataBaseManager {
             ResultSet resultSet = statement.executeQuery(sql);
             return resultSet.next();
         } catch (SQLException e) {
-            return false;
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
     }
 
     @Override
-    public void dropTable(String tableName) {
+    public void dropTable(String tableName) throws NotExecutedRequestException {
         String sql = String.format("DROP TABLE %s", tableName);
 
         try (Statement statement = connection.createStatement()) {
             statement.execute(sql);
         } catch (SQLException e) {
-            e.printStackTrace();
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
     }
 
-    private int getTableSize(String tableName) {
+    private int getTableSize(String tableName) throws NotExecutedRequestException {
         String sql = String.format("SELECT COUNT(*) FROM %s", tableName);
         int result = 0;
         try (Statement statement = connection.createStatement();
@@ -280,13 +283,17 @@ public class JDBCDataBaseManager implements DataBaseManager {
             resultSet.next();
             result = resultSet.getInt(1);
         } catch (SQLException e) {
-            e.printStackTrace();
+            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
+            throw new NotExecutedRequestException(message);
         }
         return result;
     }
 
     private String getFormattedColumnData(DataSet dataSet, String format) {
         StringBuilder result = new StringBuilder();
+
+        if (dataSet.values().length==0) return "";
+
         for (Object colName : dataSet.values()) {
             result.append("'");
             result.append(colName);
@@ -299,6 +306,9 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     private String getFormattedColumnNames(DataSet dataSet, String format) {
         StringBuilder result = new StringBuilder();
+
+        if (dataSet.names().length == 0) return "";
+
         for (String colName : dataSet.names()) {
             result.append(colName);
             result.append(format);

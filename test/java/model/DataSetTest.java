@@ -31,10 +31,11 @@ public class DataSetTest {
         assertEquals(expected, Arrays.toString(dataSet.values()));
     }
 
-    @Test (expected = RuntimeException.class)
+    @Test
     public void testValuesFromEmptyDataSet(){
         dataSet=new DataSet();
-        dataSet.values();
+        String expected = "[]";
+        assertEquals(expected, Arrays.toString(dataSet.values()));
     }
 
     @Test
@@ -43,11 +44,11 @@ public class DataSetTest {
         assertEquals(expected, Arrays.toString(dataSet.names()));
     }
 
-    @Test (expected = RuntimeException.class)
+    @Test
     public void testNamesFromEmptyDataSet(){
         dataSet=new DataSet();
-        dataSet.names();
-    }
+        String expected = "[]";
+        assertEquals(expected, Arrays.toString(dataSet.names()));    }
 
     @Test
     public void testValueWithExistingElement(){

@@ -2,6 +2,7 @@ package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.DataSet;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
@@ -43,7 +44,7 @@ public class InsertEntry extends AbstractCommand {
         try {
             dataBaseManager.insert(tableName, insertData);
             view.writeln(String.format("Data successfully added to %s", tableName));
-        } catch (RuntimeException e) {
+        } catch (NotExecutedRequestException e) {
             view.writeln(e.getMessage());
         }
     }

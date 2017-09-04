@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.shtramak.controller.command.AbstractCommand;
 import ua.com.shtramak.controller.command.CreateTable;
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.utils.Commands;
 import ua.com.shtramak.view.View;
 
@@ -43,7 +44,7 @@ public class CreateTableTest {
     }
 
     @Test
-    public void testCreateExistingTable(){
+    public void testCreateExistingTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         when(view.read()).thenReturn(tableName);
@@ -53,7 +54,7 @@ public class CreateTableTest {
     }
 
     @Test
-    public void testCreateCorrectTable(){
+    public void testCreateCorrectTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
         String columnData = "col1Name|dataType1|col2Name|dataType2";
@@ -66,7 +67,7 @@ public class CreateTableTest {
     }
 
     @Test
-    public void testCreateWrongTableData(){
+    public void testCreateWrongTableData() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
         String columnsData = "col1Name|dataType1|col2Name|dataType2|col3Name";

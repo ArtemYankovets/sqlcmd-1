@@ -1,6 +1,7 @@
 package ua.com.shtramak.controller.command;
 
 import ua.com.shtramak.model.DataBaseManager;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.view.View;
 
 import java.util.Arrays;
@@ -25,8 +26,12 @@ public class ShowTablesList extends AbstractCommand {
 
     @Override
     public void execute(String command) {
-        if (dataBaseManager.getTableNames() != null)
-            view.writeln("Here's the names of available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
-        else view.writeln("Database is empty. Nothing to show");
+        try {
+            if (dataBaseManager.getTableNames() != null)
+                view.writeln("Here's the names of available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+            else view.writeln("Database is empty. Nothing to show");
+        } catch (NotExecutedRequestException e) {
+            view.writeln(e.getMessage());
+        }
     }
 }

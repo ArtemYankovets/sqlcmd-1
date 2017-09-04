@@ -8,6 +8,7 @@ import ua.com.shtramak.controller.Main;
 import ua.com.shtramak.model.DataBaseManager;
 import ua.com.shtramak.model.JDBCDataBaseManager;
 import ua.com.shtramak.model.exceptions.NoJDBCDriverException;
+import ua.com.shtramak.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.model.exceptions.UnsuccessfulConnectionException;
 
 import java.io.ByteArrayOutputStream;
@@ -15,6 +16,7 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 public class IntegrationTest {
 
@@ -23,7 +25,7 @@ public class IntegrationTest {
     private static final String LINE_SEPARATOR = System.lineSeparator();
 
     @BeforeClass
-    public static void initTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException {
+    public static void initTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException, NotExecutedRequestException {
         DataBaseManager dataBaseManager = new JDBCDataBaseManager();
         dataBaseManager.connect("sqlcmd", "postgres", "postgres");
         if (dataBaseManager.hasTable("tmpusers")) {
@@ -34,7 +36,7 @@ public class IntegrationTest {
     }
 
     @AfterClass
-    public static void dropTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException {
+    public static void dropTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException, NotExecutedRequestException {
         DataBaseManager dataBaseManager = new JDBCDataBaseManager();
         dataBaseManager.connect("sqlcmd", "postgres", "postgres");
         dataBaseManager.dropTable("tmpusers");
@@ -416,15 +418,17 @@ public class IntegrationTest {
         String expected = greetingMessage() +
                 "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "DataSet is empty" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Request to database was not executed. Reason: ОШИБКА: ошибка синтаксиса (примерное положение: \"user\")\n" +
+                "  Позиция: 13" + LINE_SEPARATOR + LINE_SEPARATOR+
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
         Main.main(new String[0]);
+        String expectet = getData();
 
-        assertEquals(expected, getData());
+        assertEquals(expected,getData());
 
     }
 
@@ -477,5 +481,4 @@ public class IntegrationTest {
         }
         return result;
     }
-
 }
