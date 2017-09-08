@@ -6,7 +6,10 @@ import ua.com.shtramak.sqlcmd.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 
 import java.sql.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class JDBCDataBaseManager implements DataBaseManager {
 
@@ -39,10 +42,10 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public Set<DataSet> getTableData(String tableName) throws NotExecutedRequestException {
+    public List<DataSet> getTableData(String tableName) throws NotExecutedRequestException {
 
         String sql = String.format("SELECT * FROM %s", tableName);
-        Set<DataSet> result = new LinkedHashSet<>();
+        List<DataSet> result = new ArrayList<>();
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
@@ -69,7 +72,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public String[] getTableNames() throws NotExecutedRequestException {
+    public Set<String> getTableNames() throws NotExecutedRequestException {
         DatabaseMetaData md;
         try {
             md = connection.getMetaData();
@@ -78,17 +81,11 @@ public class JDBCDataBaseManager implements DataBaseManager {
             throw new NotExecutedRequestException(message);
         }
 
-        String[] res;
+        Set<String> res = new TreeSet<>();
         try (ResultSet resultSet = md.getTables(null, null, "%", new String[]{"TABLE"})) {
-            resultSet.last();
-            int resultSetSize = resultSet.getRow();
-            resultSet.beforeFirst();
-            res = new String[resultSetSize];
-
-            int index = 0;
             int tableNameIndex = 3;
             while (resultSet.next()) {
-                res[index++] = resultSet.getString(tableNameIndex);
+                res.add(resultSet.getString(tableNameIndex));
             }
         } catch (SQLException e) {
             String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
@@ -289,7 +286,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
     private String getFormattedColumnData(DataSet dataSet, String format) {
         StringBuilder result = new StringBuilder();
 
-        if (dataSet.values().length==0) return "";
+        if (dataSet.values().length == 0) return "";
 
         for (Object colName : dataSet.values()) {
             result.append("'");

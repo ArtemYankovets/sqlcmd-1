@@ -8,6 +8,8 @@ import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.view.View;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -52,12 +54,12 @@ public class UpdateTableDataTest {
     @Test
     public void testUpdateTableDataOfUnexistTable() throws NotExecutedRequestException {
         String tableName = "UnexistingTable";
-        String[] existingTables = new String[]{"table1","table2"};
+        Set<String> existingTables = new TreeSet<>(Arrays.asList(new String[]{"table1","table2"}));
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
         when(dataBaseManager.getTableNames()).thenReturn(existingTables);
         command.execute("updateTable|"+tableName);
         verify(view).writeln(String.format("Table '%s' doesn't exists! See below the list with available tables:", tableName));
-        verify(view).writeln("Available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+        verify(view).writeln("Available tables: " + dataBaseManager.getTableNames());
     }
 
     @Test

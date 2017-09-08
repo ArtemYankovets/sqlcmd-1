@@ -39,7 +39,7 @@ public class ClearTable extends AbstractCommand {
 
         try {
             if (!dataBaseManager.hasTable(tableName)) {
-                view.writeln(String.format("Table %s doesn't exists! See the list with available tables: %s", tableName, Arrays.toString(dataBaseManager.getTableNames())));
+                view.writeln(String.format("Table %s doesn't exists! See the list with available tables: %s", tableName, dataBaseManager.getTableNames()));
                 return;
             }
 

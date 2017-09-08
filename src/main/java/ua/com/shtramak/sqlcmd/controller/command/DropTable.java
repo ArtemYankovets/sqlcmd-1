@@ -31,7 +31,7 @@ public class DropTable extends AbstractCommand {
         try {
             if (!dataBaseManager.hasTable(tableName)) {
                 view.writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
-                view.writeln("ShowTablesList with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+                view.writeln("ShowTablesList with available tables: " + dataBaseManager.getTableNames());
                 return;
             }
 

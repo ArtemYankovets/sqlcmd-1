@@ -4,6 +4,7 @@ import ua.com.shtramak.sqlcmd.model.exceptions.NoJDBCDriverException;
 import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.model.exceptions.UnsuccessfulConnectionException;
 
+import java.util.List;
 import java.util.Set;
 
 public interface DataBaseManager {
@@ -15,12 +16,12 @@ public interface DataBaseManager {
      * @return arrayOf of DataSet[] with data from a table
      */
 
-    Set<DataSet> getTableData(String tableName) throws NotExecutedRequestException;
+    List<DataSet> getTableData(String tableName) throws NotExecutedRequestException;
 
     /**
      * @return array with available tables in database
      */
-    String[] getTableNames() throws NotExecutedRequestException;
+    Set<String> getTableNames() throws NotExecutedRequestException;
 
     /**
      * This method makes connection to the specified database

@@ -47,12 +47,12 @@ public class ShowTableDataTest {
     public void testShowTableDataWithUnexistingTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
-        String[] names = new String[]{"users", "cars"};
+        Set<String> names = new TreeSet<>(Arrays.asList(new String[]{"users", "cars"}));
         when(dataBaseManager.getTableNames()).thenReturn(names);
         command.execute("show|" + tableName);
         verify(view, times(1)).write(String.format("Table %s doesn't exists! Available tables: ", tableName));
-        verify(view, times(1)).writeln(Arrays.toString(dataBaseManager.getTableNames()));
-        assertArrayEquals(names, dataBaseManager.getTableNames());
+        verify(view, times(1)).writeln(dataBaseManager.getTableNames().toString());
+        assertEquals(names, dataBaseManager.getTableNames());
     }
 
     @Test
@@ -61,7 +61,7 @@ public class ShowTableDataTest {
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String[] columnsNames = new String[]{"id", "name", "password"};
         when(dataBaseManager.getTableColumns(tableName)).thenReturn(columnsNames);
-        Set<DataSet> tableData = new LinkedHashSet<>();
+        List<DataSet> tableData = new ArrayList<>();
         when(dataBaseManager.getTableData(tableName)).thenReturn(tableData);
         command.execute("show|" + tableName);
         ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
@@ -89,7 +89,7 @@ public class ShowTableDataTest {
         value2.put("id", 2);
         value2.put("name", "testName2");
         value2.put("password", "testPassword2");
-        Set<DataSet> tableData = new LinkedHashSet<>(Arrays.asList(new DataSet[]{value1, value2}));
+        List<DataSet> tableData = new ArrayList<>(Arrays.asList(new DataSet[]{value1, value2}));
         when(dataBaseManager.getTableData(tableName)).thenReturn(tableData);
 
         command.execute("show|" + tableName);

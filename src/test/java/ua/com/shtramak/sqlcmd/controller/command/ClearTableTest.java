@@ -7,6 +7,8 @@ import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.view.View;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -61,10 +63,10 @@ public class ClearTableTest {
     public void testClearWrongTable() throws NotExecutedRequestException {
         String tableName="wrongName";
         when((dataBaseManager).hasTable(tableName)).thenReturn(false);
-        String[] tables = new String[]{"users"};
+        Set<String> tables = new TreeSet<>(Arrays.asList(new String[]{"users"}));
         when(dataBaseManager.getTableNames()).thenReturn(tables);
         command.execute("clear|"+tableName);
-        verify(view).writeln(String.format("Table %s doesn't exists! See the list with available tables: %s", tableName, Arrays.toString(tables)));
+        verify(view).writeln(String.format("Table %s doesn't exists! See the list with available tables: %s", tableName, tables));
     }
 
     @Test

@@ -28,7 +28,7 @@ public class ShowTablesList extends AbstractCommand {
     public void execute(String command) {
         try {
             if (dataBaseManager.getTableNames() != null)
-                view.writeln("Here's the names of available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+                view.writeln("Here's the names of available tables: " + dataBaseManager.getTableNames());
             else view.writeln("Database is empty. Nothing to show");
         } catch (NotExecutedRequestException e) {
             view.writeln(e.getMessage());

@@ -7,6 +7,8 @@ import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.view.View;
 
 import java.util.Arrays;
+import java.util.Set;
+import java.util.TreeSet;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -51,11 +53,11 @@ public class DropTableTest {
     public void testDropUnexistingTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(false);
-        String[] tables = new String[]{"table1", "table2"};
+        Set<String> tables = new TreeSet<>(Arrays.asList(new String[]{"table1", "table2"}));
         when(dataBaseManager.getTableNames()).thenReturn(tables);
         command.execute("drop|tableName");
         verify(view).writeln(String.format("Table %s doesn't exists! See the list with available tables below:", tableName));
-        verify(view).writeln("ShowTablesList with available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+        verify(view).writeln("ShowTablesList with available tables: " + dataBaseManager.getTableNames());
     }
 
     @Test

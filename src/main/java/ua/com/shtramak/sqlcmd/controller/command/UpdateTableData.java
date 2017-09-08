@@ -110,7 +110,7 @@ public class UpdateTableData extends AbstractCommand {
     private boolean isAcceptableTableName(String tableName) throws NotExecutedRequestException {
         if (!dataBaseManager.hasTable(tableName)) {
             view.writeln(String.format("Table '%s' doesn't exists! See below the list with available tables:", tableName));
-            view.writeln("Available tables: " + Arrays.toString(dataBaseManager.getTableNames()));
+            view.writeln("Available tables: " + dataBaseManager.getTableNames());
             return false;
         }
         return true;

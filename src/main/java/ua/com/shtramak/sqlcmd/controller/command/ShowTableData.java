@@ -7,6 +7,7 @@ import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 public class ShowTableData extends AbstractCommand {
@@ -34,7 +35,7 @@ public class ShowTableData extends AbstractCommand {
         try {
             if (!dataBaseManager.hasTable(tableName)) {
                 view.write(String.format("Table %s doesn't exists! Available tables: ", tableName));
-                view.writeln(Arrays.toString(dataBaseManager.getTableNames()));
+                view.writeln(dataBaseManager.getTableNames().toString());
                 return;
             }
             printTableData(tableName);
@@ -44,7 +45,7 @@ public class ShowTableData extends AbstractCommand {
     }
 
     private void printTableData(String tableName) throws NotExecutedRequestException {
-            Set<DataSet> tableData = dataBaseManager.getTableData(tableName);
+            List<DataSet> tableData = dataBaseManager.getTableData(tableName);
             String[] tableColumns = dataBaseManager.getTableColumns(tableName);
             printFormattedRow(tableColumns);
             if (tableData.isEmpty()) {
