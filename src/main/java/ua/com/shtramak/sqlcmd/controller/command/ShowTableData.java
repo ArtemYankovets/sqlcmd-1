@@ -7,6 +7,7 @@ import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
 import java.util.Arrays;
+import java.util.Set;
 
 public class ShowTableData extends AbstractCommand {
     public ShowTableData(DataBaseManager dataBaseManager, View view) {
@@ -43,10 +44,10 @@ public class ShowTableData extends AbstractCommand {
     }
 
     private void printTableData(String tableName) throws NotExecutedRequestException {
-            DataSet[] tableData = dataBaseManager.getTableData(tableName);
+            Set<DataSet> tableData = dataBaseManager.getTableData(tableName);
             String[] tableColumns = dataBaseManager.getTableColumns(tableName);
             printFormattedRow(tableColumns);
-            if (tableData.length == 0) {
+            if (tableData.isEmpty()) {
                 view.writeln("----------------------------------------");
                 view.write("The table is empty. Use 'insert' command for data insertion"+System.lineSeparator());
                 return;

@@ -3,11 +3,10 @@ package ua.com.shtramak.sqlcmd.model;
 import java.util.Arrays;
 import java.util.NoSuchElementException;
 
-public class DataSet implements DataSetInterface {
+public class DataSet{
     private Data[] data = new Data[100];
     private int freeIndex;
 
-    @Override
     public void put(String name, Object value) {
         if (value == null) value = "";
         for (int i = 0; i < data.length; i++) {
@@ -19,7 +18,6 @@ public class DataSet implements DataSetInterface {
         data[freeIndex] = new Data(name, value);
     }
 
-    @Override
     public Object[] values() {
         if (isEmpty()) return new String[]{""};
 
@@ -30,7 +28,6 @@ public class DataSet implements DataSetInterface {
         return result;
     }
 
-    @Override
     public String[] names() {
         if (isEmpty()) return new String[]{""};
 
@@ -41,7 +38,6 @@ public class DataSet implements DataSetInterface {
         return result;
     }
 
-    @Override
     public Object value(String name) {
         if (isEmpty()) throw new RuntimeException("DataSet is empty");
 
@@ -62,7 +58,6 @@ public class DataSet implements DataSetInterface {
         return data[0] == null;
     }
 
-    @Override
     public String toString() {
         if (data[0] == null) return "";
         StringBuilder result = new StringBuilder("[");
@@ -89,7 +84,6 @@ public class DataSet implements DataSetInterface {
         return result;
     }
 
-    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
@@ -99,45 +93,42 @@ public class DataSet implements DataSetInterface {
         return (freeIndex == dataSet.freeIndex && Arrays.equals(data, dataSet.data));
     }
 
-    @Override
     public int hashCode() {
         int result = Arrays.hashCode(data);
         result = 31 * result + freeIndex;
         return result;
     }
-}
 
-class Data {
-    private String name;
-    private Object value;
+    class Data {
+        private String name;
+        private Object value;
 
-    Data(String name, Object value) {
-        this.name = name;
-        this.value = value;
-    }
+        Data(String name, Object value) {
+            this.name = name;
+            this.value = value;
+        }
 
-    String getName() {
-        return name;
-    }
+        String getName() {
+            return name;
+        }
 
-    Object getValue() {
-        return value;
-    }
+        Object getValue() {
+            return value;
+        }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
 
-        Data data = (Data) o;
+            Data data = (Data) o;
 
-        return (name.equals(data.name) && value.equals(data.value));
-    }
+            return (name.equals(data.name) && value.equals(data.value));
+        }
 
-    @Override
-    public int hashCode() {
-        int result = name.hashCode();
-        result = 31 * result + value.hashCode();
-        return result;
+        public int hashCode() {
+            int result = name.hashCode();
+            result = 31 * result + value.hashCode();
+            return result;
+        }
     }
 }

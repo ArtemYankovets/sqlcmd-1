@@ -8,8 +8,7 @@ import ua.com.shtramak.sqlcmd.model.DataSet;
 import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -62,7 +61,7 @@ public class ShowTableDataTest {
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
         String[] columnsNames = new String[]{"id", "name", "password"};
         when(dataBaseManager.getTableColumns(tableName)).thenReturn(columnsNames);
-        DataSet[] tableData = new DataSet[0];
+        Set<DataSet> tableData = new LinkedHashSet<>();
         when(dataBaseManager.getTableData(tableName)).thenReturn(tableData);
         command.execute("show|" + tableName);
         ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
@@ -90,7 +89,7 @@ public class ShowTableDataTest {
         value2.put("id", 2);
         value2.put("name", "testName2");
         value2.put("password", "testPassword2");
-        DataSet[] tableData = new DataSet[]{value1, value2};
+        Set<DataSet> tableData = new LinkedHashSet<>(Arrays.asList(new DataSet[]{value1, value2}));
         when(dataBaseManager.getTableData(tableName)).thenReturn(tableData);
 
         command.execute("show|" + tableName);

@@ -6,8 +6,7 @@ import ua.com.shtramak.sqlcmd.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class JDBCDataBaseManager implements DataBaseManager {
 
@@ -25,7 +24,7 @@ public class JDBCDataBaseManager implements DataBaseManager {
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
-            String message = String.format("Dear %s! Connection to database was failed. JDBC driver doesn't exist." + System.lineSeparator() +
+            String message = String.format("Dear %s! Connection to database was failed. JDBC driver not found." + System.lineSeparator() +
                     "Please install required JDBC diver and try again.", userName);
             throw new NoJDBCDriverException(message);
         }
@@ -40,18 +39,17 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public DataSet[] getTableData(String tableName) throws NotExecutedRequestException {
+    public Set<DataSet> getTableData(String tableName) throws NotExecutedRequestException {
 
         String sql = String.format("SELECT * FROM %s", tableName);
-        DataSet[] result = new DataSet[getTableSize(tableName)];
+        Set<DataSet> result = new LinkedHashSet<>();
 
         try (Statement statement = connection.createStatement();
              ResultSet resultSet = statement.executeQuery(sql)) {
 
             ResultSetMetaData rsMetaData = resultSet.getMetaData();
-            int index = 0;
             while (resultSet.next()) {
-                result[index++] = rowDataSet(rsMetaData, resultSet);
+                result.add(rowDataSet(rsMetaData, resultSet));
             }
 
         } catch (SQLException e) {
