@@ -36,7 +36,7 @@ public class DropTable extends AbstractCommand {
             }
 
             String message = String.format("You are going to drop existing table '%s'! Are you sure? [Yes/No]", tableName);
-            if (Commands.isSureInActingWithTable(tableName, message, view)) {
+            if (Commands.isSureInActingWithTable(message, view)) {
                 dataBaseManager.dropTable(tableName);
                 view.writeln(String.format("Table %s was successfully dropped from database", tableName));
                 return;

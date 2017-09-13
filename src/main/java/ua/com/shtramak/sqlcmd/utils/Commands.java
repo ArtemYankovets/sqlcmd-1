@@ -4,21 +4,19 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class Commands {
 
-    private static final String splitter = "\\|";
-
     public static int sizeOf(String line) {
-        return line.split(splitter).length;
+        return line.split("\\|").length;
     }
 
     public static String[] arrayOf(String line) {
-        return line.split(splitter);
+        return line.split("\\|");
     }
 
     public static boolean isExit(String command) {
         return command.toLowerCase().equals("exit");
     }
 
-    public static boolean isSureInActingWithTable(String tableName, String message, View view){
+    public static boolean isSureInActingWithTable(String message, View view){
         view.writeln(message);
         while (true) {
             String answer = view.read().toLowerCase();
@@ -30,9 +28,4 @@ public class Commands {
                 view.writeln("Please enter Yes or No. No other options available");
         }
     }
-/*
-    public static void setSplitter(String splitter) {
-        Commands.splitter = splitter;
-    }
-*/
 }

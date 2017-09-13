@@ -5,72 +5,54 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-public class DataSet{
-    private Data[] data = new Data[100];
-    private int freeIndex;
+public class DataSet {
+    private List<Data> data = new ArrayList<>();
 
     public void put(String name, Object value) {
         if (value == null) value = "";
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] == null) {
-                freeIndex = i;
-                break;
-            }
-        }
-        data[freeIndex] = new Data(name, value);
+        data.add(new Data(name, value));
     }
 
-    public Object[] values() {
-        if (isEmpty()) return new String[]{""};
+    public List<Object> values() {
+        if (data.isEmpty()) return new ArrayList<>(Arrays.asList(new String[]{""}));
 
-        Object[] result = new Object[freeIndex + 1];
-        for (int i = 0; i <= freeIndex; i++) {
-            result[i] = data[i].getValue();
+        List<Object> result = new ArrayList<>();
+        for (Data dataItem : data) {
+            result.add(dataItem.getValue());
         }
         return result;
     }
 
-    public String[] names() {
-        if (isEmpty()) return new String[]{""};
+    public List<String> names() {
+        List<String> result = new ArrayList<>();
+        if (data.isEmpty()) return result;
 
-        String[] result = new String[freeIndex + 1];
-        for (int i = 0; i <= freeIndex; i++) {
-            result[i] = data[i].getName();
+        for (Data dataElement : data) {
+            result.add(dataElement.getName());
         }
         return result;
     }
 
     public Object value(String name) {
-        if (isEmpty()) throw new RuntimeException("DataSet is empty");
+        if (data.isEmpty()) throw new RuntimeException("DataSet is empty");
 
-        for (int i = 0; i <= freeIndex; i++) {
-            if (data[i].getName().equals(name)) {
-                return data[i].getValue();
+        for (Data dataElement : data) {
+            if (dataElement.getName().equals(name)) {
+                return dataElement.getValue();
             }
         }
 
         throw new NoSuchElementException("There's no such name in DataSet");
     }
 
-    int size() {
-        return freeIndex + 1;
-    }
-
-    boolean isEmpty() {
-        return data[0] == null;
-    }
-
     public String toString() {
-        if (data[0] == null) return "";
+        if (data.isEmpty()) return "";
         StringBuilder result = new StringBuilder("[");
-        String[] names = names();
-        Object[] values = values();
-        for (int i = 0; i < data.length; i++) {
-            if (data[i] == null) break;
+        for (Data dataElement : data) {
             result.append("{");
-            result.append(names[i]);
+            result.append(dataElement.getName());
             result.append(", ");
-            result.append(values[i]);
+            result.append(dataElement.getValue());
             result.append("},");
         }
         result.deleteCharAt(result.lastIndexOf(","));
@@ -80,25 +62,33 @@ public class DataSet{
 
     public List<String> stringValues() {
         List<String> result = new ArrayList<>();
-        for (int i = 0; i <= freeIndex; i++) {
-            result.add(data[i].getValue().toString());
+        for (Data dataElement : data) {
+            result.add(dataElement.getValue().toString());
         }
         return result;
     }
 
+    @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof DataSet)) return false;
 
         DataSet dataSet = (DataSet) o;
 
-        return (freeIndex == dataSet.freeIndex && Arrays.equals(data, dataSet.data));
+        return data != null ? data.equals(dataSet.data) : dataSet.data == null;
     }
 
+    @Override
     public int hashCode() {
-        int result = Arrays.hashCode(data);
-        result = 31 * result + freeIndex;
-        return result;
+        return data != null ? data.hashCode() : 0;
+    }
+
+    public boolean isEmpty() {
+        return data.isEmpty();
+    }
+
+    public int size() {
+        return data.size();
     }
 
     class Data {

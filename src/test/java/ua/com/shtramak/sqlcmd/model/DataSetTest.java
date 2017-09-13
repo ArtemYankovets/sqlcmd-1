@@ -27,27 +27,27 @@ public class DataSetTest {
     @Test
     public void testValuesWithRegularData() {
         String expected = "[string, 1, 1.5]";
-        assertEquals(expected, Arrays.toString(dataSet.values()));
+        assertEquals(expected, dataSet.values().toString());
     }
 
     @Test
     public void testValuesFromEmptyDataSet(){
         dataSet=new DataSet();
         String expected = "[]";
-        assertEquals(expected, Arrays.toString(dataSet.values()));
+        assertEquals(expected, dataSet.values().toString());
     }
 
     @Test
     public void testNamesWithRegularData() {
         String expected = "[String, Integer, Double]";
-        assertEquals(expected, Arrays.toString(dataSet.names()));
+        assertEquals(expected,dataSet.names().toString());
     }
 
     @Test
     public void testNamesFromEmptyDataSet(){
         dataSet=new DataSet();
         String expected = "[]";
-        assertEquals(expected, Arrays.toString(dataSet.names()));    }
+        assertEquals(expected, dataSet.names().toString());    }
 
     @Test
     public void testValueWithExistingElement(){

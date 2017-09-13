@@ -104,8 +104,8 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public void insert(String tableName, DataSet input) throws NotExecutedRequestException {
-        String colNames = getFormattedColumnNames(input, ",");
-        String colValue = getFormattedColumnData(input, ",");
+        String colNames = getFormattedColumnNames(input);
+        String colValue = getFormattedColumnData(input);
 
         String sql = String.format("INSERT INTO %s (%s) VALUES (%s);", tableName, colNames, colValue);
 
@@ -162,12 +162,12 @@ public class JDBCDataBaseManager implements DataBaseManager {
     private String updateDataLine(DataSet newValue) {
         StringBuilder updateLine = new StringBuilder();
         if (!newValue.isEmpty()) {
-            String[] names = newValue.names();
-            Object[] values = newValue.values();
-            for (int i = 0; i < newValue.size(); i++) {
-                updateLine.append(names[i])
+            Iterator<String> names = newValue.names().iterator();
+            Iterator<Object> values = newValue.values().iterator();
+            while (names.hasNext()) {
+                updateLine.append(names.next())
                         .append(" = '")
-                        .append(values[i])
+                        .append(values.next())
                         .append("',");
             }
             int lastCommaIndex = updateLine.lastIndexOf(",");
@@ -256,44 +256,29 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
     }
 
-    private int getTableSize(String tableName) throws NotExecutedRequestException {
-        String sql = String.format("SELECT COUNT(*) FROM %s", tableName);
-        int result = 0;
-        try (Statement statement = connection.createStatement();
-             ResultSet resultSet = statement.executeQuery(sql)
-        ) {
-            resultSet.next();
-            result = resultSet.getInt(1);
-        } catch (SQLException e) {
-            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
-            throw new NotExecutedRequestException(message);
-        }
-        return result;
-    }
-
-    private String getFormattedColumnData(DataSet dataSet, String format) {
+    private String getFormattedColumnData(DataSet dataSet) {
         StringBuilder result = new StringBuilder();
 
-        if (dataSet.values().length == 0) return "";
+        if (dataSet.values().size() == 0) return "";
 
         for (Object colName : dataSet.values()) {
             result.append("'");
             result.append(colName);
             result.append("'");
-            result.append(format);
+            result.append(",");
         }
-        result.deleteCharAt(result.lastIndexOf(format));
+        result.deleteCharAt(result.lastIndexOf(","));
         return result.toString();
     }
 
-    private String getFormattedColumnNames(DataSet dataSet, String format) {
+    private String getFormattedColumnNames(DataSet dataSet) {
         StringBuilder result = new StringBuilder();
 
-        if (dataSet.names().length == 0) return "";
+        if (dataSet.names().size() == 0) return "";
 
         for (String colName : dataSet.names()) {
             result.append(colName);
-            result.append(format);
+            result.append(",");
         }
         result.deleteCharAt(result.lastIndexOf(","));
         return result.toString();

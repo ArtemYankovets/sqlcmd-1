@@ -23,7 +23,7 @@ public class CreateTable extends AbstractCommand {
         String tableName = view.read();
 
         try {
-            if(dataBaseManager.hasTable(tableName)){
+            if (dataBaseManager.hasTable(tableName)) {
                 view.writeln("Such table already exists...");
                 return;
             }
@@ -31,12 +31,12 @@ public class CreateTable extends AbstractCommand {
             view.writeln("Please enter columns data in format: col1Name|dataType1|col2Name|dataType2...col#Name|dataType#");
             String columnsData = view.read();
 
-            if(Commands.sizeOf(columnsData)%2!=0){
-                view.writeln(String.format("Wrong input! Number of elements must be even, but entered %s",Commands.sizeOf(columnsData)));
+            if (Commands.sizeOf(columnsData) % 2 != 0) {
+                view.writeln(String.format("Wrong input! Number of elements must be even, but entered %s", Commands.sizeOf(columnsData)));
                 return;
             }
 
-            dataBaseManager.createTable(tableName,columnsData);
+            dataBaseManager.createTable(tableName, columnsData);
             view.writeln("Table successfully created...");
         } catch (NotExecutedRequestException e) {
             view.writeln(e.getMessage());
