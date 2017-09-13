@@ -7,9 +7,7 @@ import ua.com.shtramak.sqlcmd.model.DataSet;
 import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Arrays;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
@@ -69,13 +67,13 @@ public class UpdateTableDataTest {
         String colName = "UnexistingColumnName";
         when(view.read()).thenReturn(colName);
         when(dataBaseManager.hasColumn(tableName, colName)).thenReturn(false);
-        String[] tableColumns = new String[] {"col1","col2","col3"};
+        Set<String> tableColumns = new LinkedHashSet<>(Arrays.asList(new String[] {"col1","col2","col3"}));
         when(dataBaseManager.getTableColumns(tableName)).thenReturn(tableColumns);
         command.execute("updateTable|"+tableName);
         verify(view).writeln("Please input wanted 'colName' and 'value' of the row you want to update:");
         verify(view).write("Enter column name: ");
         verify(view).writeln(String.format("Column '%s' doesn't exists! See below the list with available columns of table %s:", colName, tableName));
-        verify(view).writeln("Available columns: " + Arrays.toString(dataBaseManager.getTableColumns(tableName)));
+        verify(view).writeln("Available columns: " + dataBaseManager.getTableColumns(tableName));
     }
 
     @Test

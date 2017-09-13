@@ -6,10 +6,7 @@ import ua.com.shtramak.sqlcmd.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 public class JDBCDataBaseManager implements DataBaseManager {
 
@@ -23,7 +20,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public void connect(String host, String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException {
-
         try {
             Class.forName("org.postgresql.Driver");
         } catch (ClassNotFoundException e) {
@@ -43,7 +39,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public List<DataSet> getTableData(String tableName) throws NotExecutedRequestException {
-
         String sql = String.format("SELECT * FROM %s", tableName);
         List<DataSet> result = new ArrayList<>();
 
@@ -97,13 +92,10 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public void clear(String tableName) throws NotExecutedRequestException {
-
         try {
             Statement statement = connection.createStatement();
             String sql = String.format("DELETE FROM %s", tableName);
             statement.execute(sql);
-
-
         } catch (SQLException e) {
             String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
             throw new NotExecutedRequestException(message);
@@ -112,7 +104,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public void insert(String tableName, DataSet input) throws NotExecutedRequestException {
-
         String colNames = getFormattedColumnNames(input, ",");
         String colValue = getFormattedColumnData(input, ",");
 
@@ -189,17 +180,16 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public String[] getTableColumns(String tableName) throws NotExecutedRequestException {
+    public Set<String> getTableColumns(String tableName) throws NotExecutedRequestException {
         try {
-            DatabaseMetaData dbmt = connection.getMetaData();
-            ResultSet resultSet = dbmt.getColumns(null, null, tableName, "%");
+            DatabaseMetaData dbMetaData = connection.getMetaData();
+            ResultSet resultSet = dbMetaData.getColumns(null, null, tableName, "%");
 
-            List<String> colNames = new ArrayList<>();
+            Set<String> colNames = new LinkedHashSet<>();
             while (resultSet.next()) {
                 colNames.add(resultSet.getString("COLUMN_NAME"));
             }
-            String[] result = new String[colNames.size()];
-            return colNames.toArray(result);
+            return colNames;
         } catch (SQLException e) {
             String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
             throw new NotExecutedRequestException(message);
@@ -231,7 +221,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public boolean hasColumn(String tableName, String columnName) throws NotExecutedRequestException {
-
         if (!hasTable(tableName)) return false;
 
         for (String element : getTableColumns(tableName)) {
@@ -243,7 +232,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
 
     @Override
     public boolean hasValue(String tableName, String columnName, String value) throws NotExecutedRequestException {
-
         if (!hasColumn(tableName, columnName)) return false;
 
         String sql = String.format("SELECT %s FROM %s where %1$s = '%s'", columnName, tableName, value);

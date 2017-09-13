@@ -101,7 +101,7 @@ public class UpdateTableData extends AbstractCommand {
     private boolean isAcceptableColumnName(String tableName, String colName) throws NotExecutedRequestException {
         if (!dataBaseManager.hasColumn(tableName, colName)) {
             view.writeln(String.format("Column '%s' doesn't exists! See below the list with available columns of table %s:", colName, tableName));
-            view.writeln("Available columns: " + Arrays.toString(dataBaseManager.getTableColumns(tableName)));
+            view.writeln("Available columns: " + dataBaseManager.getTableColumns(tableName));
             return false;
         }
         return true;

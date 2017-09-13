@@ -62,7 +62,7 @@ public interface DataBaseManager {
      * @param tableName name of the specified table in database
      * @return a names of a columns in specified table
      */
-    String[] getTableColumns(String tableName) throws NotExecutedRequestException;
+    Set<String> getTableColumns(String tableName) throws NotExecutedRequestException;
 
     /**
      * Provide disconnecting from current database

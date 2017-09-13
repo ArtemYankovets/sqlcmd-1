@@ -59,7 +59,7 @@ public class ShowTableDataTest {
     public void testShowTableDataEmtyTable() throws NotExecutedRequestException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
-        String[] columnsNames = new String[]{"id", "name", "password"};
+        Set<String> columnsNames = new LinkedHashSet<>(Arrays.asList(new String[]{"id", "name", "password"}));
         when(dataBaseManager.getTableColumns(tableName)).thenReturn(columnsNames);
         List<DataSet> tableData = new ArrayList<>();
         when(dataBaseManager.getTableData(tableName)).thenReturn(tableData);
@@ -78,16 +78,16 @@ public class ShowTableDataTest {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
 
-        String[] columnsNames = new String[]{"id", "name", "password"};
+        Set<String> columnsNames = new LinkedHashSet<>(Arrays.asList(new String[]{"id", "name", "password"}));
         when(dataBaseManager.getTableColumns(tableName)).thenReturn(columnsNames);
 
         DataSet value1 = new DataSet();
         value1.put("id", 1);
-        value1.put("name", "testName1");
+        value1.put("name", "testName");
         value1.put("password", "testPassword1");
         DataSet value2 = new DataSet();
         value2.put("id", 2);
-        value2.put("name", "testName2");
+        value2.put("name", "testName");
         value2.put("password", "testPassword2");
         List<DataSet> tableData = new ArrayList<>(Arrays.asList(new DataSet[]{value1, value2}));
         when(dataBaseManager.getTableData(tableName)).thenReturn(tableData);
@@ -99,9 +99,9 @@ public class ShowTableDataTest {
                 "----------------------------------------",
                 "| id         | name       | password   |",
                 "----------------------------------------",
-                "| 1          | testName1  | testPassword1 |",
+                "| 1          | testName   | testPassword1 |",
                 "----------------------------------------",
-                "| 2          | testName2  | testPassword2 |",
+                "| 2          | testName   | testPassword2 |",
                 "----------------------------------------");
         assertArrayEquals(expected.toArray(), arg.getAllValues().toArray());
     }

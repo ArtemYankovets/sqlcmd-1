@@ -6,7 +6,7 @@ import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -45,32 +45,33 @@ public class ShowTableData extends AbstractCommand {
     }
 
     private void printTableData(String tableName) throws NotExecutedRequestException {
-            List<DataSet> tableData = dataBaseManager.getTableData(tableName);
-            String[] tableColumns = dataBaseManager.getTableColumns(tableName);
-            printFormattedRow(tableColumns);
-            if (tableData.isEmpty()) {
-                view.writeln("----------------------------------------");
-                view.write("The table is empty. Use 'insert' command for data insertion"+System.lineSeparator());
-                return;
-            }
-            for (DataSet tableItem : tableData) {
-                printFormattedRow(tableItem.stringValues());
-            }
+        List<DataSet> tableData = dataBaseManager.getTableData(tableName);
+        Set<String> tableColumns = dataBaseManager.getTableColumns(tableName);
+        printFormattedRow(tableColumns);
+
+        if (tableData.isEmpty()) {
             view.writeln("----------------------------------------");
+            view.write("The table is empty. Use 'insert' command for data insertion" + System.lineSeparator());
+            return;
+        }
+
+        for (DataSet tableItem : tableData) {
+            printFormattedRow(tableItem.stringValues());
+        }
+        view.writeln("----------------------------------------");
     }
 
-    private void printFormattedRow(String[] dataArray) {
-        if (dataArray == null) {
+    private <T> void printFormattedRow(Collection<T> data) {
+        if (data == null) {
             view.writeln("Nothing to show! No data found");
             return;
         }
 
         String row = "|";
         view.writeln("----------------------------------------");
-        for (String rowItem : dataArray) {
+        for (T rowItem : data) {
             row += String.format(" %-10s |", rowItem);
         }
         view.writeln(row);
-
     }
 }

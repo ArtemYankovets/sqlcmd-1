@@ -1,6 +1,8 @@
 package ua.com.shtramak.sqlcmd.model;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 public class DataSet{
@@ -76,10 +78,10 @@ public class DataSet{
         return result.toString();
     }
 
-    public String[] stringValues() {
-        String[] result = new String[freeIndex + 1];
+    public List<String> stringValues() {
+        List<String> result = new ArrayList<>();
         for (int i = 0; i <= freeIndex; i++) {
-            result[i] = data[i].getValue().toString();
+            result.add(data[i].getValue().toString());
         }
         return result;
     }
