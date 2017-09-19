@@ -4,9 +4,11 @@ import ua.com.shtramak.sqlcmd.model.DataBaseManager;
 import ua.com.shtramak.sqlcmd.model.DataSet;
 import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
+import ua.com.shtramak.sqlcmd.utils.TableFormatter;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Collection;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -46,32 +48,33 @@ public class ShowTableData extends AbstractCommand {
 
     private void printTableData(String tableName) throws NotExecutedRequestException {
         List<DataSet> tableData = dataBaseManager.getTableData(tableName);
-        Set<String> tableColumns = dataBaseManager.getTableColumns(tableName);
-        printFormattedRow(tableColumns);
 
-        if (tableData.isEmpty()) {
-            view.writeln("----------------------------------------");
-            view.write("The table is empty. Use 'insert' command for data insertion" + System.lineSeparator());
-            return;
-        }
+        try {
+            if (tableData.isEmpty()) {
+                Set<String> headers = dataBaseManager.getTableColumns(tableName);
+                view.writeln(TableFormatter.formattedTableRow(headers, headers.size()));
+                return;
+            }
 
-        for (DataSet tableItem : tableData) {
-            printFormattedRow(tableItem.stringValues());
+            int numOfColumns = tableData.get(0).size();
+            List<String> strTableData = dataSetListToString(tableData);
+            String result = TableFormatter.formattedTableRow(strTableData, numOfColumns);
+            view.writeln(result);
+        } catch (IOException e) {
+            String message = "Table data was not retrieved because of:" + e.getMessage();
+            throw new NotExecutedRequestException(message);
         }
-        view.writeln("----------------------------------------");
     }
 
-    private <T> void printFormattedRow(Collection<T> data) {
-        if (data == null) {
-            view.writeln("Nothing to show! No data found");
-            return;
+    @SuppressWarnings("unchecked")
+    private static List<String> dataSetListToString(List<DataSet> dataSets) {
+        List<String> result = new ArrayList<>();
+        result.addAll(dataSets.get(0).names());
+        for (DataSet dataSet : dataSets) {
+            List tmp = dataSet.values();
+            result.addAll(tmp);
         }
-
-        String row = "|";
-        view.writeln("----------------------------------------");
-        for (T rowItem : data) {
-            row += String.format(" %-10s |", rowItem);
-        }
-        view.writeln(row);
+        return result;
     }
+
 }

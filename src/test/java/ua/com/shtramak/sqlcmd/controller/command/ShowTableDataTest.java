@@ -2,12 +2,13 @@ package ua.com.shtramak.sqlcmd.controller.command;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.ArgumentCaptor;
 import ua.com.shtramak.sqlcmd.model.DataBaseManager;
 import ua.com.shtramak.sqlcmd.model.DataSet;
 import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
+import ua.com.shtramak.sqlcmd.utils.TableFormatter;
 import ua.com.shtramak.sqlcmd.view.View;
 
+import java.io.IOException;
 import java.util.*;
 
 import static org.junit.Assert.*;
@@ -56,30 +57,26 @@ public class ShowTableDataTest {
     }
 
     @Test
-    public void testShowTableDataEmtyTable() throws NotExecutedRequestException {
+    public void testShowTableDataEmtyTable() throws NotExecutedRequestException, IOException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
-        Set<String> columnsNames = new LinkedHashSet<>(Arrays.asList(new String[]{"id", "name", "password"}));
-        when(dataBaseManager.getTableColumns(tableName)).thenReturn(columnsNames);
+        Set<String> headers = new LinkedHashSet<>(Arrays.asList(new String[]{"id", "name", "password"}));
+        when(dataBaseManager.getTableColumns(tableName)).thenReturn(headers);
         List<DataSet> tableData = new ArrayList<>();
         when(dataBaseManager.getTableData(tableName)).thenReturn(tableData);
         command.execute("show|" + tableName);
-        ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
-        verify(view, atLeastOnce()).writeln(arg.capture());
-        List<String> expected = Arrays.asList(
-                "----------------------------------------",
-                "| id         | name       | password   |",
-                "----------------------------------------");
-        assertArrayEquals(expected.toArray(), arg.getAllValues().toArray());
+        String expected = "+----+------+----------+\n" +
+                "! id ! name ! password !\n" +
+                "+----+------+----------+";
+        String result = TableFormatter.formattedTableRow(headers, headers.size());
+        verify(view).writeln(result);
+        assertEquals(expected, result);
     }
 
     @Test
-    public void testShowTableDataCorrectTable() throws NotExecutedRequestException {
+    public void testShowTableDataCorrectTable() throws NotExecutedRequestException, IOException {
         String tableName = "tableName";
         when(dataBaseManager.hasTable(tableName)).thenReturn(true);
-
-        Set<String> columnsNames = new LinkedHashSet<>(Arrays.asList(new String[]{"id", "name", "password"}));
-        when(dataBaseManager.getTableColumns(tableName)).thenReturn(columnsNames);
 
         DataSet value1 = new DataSet();
         value1.put("id", 1);
@@ -93,16 +90,29 @@ public class ShowTableDataTest {
         when(dataBaseManager.getTableData(tableName)).thenReturn(tableData);
 
         command.execute("show|" + tableName);
-        ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
-        verify(view, atLeastOnce()).writeln(arg.capture());
-        List<String> expected = Arrays.asList(
-                "----------------------------------------",
-                "| id         | name       | password   |",
-                "----------------------------------------",
-                "| 1          | testName   | testPassword1 |",
-                "----------------------------------------",
-                "| 2          | testName   | testPassword2 |",
-                "----------------------------------------");
-        assertArrayEquals(expected.toArray(), arg.getAllValues().toArray());
+        String expected = "+----+----------+---------------+\n" +
+                "! id ! name     ! password      !\n" +
+                "+----+----------+---------------+\n" +
+                "! 1  ! testName ! testPassword1 !\n" +
+                "+----+----------+---------------+\n" +
+                "! 2  ! testName ! testPassword2 !\n" +
+                "+----+----------+---------------+";
+        int size = tableData.get(0).size();
+        List<String> data = dataSetListToString(tableData);
+        String result = TableFormatter.formattedTableRow(data, size);
+        verify(view).writeln(result);
+        assertEquals(expected, result);
     }
+
+    @SuppressWarnings("unchecked")
+    private static List<String> dataSetListToString(List<DataSet> dataSets) {
+        List<String> result = new ArrayList<>();
+        result.addAll(dataSets.get(0).names());
+        for (DataSet dataSet : dataSets) {
+            List tmp = dataSet.values();
+            result.addAll(tmp);
+        }
+        return result;
+    }
+
 }

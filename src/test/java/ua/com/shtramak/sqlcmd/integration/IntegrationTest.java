@@ -184,10 +184,9 @@ public class IntegrationTest {
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from 'tmpusers' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| id         | name       | password   |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "The table is empty. Use 'insert' command for data insertion" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "+----+------+----------+\n" +
+                "! id ! name ! password !\n" +
+                "+----+------+----------+" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -256,15 +255,15 @@ public class IntegrationTest {
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Data successfully added to tmpusers" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| id         | name       | password   |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| 11         | TestName1  | pass1      |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| 8          | TestName2  | pass2      |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| 1          | TestName3  | pass3      |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "+----+-----------+----------+\n" +
+                "! id ! name      ! password !\n" +
+                "+----+-----------+----------+\n" +
+                "! 11 ! TestName1 ! pass1    !\n" +
+                "+----+-----------+----------+\n" +
+                "! 8  ! TestName2 ! pass2    !\n" +
+                "+----+-----------+----------+\n" +
+                "! 1  ! TestName3 ! pass3    !\n" +
+                "+----+-----------+----------+" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Please input wanted 'colName' and 'value' of the row you want to update:" + LINE_SEPARATOR +
                 "Enter column name: " + LINE_SEPARATOR +
@@ -272,15 +271,15 @@ public class IntegrationTest {
                 "Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit" + LINE_SEPARATOR +
                 "Data successfully updated..." + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| id         | name       | password   |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| 8          | TestName2  | pass2      |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| 1          | TestName3  | pass3      |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR +
-                "| 11         | TestUpd    | passUpd    |" + LINE_SEPARATOR +
-                "----------------------------------------" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "+----+-----------+----------+\n" +
+                "! id ! name      ! password !\n" +
+                "+----+-----------+----------+\n" +
+                "! 8  ! TestName2 ! pass2    !\n" +
+                "+----+-----------+----------+\n" +
+                "! 1  ! TestName3 ! pass3    !\n" +
+                "+----+-----------+----------+\n" +
+                "! 11 ! TestUpd   ! passUpd  !\n" +
+                "+----+-----------+----------+" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
