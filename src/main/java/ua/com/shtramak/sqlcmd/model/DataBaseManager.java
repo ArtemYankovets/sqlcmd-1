@@ -58,6 +58,8 @@ public interface DataBaseManager {
      */
     void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue) throws NotExecutedRequestException;
 
+    void deleteTableData(String tableName, String colName, Object rowValue) throws NotExecutedRequestException;
+
     void dropTable(String tableName) throws NotExecutedRequestException;
 
     /**

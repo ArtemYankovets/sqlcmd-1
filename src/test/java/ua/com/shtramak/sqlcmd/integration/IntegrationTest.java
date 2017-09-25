@@ -346,7 +346,9 @@ public class IntegrationTest {
                 "\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#" + LINE_SEPARATOR +
                 "\t\tinsert entered data to selected table" + LINE_SEPARATOR +
                 "\tupdateTable|tableName" + LINE_SEPARATOR +
-                "\t\tupdate entry in selected table using own command interface" + LINE_SEPARATOR +
+                "\t\tupdates entry in selected table using own command interface" + LINE_SEPARATOR +
+                "\tdeleteEntry|tableName" + LINE_SEPARATOR +
+                "\t\tdeletes entry in selected table using own command interface" + LINE_SEPARATOR +
                 "\tcreate" + LINE_SEPARATOR +
                 "\t\tredirects to dialog to create a new table" + LINE_SEPARATOR +
                 "\tdrop|tableName" + LINE_SEPARATOR +

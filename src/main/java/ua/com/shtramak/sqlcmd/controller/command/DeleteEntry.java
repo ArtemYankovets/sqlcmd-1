@@ -1,37 +1,34 @@
 package ua.com.shtramak.sqlcmd.controller.command;
 
 import ua.com.shtramak.sqlcmd.model.DataBaseManager;
-import ua.com.shtramak.sqlcmd.model.DataSet;
 import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Arrays;
-
-public class UpdateTableData extends AbstractCommand {
-    public UpdateTableData(DataBaseManager dataBaseManager, View view) {
+public class DeleteEntry extends AbstractCommand {
+    public DeleteEntry(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
 
     @Override
     public String description() {
-        return "\tupdateTable|tableName" +
+        return "\tdeleteEntry|tableName" +
                 System.lineSeparator() +
-                "\t\tupdates entry in selected table using own command interface";
+                "\t\tdeletes entry in selected table using own command interface";
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("updateTable|");
+        return command.startsWith("deleteEntry|");
     }
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf("updateTable|tableName");
+        final String[] commandsTemplate = Commands.arrayOf("deleteEntry|tableName");
         String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
-            view.writeln("updateTableData command failed because of wrong input. Use 'help' command for details");
+            view.writeln("deleteEntry command failed because of wrong input. Use 'help' command for details");
             return;
         }
 
@@ -50,52 +47,21 @@ public class UpdateTableData extends AbstractCommand {
             view.write("Enter value: ");
             String value = view.read();
             view.writeln("");
-            if(!isAcceptableColumnValue(tableName, colName, value)) return;
+            if (!isAcceptableColumnValue(tableName, colName, value)) return;
 
-            view.writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
-            String inputData = readUpdateData();
-
-            if (inputData.equals("exit")) return;
-
-            String[] commands = Commands.arrayOf(inputData);
-            DataSet updateData = new DataSet();
-            for (int i = 0; i < commands.length; i++) {
-                updateData.put(commands[i], commands[++i]);
-            }
-
-            dataBaseManager.updateTableData(tableName, colName, value, updateData);
-            view.writeln("Data successfully updated...");
+            dataBaseManager.deleteTableData(tableName, colName, value);
+            view.writeln("Entry successfully deleted...");
         } catch (NotExecutedRequestException e) {
             view.writeln(e.getMessage());
         }
     }
 
-    private String readUpdateData(){
-        String inputData;
-        while (true) {
-            inputData = view.read();
-            if (inputData.equals("exit")) {
-                view.writeln("Update command failed!");
-                break;
-            }
-
-            if (inputData.split("\\|").length == 0 || inputData.split("\\|").length % 2 == 1) {
-                view.writeln("Wrong input! Input must be according to the template");
-                view.writeln("Try again using correct format col1Name|value1|col2Name|value2|...col#Name|value# or enter 'exit' command");
-            } else {
-                break;
-            }
-        }
-
-        return inputData;
-    }
-
     private boolean isAcceptableColumnValue(String tableName, String colName, String value) throws NotExecutedRequestException {
-        if(!dataBaseManager.hasValue(tableName,colName,value)){
-            view.writeln(String.format("There's no value '%s' in column '%s'",value, colName));
+        if (!dataBaseManager.hasValue(tableName, colName, value)) {
+            view.writeln(String.format("There's no value '%s' in column '%s'", value, colName));
             return false;
         }
-        return  true;
+        return true;
     }
 
     private boolean isAcceptableColumnName(String tableName, String colName) throws NotExecutedRequestException {

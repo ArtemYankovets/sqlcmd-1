@@ -21,6 +21,7 @@ public class CommandsStorage {
                 new ClearTable(dataBaseManager, view),
                 new InsertEntry(dataBaseManager, view),
                 new UpdateTableData(dataBaseManager, view),
+                new DeleteEntry(dataBaseManager, view),
                 new CreateTable(dataBaseManager, view),
                 new DropTable(dataBaseManager,view),
                 new Exit(dataBaseManager, view),

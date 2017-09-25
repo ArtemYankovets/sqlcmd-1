@@ -49,7 +49,8 @@ public class HelpTest {
                 "\t\tdisplay table data from selected database\tclear|tableName" + lineSeparator +
                 "\t\tdelete all data from selected table\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#" + lineSeparator +
                 "\t\tinsert entered data to selected table\tupdateTable|tableName" + lineSeparator +
-                "\t\tupdate entry in selected table using own command interface\tcreate" + lineSeparator +
+                "\t\tupdates entry in selected table using own command interface\tdeleteEntry|tableName" + lineSeparator+
+                "\t\tdeletes entry in selected table using own command interface\tcreate" + lineSeparator +
                 "\t\tredirects to dialog to create a new table\tdrop|tableName" + lineSeparator +
                 "\t\tdrop an existing table in a database\texit" + lineSeparator +
                 "\t\tto exit from this session\thelp" + lineSeparator +

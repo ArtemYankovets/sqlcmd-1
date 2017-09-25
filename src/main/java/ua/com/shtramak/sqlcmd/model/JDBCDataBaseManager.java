@@ -128,6 +128,12 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
+    public void deleteTableData(String tableName, String colName, Object rowValue) throws NotExecutedRequestException {
+        String sqlRequest = String.format("DELETE FROM %s WHERE %s = '%s'", tableName, colName, rowValue);
+        executeRequest(sqlRequest);
+    }
+
+    @Override
     public void dropTable(String tableName) throws NotExecutedRequestException {
         String sqlRequest = String.format("DROP TABLE %s", tableName);
         executeRequest(sqlRequest);

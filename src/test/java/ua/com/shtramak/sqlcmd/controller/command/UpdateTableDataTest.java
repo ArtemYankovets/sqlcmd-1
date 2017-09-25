@@ -28,7 +28,7 @@ public class UpdateTableDataTest {
     public void testShowTableListDescription(){
         String expected = "\tupdateTable|tableName" +
                 System.lineSeparator() +
-                "\t\tupdate entry in selected table using own command interface";
+                "\t\tupdates entry in selected table using own command interface";
         assertEquals(expected,command.description());
     }
 
