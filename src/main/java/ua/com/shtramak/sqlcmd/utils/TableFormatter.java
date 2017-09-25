@@ -13,8 +13,6 @@ import java.util.Collection;
 public class TableFormatter {
     public static <T> String formattedTableRow(Collection<T> data, int numOfColumns) throws IOException {
         //Turning off logger used in StreamingTable
-        Logger.getLogger("ac.biu.nlp.nlp.engineml").setLevel(Level.OFF);
-        Logger.getLogger("org.BIU.utils.logging.ExperimentLogger").setLevel(Level.OFF);
         Logger.getRootLogger().setLevel(Level.OFF);
 
         CellStyle cs = new CellStyle(CellStyle.HorizontalAlign.center, CellStyle.AbbreviationStyle.crop,
