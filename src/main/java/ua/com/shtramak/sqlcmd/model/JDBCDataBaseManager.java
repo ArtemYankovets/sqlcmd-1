@@ -11,11 +11,11 @@ import java.util.*;
 public class JDBCDataBaseManager implements DataBaseManager {
 
     private Connection connection;
+    private static String HOST = "//localhost:5432/";
 
     @Override
     public void connect(String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException {
-        String host = "//localhost:5432/";
-        connect(host, database, userName, password);
+        connect(HOST, database, userName, password);
     }
 
     @Override
@@ -117,6 +117,16 @@ public class JDBCDataBaseManager implements DataBaseManager {
     public void createTable(String tableName, String columns) throws NotExecutedRequestException {
         String parsedColumns = parseColumnsData(columns);
         String sqlRequest = String.format("CREATE TABLE %s ( %s );", tableName, parsedColumns);
+        executeRequest(sqlRequest);
+    }
+
+    public void createDB(String dbName) throws NotExecutedRequestException {
+        String sqlRequest = String.format("CREATE DATABASE %s;", dbName);
+        executeRequest(sqlRequest);
+    }
+
+    public void dropDB(String dbName) throws NotExecutedRequestException {
+        String sqlRequest = String.format("DROP DATABASE %s;", dbName);
         executeRequest(sqlRequest);
     }
 

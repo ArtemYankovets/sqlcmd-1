@@ -5,7 +5,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import ua.com.shtramak.sqlcmd.controller.Main;
-import ua.com.shtramak.sqlcmd.model.DataBaseManager;
 import ua.com.shtramak.sqlcmd.model.JDBCDataBaseManager;
 import ua.com.shtramak.sqlcmd.model.exceptions.NoJDBCDriverException;
 import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
@@ -16,30 +15,31 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class IntegrationTest {
 
     private ByteArrayOutputStream out;
     private ConsoleInputStream in;
     private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static String EXISTING_DBNAME = "sqlcmd";
+    private static String EXISTING_DBUSER = "postgres";
+    private static String EXISTING_USER_PASSWORD = "postgres";
 
     @BeforeClass
     public static void initTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException, NotExecutedRequestException {
-        DataBaseManager dataBaseManager = new JDBCDataBaseManager();
-        dataBaseManager.connect("sqlcmd", "postgres", "postgres");
-        if (dataBaseManager.hasTable("tmpusers")) {
-            dataBaseManager.dropTable("tmpusers");
-        }
+        JDBCDataBaseManager dataBaseManager = new JDBCDataBaseManager();
+        dataBaseManager.connect(EXISTING_DBNAME, EXISTING_DBUSER, EXISTING_USER_PASSWORD);
+        dataBaseManager.createDB("testsqlcmd");
+        dataBaseManager.connect("testsqlcmd", EXISTING_DBUSER, EXISTING_USER_PASSWORD);
         dataBaseManager.createTable("tmpusers", "id|serial|name|text|password|text");
         dataBaseManager.disconnect();
     }
 
     @AfterClass
-    public static void dropTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException, NotExecutedRequestException {
-        DataBaseManager dataBaseManager = new JDBCDataBaseManager();
-        dataBaseManager.connect("sqlcmd", "postgres", "postgres");
-        dataBaseManager.dropTable("tmpusers");
+    public static void dropDB() throws NoJDBCDriverException, UnsuccessfulConnectionException, NotExecutedRequestException {
+        JDBCDataBaseManager dataBaseManager = new JDBCDataBaseManager();
+        dataBaseManager.connect(EXISTING_DBNAME, EXISTING_DBUSER, EXISTING_USER_PASSWORD);
+        dataBaseManager.dropDB("testsqlcmd");
         dataBaseManager.disconnect();
     }
 
@@ -101,11 +101,11 @@ public class IntegrationTest {
 
     @Test
     public void testManualConnection() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -116,14 +116,14 @@ public class IntegrationTest {
 
     @Test
     public void testListAfterConnection() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("list");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Here's the names of available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Here's the names of available tables: [tmpusers]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -134,14 +134,14 @@ public class IntegrationTest {
 
     @Test
     public void testWrongShowAfterConnection() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("show|user");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Table user doesn't exists! Available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Table user doesn't exists! Available tables: [tmpusers]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
@@ -152,13 +152,13 @@ public class IntegrationTest {
 
     @Test
     public void testClear() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("clear|tmpusers");
         in.addCommand("yes");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from 'tmpusers' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -172,14 +172,14 @@ public class IntegrationTest {
 
     @Test
     public void testShowInEmptyTable() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("clear|tmpusers");
         in.addCommand("yes");
         in.addCommand("show|tmpusers");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from 'tmpusers' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -193,12 +193,11 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         assertEquals(expected, getData());
-
     }
 
     @Test
     public void testInsert() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("clear|tmpusers");
         in.addCommand("yes");
         in.addCommand("insert|tmpusers|id|11|name|TestName1|password|qqq");
@@ -207,7 +206,7 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from 'tmpusers' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -223,13 +222,11 @@ public class IntegrationTest {
         Main.main(new String[0]);
 
         assertEquals(expected, getData());
-
-
     }
 
     @Test
     public void testShowAndUpdate() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("clear|tmpusers");
         in.addCommand("yes");
         in.addCommand("insert|tmpusers|id|11|name|TestName1|password|pass1");
@@ -244,7 +241,7 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Data from 'tmpusers' was successfully deleted" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -290,12 +287,12 @@ public class IntegrationTest {
 
     @Test
     public void testConnectAfterConnection() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("connect|postgres|postgres|postgres");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Disconnection from current database..." + LINE_SEPARATOR +
                 "Hello postgres! Welcome to postgres database" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -309,11 +306,11 @@ public class IntegrationTest {
 
     @Test
     public void testConnectWithError() {
-        in.addCommand("connect|sqlcmd|postgres|wrongPassword");
+        in.addCommand("connect|testsqlcmd|postgres|wrongPassword");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Error message: Dear, postgres! Unsuccessful connection to sqlcmd... " +
+                "Error message: Dear, postgres! Unsuccessful connection to testsqlcmd... " +
                 "Reason: ВАЖНО: пользователь \"postgres\" не прошёл проверку подлинности (по паролю) " +
                 "(pgjdbc: autodetected server-encoding to be windows-1251, if the message is not readable, please " +
                 "check database logs and/or host, port, dbname, user, password, pg_hba.conf)" + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -327,12 +324,12 @@ public class IntegrationTest {
 
     @Test
     public void testHelp() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("help");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "List of available commands:" + LINE_SEPARATOR +
                 "\tconnect|database|userName|password" + LINE_SEPARATOR +
@@ -367,12 +364,12 @@ public class IntegrationTest {
 
     @Test
     public void testWrongCommandAfterConnection() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("hepl");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Command 'hepl' doesn't exists. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
@@ -385,7 +382,7 @@ public class IntegrationTest {
 
     @Test
     public void testWrongClear() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("clear|");
         in.addCommand("clear|user");
         in.addCommand("clear|tmpusers");
@@ -393,11 +390,11 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "'clear' command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "Table user doesn't exists! See the list with available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Table user doesn't exists! See the list with available tables: [tmpusers]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "You are going to delete all data from table 'tmpusers'! Are you sure? [Yes/No]" + LINE_SEPARATOR +
                 "Command 'clear' was canceled..." + LINE_SEPARATOR + LINE_SEPARATOR +
@@ -411,31 +408,30 @@ public class IntegrationTest {
 
     @Test
     public void testWrongInsert() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("insert|user");
         in.addCommand("insert|user|data");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Request to database was not executed. Reason: ОШИБКА: ошибка синтаксиса (примерное положение: \"user\")\n" +
-                "  Позиция: 13" + LINE_SEPARATOR + LINE_SEPARATOR+
+                "  Позиция: 13" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Good Luck!" + LINE_SEPARATOR;
 
         Main.main(new String[0]);
-        String expectet = getData();
 
-        assertEquals(expected,getData());
+        assertEquals(expected, getData());
 
     }
 
     @Test
     public void testWrongUpdate() {
-        in.addCommand("connect|sqlcmd|postgres|postgres");
+        in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("updateTable|user|user");
         in.addCommand("updateTable|user");
         in.addCommand("updateTable|tmpusers");
@@ -446,12 +442,12 @@ public class IntegrationTest {
         in.addCommand("exit");
 
         String expected = greetingMessage() +
-                "Hello postgres! Welcome to sqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "updateTableData command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Table 'user' doesn't exists! See below the list with available tables:" + LINE_SEPARATOR +
-                "Available tables: [tmpusers, users]" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "Available tables: [tmpusers]" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Please input wanted 'colName' and 'value' of the row you want to update:" + LINE_SEPARATOR +
                 "Enter column name: " + LINE_SEPARATOR +
