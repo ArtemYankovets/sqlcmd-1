@@ -25,7 +25,7 @@ public class UpdateTableDataTest {
     }
 
     @Test
-    public void testShowTableListDescription(){
+    public void testUpdateTableDataDescription(){
         String expected = "\tupdateTable|tableName" +
                 System.lineSeparator() +
                 "\t\tupdates entry in selected table using own command interface";

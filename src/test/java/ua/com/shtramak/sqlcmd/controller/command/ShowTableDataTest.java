@@ -27,7 +27,7 @@ public class ShowTableDataTest {
     }
 
     @Test
-    public void testDescription() {
+    public void testShowDescription() {
         String expected = "\tshow|tableName" +
                 System.lineSeparator() +
                 "\t\tdisplay table data from selected database";
