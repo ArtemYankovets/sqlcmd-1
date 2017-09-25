@@ -9,20 +9,6 @@ import java.util.Set;
 
 public interface DataBaseManager {
 
-    void connect(String host, String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException;
-
-    /**
-     * @param tableName name of the specified table in database
-     * @return arrayOf of DataSet[] with data from a table
-     */
-
-    List<DataSet> getTableData(String tableName) throws NotExecutedRequestException;
-
-    /**
-     * @return array with available tables in database
-     */
-    Set<String> getTableNames() throws NotExecutedRequestException;
-
     /**
      * This method makes connection to the specified database
      *
@@ -32,6 +18,20 @@ public interface DataBaseManager {
      */
 
     void connect(String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException;
+
+    void connect(String host, String database, String userName, String password) throws NoJDBCDriverException, UnsuccessfulConnectionException;
+
+    /**
+     * @param tableName name of the specified table in database
+     * @return List of DataSet with data from a table
+     */
+
+    List<DataSet> getTableData(String tableName) throws NotExecutedRequestException;
+
+    /**
+     * @return Set of available tables in database
+     */
+    Set<String> getTableNames() throws NotExecutedRequestException;
 
     /**
      * This method deletes all rows from the specified table
@@ -58,9 +58,11 @@ public interface DataBaseManager {
      */
     void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue) throws NotExecutedRequestException;
 
+    void dropTable(String tableName) throws NotExecutedRequestException;
+
     /**
      * @param tableName name of the specified table in database
-     * @return a names of a columns in specified table
+     * @return a Set of names of a columns in specified table
      */
     Set<String> getTableColumns(String tableName) throws NotExecutedRequestException;
 
@@ -96,6 +98,4 @@ public interface DataBaseManager {
      * @return true if value presents in column, false otherwise
      */
     boolean hasValue(String tableName, String columnName, String value) throws NotExecutedRequestException;
-
-    void dropTable(String tableName) throws NotExecutedRequestException;
 }

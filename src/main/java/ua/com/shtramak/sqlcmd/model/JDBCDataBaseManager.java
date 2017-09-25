@@ -58,14 +58,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
         return result;
     }
 
-    private DataSet rowDataSet(ResultSetMetaData rsMetaData, ResultSet resultSet) throws SQLException {
-        DataSet entry = new DataSet();
-        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
-            entry.put(rsMetaData.getColumnName(i), resultSet.getObject(i));
-        }
-        return entry;
-    }
-
     @Override
     public Set<String> getTableNames() throws NotExecutedRequestException {
         DatabaseMetaData md;
@@ -91,95 +83,6 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     @Override
-    public void clear(String tableName) throws NotExecutedRequestException {
-        try {
-            Statement statement = connection.createStatement();
-            String sql = String.format("DELETE FROM %s", tableName);
-            statement.execute(sql);
-        } catch (SQLException e) {
-            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
-            throw new NotExecutedRequestException(message);
-        }
-    }
-
-    @Override
-    public void insert(String tableName, DataSet input) throws NotExecutedRequestException {
-        String colNames = getFormattedColumnNames(input);
-        String colValue = getFormattedColumnData(input);
-
-        String sql = String.format("INSERT INTO %s (%s) VALUES (%s);", tableName, colNames, colValue);
-
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
-            throw new NotExecutedRequestException(message);
-        }
-    }
-
-    @Override
-    public void createTable(String tableName, String columns) throws NotExecutedRequestException {
-        String parsedColumns = parseColumnsData(columns);
-        String sql = String.format("CREATE TABLE %s ( %s );", tableName, parsedColumns);
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(sql);
-        } catch (SQLException e) {
-            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
-            throw new NotExecutedRequestException(message);
-        }
-    }
-
-    private String parseColumnsData(String columns) {
-        String[] colArray = Commands.arrayOf(columns);
-
-        StringBuilder colDataBuilder = new StringBuilder();
-        for (int i = 0; i < colArray.length; i++) {
-            colDataBuilder
-                    .append(colArray[i])
-                    .append(" ")
-                    .append(colArray[++i])
-                    .append(", ");
-        }
-        int lastCommaIndex = colDataBuilder.lastIndexOf(",");
-        colDataBuilder.deleteCharAt(lastCommaIndex);
-        return colDataBuilder.toString().trim();
-    }
-
-    @Override
-    public void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue) throws NotExecutedRequestException {
-        String updateLine = updateDataLine(newValue);
-        String sql = String.format("UPDATE %s SET %s WHERE %s = '%s'", tableName, updateLine, colName, rowValue);
-
-        try (Statement statement = connection.createStatement()) {
-            statement.executeUpdate(sql);
-        } catch (SQLException e) {
-            String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
-            throw new NotExecutedRequestException(message);
-        }
-    }
-
-    private String updateDataLine(DataSet newValue) {
-        StringBuilder updateLine = new StringBuilder();
-        if (!newValue.isEmpty()) {
-            Iterator<String> names = newValue.names().iterator();
-            Iterator<Object> values = newValue.values().iterator();
-            while (names.hasNext()) {
-                updateLine.append(names.next())
-                        .append(" = '")
-                        .append(values.next())
-                        .append("',");
-            }
-            int lastCommaIndex = updateLine.lastIndexOf(",");
-            updateLine.deleteCharAt(lastCommaIndex);
-        } else {
-            return "";
-        }
-
-        return updateLine.toString();
-    }
-
-    @Override
     public Set<String> getTableColumns(String tableName) throws NotExecutedRequestException {
         try {
             DatabaseMetaData dbMetaData = connection.getMetaData();
@@ -194,6 +97,40 @@ public class JDBCDataBaseManager implements DataBaseManager {
             String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
             throw new NotExecutedRequestException(message);
         }
+    }
+
+    @Override
+    public void clear(String tableName) throws NotExecutedRequestException {
+        String sqlRequest = String.format("DELETE FROM %s", tableName);
+        executeRequest(sqlRequest);
+    }
+
+    @Override
+    public void insert(String tableName, DataSet input) throws NotExecutedRequestException {
+        String colNames = getFormattedColumnNames(input);
+        String colValue = getFormattedColumnData(input);
+        String sqlRequest = String.format("INSERT INTO %s (%s) VALUES (%s);", tableName, colNames, colValue);
+        executeRequest(sqlRequest);
+    }
+
+    @Override
+    public void createTable(String tableName, String columns) throws NotExecutedRequestException {
+        String parsedColumns = parseColumnsData(columns);
+        String sqlRequest = String.format("CREATE TABLE %s ( %s );", tableName, parsedColumns);
+        executeRequest(sqlRequest);
+    }
+
+    @Override
+    public void updateTableData(String tableName, String colName, Object rowValue, DataSet newValue) throws NotExecutedRequestException {
+        String updateLine = updateDataLine(newValue);
+        String sqlRequest = String.format("UPDATE %s SET %s WHERE %s = '%s'", tableName, updateLine, colName, rowValue);
+        executeRequest(sqlRequest);
+    }
+
+    @Override
+    public void dropTable(String tableName) throws NotExecutedRequestException {
+        String sqlRequest = String.format("DROP TABLE %s", tableName);
+        executeRequest(sqlRequest);
     }
 
     @Override
@@ -244,16 +181,31 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
     }
 
-    @Override
-    public void dropTable(String tableName) throws NotExecutedRequestException {
-        String sql = String.format("DROP TABLE %s", tableName);
-
-        try (Statement statement = connection.createStatement()) {
-            statement.execute(sql);
+    private void executeRequest(String sqlRequest) throws NotExecutedRequestException {
+        try {
+            Statement statement = connection.createStatement();
+            statement.execute(sqlRequest);
         } catch (SQLException e) {
             String message = String.format("Request to database was not executed. Reason: %s", e.getMessage());
             throw new NotExecutedRequestException(message);
         }
+
+    }
+
+    private String parseColumnsData(String columns) {
+        String[] colArray = Commands.arrayOf(columns);
+
+        StringBuilder colDataBuilder = new StringBuilder();
+        for (int i = 0; i < colArray.length; i++) {
+            colDataBuilder
+                    .append(colArray[i])
+                    .append(" ")
+                    .append(colArray[++i])
+                    .append(", ");
+        }
+        int lastCommaIndex = colDataBuilder.lastIndexOf(",");
+        colDataBuilder.deleteCharAt(lastCommaIndex);
+        return colDataBuilder.toString().trim();
     }
 
     private String getFormattedColumnData(DataSet dataSet) {
@@ -282,5 +234,33 @@ public class JDBCDataBaseManager implements DataBaseManager {
         }
         result.deleteCharAt(result.lastIndexOf(","));
         return result.toString();
+    }
+
+    private String updateDataLine(DataSet newValue) {
+        StringBuilder updateLine = new StringBuilder();
+        if (!newValue.isEmpty()) {
+            Iterator<String> names = newValue.names().iterator();
+            Iterator<Object> values = newValue.values().iterator();
+            while (names.hasNext()) {
+                updateLine.append(names.next())
+                        .append(" = '")
+                        .append(values.next())
+                        .append("',");
+            }
+            int lastCommaIndex = updateLine.lastIndexOf(",");
+            updateLine.deleteCharAt(lastCommaIndex);
+        } else {
+            return "";
+        }
+
+        return updateLine.toString();
+    }
+
+    private DataSet rowDataSet(ResultSetMetaData rsMetaData, ResultSet resultSet) throws SQLException {
+        DataSet entry = new DataSet();
+        for (int i = 1; i <= rsMetaData.getColumnCount(); i++) {
+            entry.put(rsMetaData.getColumnName(i), resultSet.getObject(i));
+        }
+        return entry;
     }
 }
