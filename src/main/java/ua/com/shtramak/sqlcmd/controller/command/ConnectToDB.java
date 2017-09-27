@@ -7,7 +7,6 @@ import ua.com.shtramak.sqlcmd.model.exceptions.UnsuccessfulConnectionException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -35,7 +34,7 @@ public class ConnectToDB extends AbstractCommand {
             }
         } catch (NotExecutedRequestException e) {
             view.writeln("Disconnection from current database failed! Try again!" +
-                    "Reason: "+e.getMessage());
+                    "Reason: " + e.getMessage());
         }
 
         return true;
@@ -44,9 +43,9 @@ public class ConnectToDB extends AbstractCommand {
     @Override
     public void execute(String command) {
         try {
-            if (command.equals("connect")){
+            if (command.equals("connect")) {
                 autoConnect();
-            }else {
+            } else {
                 final String[] commandsTemplate = Commands.arrayOf("connect|database|userName|password");
                 String[] connectionData = Commands.arrayOf(command);
                 if (connectionData.length != commandsTemplate.length) {
@@ -87,16 +86,16 @@ public class ConnectToDB extends AbstractCommand {
         view.writeln("Error message: " + reason);
     }
 
-    private boolean connectedWithConfig(DataBaseManager dataBaseManager){
+    private boolean connectedWithConfig(DataBaseManager dataBaseManager) {
         Properties properties = configData();
-        if (!properties.isEmpty()){
+        if (!properties.isEmpty()) {
             String host = properties.getProperty("db.host");
             String dbName = properties.getProperty("db.name");
             String userName = properties.getProperty("db.user");
             String userPassword = properties.getProperty("db.password");
 
             try {
-                dataBaseManager.connect(host,dbName,userName,userPassword);
+                dataBaseManager.connect(host, dbName, userName, userPassword);
                 return true;
             } catch (NoJDBCDriverException | UnsuccessfulConnectionException e) {
                 view.writeln(e.getMessage());
@@ -108,7 +107,7 @@ public class ConnectToDB extends AbstractCommand {
     private Properties configData() {
         Properties properties = new Properties();
         try {
-            properties.load(new FileReader("src/main/resources/config.properties"));
+            properties.load(getClass().getResourceAsStream("/config.properties"));
         } catch (IOException e) {
             view.writeln(e.getMessage());
         }

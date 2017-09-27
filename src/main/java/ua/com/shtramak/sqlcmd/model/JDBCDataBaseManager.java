@@ -120,11 +120,13 @@ public class JDBCDataBaseManager implements DataBaseManager {
         executeRequest(sqlRequest);
     }
 
+    //for tests only
     public void createDB(String dbName) throws NotExecutedRequestException {
         String sqlRequest = String.format("CREATE DATABASE %s;", dbName);
         executeRequest(sqlRequest);
     }
 
+    //for tests only
     public void dropDB(String dbName) throws NotExecutedRequestException {
         String sqlRequest = String.format("DROP DATABASE %s;", dbName);
         executeRequest(sqlRequest);

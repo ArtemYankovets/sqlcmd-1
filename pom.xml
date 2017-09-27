@@ -33,6 +33,7 @@
                 <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
                     <finalName>sqlcmd</finalName>
+                    <appendAssemblyId>false</appendAssemblyId>
                     <archive>
                         <manifest>
                             <mainClass>ua.com.shtramak.sqlcmd.controller.Main</mainClass>
