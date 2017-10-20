@@ -5,8 +5,6 @@ import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Arrays;
-
 public class ClearTable extends AbstractCommand {
     public ClearTable(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -15,19 +13,17 @@ public class ClearTable extends AbstractCommand {
 
     @Override
     public String description() {
-        return "\tclear|tableName" +
-                System.lineSeparator() +
-                "\t\tdelete all data from selected table";
+        return ComandType.CLEAR_TABLE.description();
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("clear|");
+        return command.startsWith(ComandType.CLEAR_TABLE.getName());
     }
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf("clear|tableName");
+        final String[] commandsTemplate = Commands.arrayOf(ComandType.CLEAR_TABLE.template());
         String[] commands = Commands.arrayOf(command);
         if (commands.length != commandsTemplate.length) {
             view.writeln("'clear' command failed because of wrong input. Use 'help' command for details");

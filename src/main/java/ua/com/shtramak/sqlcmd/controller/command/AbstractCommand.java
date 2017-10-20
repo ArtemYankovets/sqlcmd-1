@@ -12,4 +12,6 @@ public abstract class AbstractCommand {
     abstract public void execute(String command);
 
     abstract public String description();
+
+    //TODO проверка команды на полное соответсвие шаблону. "command != commanddd"
 }

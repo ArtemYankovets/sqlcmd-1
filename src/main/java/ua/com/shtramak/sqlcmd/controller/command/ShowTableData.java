@@ -20,14 +20,12 @@ public class ShowTableData extends AbstractCommand {
 
     @Override
     public String description() {
-        return "\tshow|tableName" +
-                System.lineSeparator() +
-                "\t\tdisplay table data from selected database";
+        return ComandType.SHOW_TABLE_DATA.description();
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("show|");
+        return command.startsWith(ComandType.SHOW_TABLE_DATA.getName());
     }
 
     @Override

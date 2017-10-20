@@ -6,8 +6,6 @@ import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Arrays;
-
 public class UpdateTableData extends AbstractCommand {
     public UpdateTableData(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -16,19 +14,17 @@ public class UpdateTableData extends AbstractCommand {
 
     @Override
     public String description() {
-        return "\tupdateTable|tableName" +
-                System.lineSeparator() +
-                "\t\tupdates entry in selected table using own command interface";
+        return ComandType.UPDATE_TABLE_DATA.description();
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("updateTable|");
+        return command.startsWith(ComandType.UPDATE_TABLE_DATA.getName());
     }
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf("updateTable|tableName");
+        final String[] commandsTemplate = Commands.arrayOf(ComandType.UPDATE_TABLE_DATA.template());
         String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
             view.writeln("updateTableData command failed because of wrong input. Use 'help' command for details");

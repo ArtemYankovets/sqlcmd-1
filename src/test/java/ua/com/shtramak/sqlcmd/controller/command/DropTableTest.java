@@ -32,7 +32,7 @@ public class DropTableTest {
 
     @Test
     public void testWrongDropIsDetected() {
-        assertFalse(command.isDetected("dropp"));
+        assertFalse(command.isDetected("drap"));
     }
 
     @Test

@@ -14,8 +14,13 @@ public class DropTable extends AbstractCommand {
     }
 
     @Override
+    public String description() {
+        return ComandType.DROP_TABLE.description();
+    }
+
+    @Override
     public boolean isDetected(String command) {
-        return command.startsWith("drop|");
+        return command.startsWith(ComandType.DROP_TABLE.getName());
     }
 
     @Override
@@ -45,12 +50,5 @@ public class DropTable extends AbstractCommand {
         } catch (NotExecutedRequestException e) {
             view.writeln(e.getMessage());
         }
-    }
-
-    @Override
-    public String description() {
-        return "\tdrop|tableName" +
-                System.lineSeparator() +
-                "\t\tdrop an existing table in a database";
     }
 }

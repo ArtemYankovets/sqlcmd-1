@@ -13,8 +13,13 @@ public class CreateTable extends AbstractCommand {
 
 
     @Override
+    public String description() {
+        return ComandType.CREATE_TABLE.description();
+    }
+
+    @Override
     public boolean isDetected(String command) {
-        return command.equals("create");
+        return command.equals(ComandType.CREATE_TABLE.getName());
     }
 
     @Override
@@ -41,13 +46,6 @@ public class CreateTable extends AbstractCommand {
         } catch (NotExecutedRequestException e) {
             view.writeln(e.getMessage());
         }
-    }
-
-    @Override
-    public String description() {
-        return "\tcreate" +
-                System.lineSeparator() +
-                "\t\tredirects to dialog to create a new table";
     }
 
 }

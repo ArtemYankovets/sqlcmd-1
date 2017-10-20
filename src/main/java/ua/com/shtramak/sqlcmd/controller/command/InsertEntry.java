@@ -14,14 +14,12 @@ public class InsertEntry extends AbstractCommand {
 
     @Override
     public String description() {
-        return "\tinsert|tableName|col1Name|value1|col2Name|value2|...col#Name|value#" +
-                System.lineSeparator() +
-                "\t\tinsert entered data to selected table";
+        return ComandType.INSERT_ENTRY.description();
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("insert|");
+        return command.startsWith(ComandType.INSERT_ENTRY.getName());
     }
 
     @Override

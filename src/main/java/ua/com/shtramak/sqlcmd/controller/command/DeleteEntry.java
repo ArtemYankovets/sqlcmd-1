@@ -13,19 +13,17 @@ public class DeleteEntry extends AbstractCommand {
 
     @Override
     public String description() {
-        return "\tdeleteEntry|tableName" +
-                System.lineSeparator() +
-                "\t\tdeletes entry in selected table using own command interface";
+        return ComandType.DELETE_ENTRY.description();
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.startsWith("deleteEntry|");
+        return command.startsWith(ComandType.DELETE_ENTRY.getName());
     }
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf("deleteEntry|tableName");
+        final String[] commandsTemplate = Commands.arrayOf(ComandType.DELETE_ENTRY.template());
         String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
             view.writeln("deleteEntry command failed because of wrong input. Use 'help' command for details");

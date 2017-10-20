@@ -12,14 +12,12 @@ public class Exit extends AbstractCommand {
 
     @Override
     public boolean isDetected(String command) {
-        return command.equals("exit");
+        return command.equals(ComandType.EXIT.getName());
     }
 
     @Override
     public String description() {
-        return "\texit" +
-                System.lineSeparator() +
-                "\t\tto exit from this session";
+        return ComandType.EXIT.description();
     }
 
     @Override

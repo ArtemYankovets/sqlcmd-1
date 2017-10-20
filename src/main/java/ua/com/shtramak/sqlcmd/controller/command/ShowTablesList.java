@@ -4,8 +4,6 @@ import ua.com.shtramak.sqlcmd.model.DataBaseManager;
 import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Arrays;
-
 public class ShowTablesList extends AbstractCommand {
     public ShowTablesList(DataBaseManager dataBaseManager, View view) {
         this.dataBaseManager = dataBaseManager;
@@ -14,14 +12,12 @@ public class ShowTablesList extends AbstractCommand {
 
     @Override
     public String description() {
-        return "\tlist" +
-                System.lineSeparator() +
-                "\t\tdisplay available tables in selected database";
+        return ComandType.SHOW_TABLES_LIST.description();
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.equals("list");
+        return command.equals(ComandType.SHOW_TABLES_LIST.getName());
     }
 
     @Override

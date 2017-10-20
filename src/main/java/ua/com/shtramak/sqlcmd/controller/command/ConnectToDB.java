@@ -18,14 +18,12 @@ public class ConnectToDB extends AbstractCommand {
 
     @Override
     public String description() {
-        return "\tconnect|database|userName|password" +
-                System.lineSeparator() +
-                "\t\tconnection with database under userName with password";
+        return ComandType.CONNECT_TO_DB.description();
     }
 
     @Override
     public boolean isDetected(String command) {
-        if (!command.startsWith("connect")) return false;
+        if (!command.startsWith(ComandType.CONNECT_TO_DB.getName())) return false;
 
         try {
             if (dataBaseManager.isConnected()) {
@@ -46,7 +44,7 @@ public class ConnectToDB extends AbstractCommand {
             if (command.equals("connect")) {
                 autoConnect();
             } else {
-                final String[] commandsTemplate = Commands.arrayOf("connect|database|userName|password");
+                final String[] commandsTemplate = Commands.arrayOf(ComandType.CONNECT_TO_DB.template());
                 String[] connectionData = Commands.arrayOf(command);
                 if (connectionData.length != commandsTemplate.length) {
                     view.writeln("Connection failed!");

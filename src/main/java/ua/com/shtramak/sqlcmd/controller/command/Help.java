@@ -12,14 +12,12 @@ public class Help extends AbstractCommand {
 
     @Override
     public String description() {
-        return "\thelp" +
-                System.lineSeparator() +
-                "\t\twill display this message again... try it! )";
+        return ComandType.HELP.description();
     }
 
     @Override
     public boolean isDetected(String command) {
-        return command.equals("help");
+        return command.equals(ComandType.HELP.getName());
     }
 
     @Override
