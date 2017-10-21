@@ -8,18 +8,9 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class InsertEntry extends AbstractCommand {
     public InsertEntry(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.INSERT_ENTRY);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
-    }
-
-    @Override
-    public String description() {
-        return ComandType.INSERT_ENTRY.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.startsWith(ComandType.INSERT_ENTRY.getName());
     }
 
     @Override

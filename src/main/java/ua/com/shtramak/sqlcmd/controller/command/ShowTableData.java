@@ -14,18 +14,9 @@ import java.util.Set;
 
 public class ShowTableData extends AbstractCommand {
     public ShowTableData(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.SHOW_TABLE_DATA);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
-    }
-
-    @Override
-    public String description() {
-        return ComandType.SHOW_TABLE_DATA.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.startsWith(ComandType.SHOW_TABLE_DATA.getName());
     }
 
     @Override

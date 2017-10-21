@@ -12,18 +12,14 @@ import java.util.Properties;
 
 public class ConnectToDB extends AbstractCommand {
     public ConnectToDB(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.CONNECT_TO_DB);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
 
     @Override
-    public String description() {
-        return ComandType.CONNECT_TO_DB.description();
-    }
-
-    @Override
     public boolean isDetected(String command) {
-        if (!command.startsWith(ComandType.CONNECT_TO_DB.getName())) return false;
+        if (!command.startsWith(CommandType.CONNECT_TO_DB.getName())) return false;
 
         try {
             if (dataBaseManager.isConnected()) {
@@ -44,7 +40,7 @@ public class ConnectToDB extends AbstractCommand {
             if (command.equals("connect")) {
                 autoConnect();
             } else {
-                final String[] commandsTemplate = Commands.arrayOf(ComandType.CONNECT_TO_DB.template());
+                final String[] commandsTemplate = Commands.arrayOf(CommandType.CONNECT_TO_DB.template());
                 String[] connectionData = Commands.arrayOf(command);
                 if (connectionData.length != commandsTemplate.length) {
                     view.writeln("Connection failed!");

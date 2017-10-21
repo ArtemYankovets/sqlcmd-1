@@ -5,22 +5,11 @@ import ua.com.shtramak.sqlcmd.model.exceptions.NotExecutedRequestException;
 import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
-import java.util.Arrays;
-
 public class DropTable extends AbstractCommand {
     public DropTable(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.DROP_TABLE);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
-    }
-
-    @Override
-    public String description() {
-        return ComandType.DROP_TABLE.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.startsWith(ComandType.DROP_TABLE.getName());
     }
 
     @Override

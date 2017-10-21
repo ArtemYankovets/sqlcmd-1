@@ -7,19 +7,9 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class CreateTable extends AbstractCommand {
     public CreateTable(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.CREATE_TABLE);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
-    }
-
-
-    @Override
-    public String description() {
-        return ComandType.CREATE_TABLE.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.equals(ComandType.CREATE_TABLE.getName());
     }
 
     @Override

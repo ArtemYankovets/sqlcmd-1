@@ -6,18 +6,9 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class ShowTablesList extends AbstractCommand {
     public ShowTablesList(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.SHOW_TABLES_LIST);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
-    }
-
-    @Override
-    public String description() {
-        return ComandType.SHOW_TABLES_LIST.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.equals(ComandType.SHOW_TABLES_LIST.getName());
     }
 
     @Override

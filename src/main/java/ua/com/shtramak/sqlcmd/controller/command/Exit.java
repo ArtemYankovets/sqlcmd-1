@@ -6,18 +6,9 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class Exit extends AbstractCommand {
     public Exit(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.EXIT);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.equals(ComandType.EXIT.getName());
-    }
-
-    @Override
-    public String description() {
-        return ComandType.EXIT.description();
     }
 
     @Override

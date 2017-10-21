@@ -6,18 +6,9 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class Help extends AbstractCommand {
     public Help(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.HELP);
         this.view = view;
         this.dataBaseManager = dataBaseManager;
-    }
-
-    @Override
-    public String description() {
-        return ComandType.HELP.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.equals(ComandType.HELP.getName());
     }
 
     @Override

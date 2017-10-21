@@ -8,23 +8,14 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class UpdateTableData extends AbstractCommand {
     public UpdateTableData(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.UPDATE_TABLE_DATA);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
 
     @Override
-    public String description() {
-        return ComandType.UPDATE_TABLE_DATA.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.startsWith(ComandType.UPDATE_TABLE_DATA.getName());
-    }
-
-    @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf(ComandType.UPDATE_TABLE_DATA.template());
+        final String[] commandsTemplate = Commands.arrayOf(CommandType.UPDATE_TABLE_DATA.template());
         String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
             view.writeln("updateTableData command failed because of wrong input. Use 'help' command for details");

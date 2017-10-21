@@ -1,6 +1,6 @@
 package ua.com.shtramak.sqlcmd.controller.command;
 
-public enum ComandType {
+public enum CommandType {
     CLEAR_TABLE(
             "clear",
             "\tclear|tableName"
@@ -83,7 +83,7 @@ public enum ComandType {
     private String description;
     private String template;
 
-    ComandType(String name, String description, String template) {
+    CommandType(String name, String description, String template) {
         this.name = name;
         this.description = description;
         this.template = template;

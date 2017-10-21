@@ -7,23 +7,14 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class DeleteEntry extends AbstractCommand {
     public DeleteEntry(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.DELETE_ENTRY);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
 
     @Override
-    public String description() {
-        return ComandType.DELETE_ENTRY.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.startsWith(ComandType.DELETE_ENTRY.getName());
-    }
-
-    @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf(ComandType.DELETE_ENTRY.template());
+        final String[] commandsTemplate = Commands.arrayOf(CommandType.DELETE_ENTRY.template());
         String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
             view.writeln("deleteEntry command failed because of wrong input. Use 'help' command for details");

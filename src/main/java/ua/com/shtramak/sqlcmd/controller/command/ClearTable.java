@@ -7,23 +7,14 @@ import ua.com.shtramak.sqlcmd.view.View;
 
 public class ClearTable extends AbstractCommand {
     public ClearTable(DataBaseManager dataBaseManager, View view) {
+        super(CommandType.CLEAR_TABLE);
         this.dataBaseManager = dataBaseManager;
         this.view = view;
     }
 
     @Override
-    public String description() {
-        return ComandType.CLEAR_TABLE.description();
-    }
-
-    @Override
-    public boolean isDetected(String command) {
-        return command.startsWith(ComandType.CLEAR_TABLE.getName());
-    }
-
-    @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf(ComandType.CLEAR_TABLE.template());
+        final String[] commandsTemplate = Commands.arrayOf(CommandType.CLEAR_TABLE.template());
         String[] commands = Commands.arrayOf(command);
         if (commands.length != commandsTemplate.length) {
             view.writeln("'clear' command failed because of wrong input. Use 'help' command for details");
