@@ -13,6 +13,8 @@ public class Help extends AbstractCommand {
 
     @Override
     public void execute(String command) {
+        if (!isValidCommand(command)) return;
+
         AbstractCommand[] commands = new CommandsStorage(dataBaseManager, view).commandsList();
         view.writeln(System.lineSeparator() + "List of available commands:");
         for (AbstractCommand element : commands) {

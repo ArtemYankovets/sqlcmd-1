@@ -27,12 +27,12 @@ public class ClearTableTest {
 
     @Test
     public void testClearIsDetected() {
-        assertTrue(command.isDetected("clear|"));
+        assertTrue(command.isDetected("clear|tableName"));
     }
 
     @Test
     public void testWrongClearIsDetected() {
-        assertFalse(command.isDetected("klear|"));
+        assertFalse(command.isDetected("klear|tableName"));
     }
 
     @Test

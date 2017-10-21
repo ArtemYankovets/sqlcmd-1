@@ -21,6 +21,8 @@ public class ShowTableData extends AbstractCommand {
 
     @Override
     public void execute(String command) {
+        if (!isValidCommand(command)) return;
+
         int tableNameIndex = 1;
         String tableName = Commands.arrayOf(command)[tableNameIndex];
         try {

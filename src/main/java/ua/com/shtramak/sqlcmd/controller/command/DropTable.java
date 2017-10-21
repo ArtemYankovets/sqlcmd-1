@@ -14,12 +14,9 @@ public class DropTable extends AbstractCommand {
 
     @Override
     public void execute(String command) {
-        String[] commands = Commands.arrayOf(command);
-        if (commands.length != 2) {
-            view.writeln("Incorrect usage of 'drop' command. Use 'help' command for details");
-            return;
-        }
+        if (!isValidCommand(command)) return;
 
+        String[] commands = Commands.arrayOf(command);
         int tableNameIndex = 1;
         String tableName = commands[tableNameIndex];
         try {

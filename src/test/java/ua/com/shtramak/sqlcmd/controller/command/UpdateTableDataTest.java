@@ -46,7 +46,7 @@ public class UpdateTableDataTest {
     public void testUpdateTableDataWithWrongNumberOfParameters(){
         String inputCommand = "updateTable|tableName|col1Name|col1Value";
         command.execute(inputCommand);
-        verify(view).writeln("updateTableData command failed because of wrong input. Use 'help' command for details");
+        verify(view).writeln("'updateTable' command failed because of wrong input. Use 'help' command for details");
     }
 
     @Test

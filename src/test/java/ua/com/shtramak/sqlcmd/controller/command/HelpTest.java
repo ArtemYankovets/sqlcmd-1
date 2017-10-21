@@ -55,6 +55,7 @@ public class HelpTest {
                 "\t\tdrop an existing table in a database\texit" + lineSeparator +
                 "\t\tto exit from this session\thelp" + lineSeparator +
                 "\t\twill display this message again... try it! )";
+
         command.execute("help");
         ArgumentCaptor<String> arg = ArgumentCaptor.forClass(String.class);
         verify(view, atLeastOnce()).writeln(arg.capture());

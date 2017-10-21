@@ -14,13 +14,9 @@ public class ClearTable extends AbstractCommand {
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf(CommandType.CLEAR_TABLE.template());
-        String[] commands = Commands.arrayOf(command);
-        if (commands.length != commandsTemplate.length) {
-            view.writeln("'clear' command failed because of wrong input. Use 'help' command for details");
-            return;
-        }
+        if (!isValidCommand(command)) return;
 
+        String[] commands = Commands.arrayOf(command);
         int tableNameIndex = 1;
         String tableName = commands[tableNameIndex];
 

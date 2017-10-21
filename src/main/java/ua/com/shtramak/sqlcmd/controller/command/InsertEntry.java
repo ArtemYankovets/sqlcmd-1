@@ -15,16 +15,12 @@ public class InsertEntry extends AbstractCommand {
 
     @Override
     public void execute(String command) {
-        String[] commands = Commands.arrayOf(command);
-        int commandsSize = Commands.sizeOf(command);
-        if (commandsSize % 2 == 1) {
-            view.writeln("'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details");
-            return;
-        }
+        if (!isValidCommand(command)) return;
 
+        String[] commands = Commands.arrayOf(command);
         DataSet insertData = new DataSet();
         int firstCommandIndex = 2;
-        for (int i = firstCommandIndex; i < commandsSize; i++) {
+        for (int i = firstCommandIndex; i < commands.length; i++) {
             insertData.put(commands[i], commands[++i]);
         }
 
@@ -36,5 +32,17 @@ public class InsertEntry extends AbstractCommand {
         } catch (NotExecutedRequestException e) {
             view.writeln(e.getMessage());
         }
+    }
+
+    @Override
+    boolean isValidCommand(String command) {
+        String[] commands = Commands.arrayOf(command);
+        int commandsSize = Commands.sizeOf(command);
+        if (commandsSize % 2 == 1) {
+            view.writeln("'insert' command failed because of wrong input: incorrect number of elements. Use 'help' command for details");
+            return false;
+        }
+
+        return true;
     }
 }

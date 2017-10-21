@@ -14,14 +14,10 @@ public class DeleteEntry extends AbstractCommand {
 
     @Override
     public void execute(String command) {
-        final String[] commandsTemplate = Commands.arrayOf(CommandType.DELETE_ENTRY.template());
-        String[] inputCommands = Commands.arrayOf(command);
-        if (inputCommands.length != commandsTemplate.length) {
-            view.writeln("deleteEntry command failed because of wrong input. Use 'help' command for details");
-            return;
-        }
+        if (!isValidCommand(command)) return;
 
         try {
+            String[] inputCommands = Commands.arrayOf(command);
             int tableNameIndex = 1;
             String tableName = inputCommands[tableNameIndex];
             if (!isAcceptableTableName(tableName)) return;

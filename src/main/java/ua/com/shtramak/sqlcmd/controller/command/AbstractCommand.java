@@ -20,14 +20,14 @@ public abstract class AbstractCommand {
     public boolean isDetected(String command) {
         if (command == null) return false;
         String[] splittedCommand = Commands.arrayOf(command);
-        return splittedCommand[0].equals(commandType.getName())/* && isValidCommand(splittedCommand)*/;
+        return splittedCommand[0].equals(commandType.getName());
 
     }
 
 
-    private boolean isValidCommand(String[] splittedCommand) {
-        if (splittedCommand.length == Commands.sizeOf(commandType.template())) return true;
-        view.writeln(commandType.getName()+" command failed because of wrong input. Use 'help' command for details");
+    boolean isValidCommand(String command) {
+        if (Commands.sizeOf(command) == Commands.sizeOf(commandType.template())) return true;
+        view.writeln(String.format("'%s' command failed because of wrong input. Use 'help' command for details",commandType.getName()));
         return false;
     }
 

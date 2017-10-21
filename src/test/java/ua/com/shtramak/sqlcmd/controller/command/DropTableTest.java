@@ -46,7 +46,7 @@ public class DropTableTest {
     @Test
     public void testWrongDropTable() {
         command.execute("drop|");
-        verify(view).writeln("Incorrect usage of 'drop' command. Use 'help' command for details");
+        verify(view).writeln("'drop' command failed because of wrong input. Use 'help' command for details");
     }
 
     @Test

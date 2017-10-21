@@ -444,7 +444,7 @@ public class IntegrationTest {
         String expected = greetingMessage() +
                 "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
-                "updateTableData command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
+                "'updateTable' command failed because of wrong input. Use 'help' command for details" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
                 "Table 'user' doesn't exists! See below the list with available tables:" + LINE_SEPARATOR +
                 "Available tables: [tmpusers]" + LINE_SEPARATOR + LINE_SEPARATOR +

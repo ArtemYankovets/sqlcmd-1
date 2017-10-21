@@ -15,6 +15,9 @@ public class UpdateTableData extends AbstractCommand {
 
     @Override
     public void execute(String command) {
+        if (!isValidCommand(command)) return;
+        ;
+
         final String[] commandsTemplate = Commands.arrayOf(CommandType.UPDATE_TABLE_DATA.template());
         String[] inputCommands = Commands.arrayOf(command);
         if (inputCommands.length != commandsTemplate.length) {
@@ -37,7 +40,7 @@ public class UpdateTableData extends AbstractCommand {
             view.write("Enter value: ");
             String value = view.read();
             view.writeln("");
-            if(!isAcceptableColumnValue(tableName, colName, value)) return;
+            if (!isAcceptableColumnValue(tableName, colName, value)) return;
 
             view.writeln("Now please input updateTableData data for this entry in format: col1Name|value1|col2Name|value2|...col#Name|value# or exit");
             String inputData = readUpdateData();
@@ -57,7 +60,7 @@ public class UpdateTableData extends AbstractCommand {
         }
     }
 
-    private String readUpdateData(){
+    private String readUpdateData() {
         String inputData;
         while (true) {
             inputData = view.read();
@@ -78,11 +81,11 @@ public class UpdateTableData extends AbstractCommand {
     }
 
     private boolean isAcceptableColumnValue(String tableName, String colName, String value) throws NotExecutedRequestException {
-        if(!dataBaseManager.hasValue(tableName,colName,value)){
-            view.writeln(String.format("There's no value '%s' in column '%s'",value, colName));
+        if (!dataBaseManager.hasValue(tableName, colName, value)) {
+            view.writeln(String.format("There's no value '%s' in column '%s'", value, colName));
             return false;
         }
-        return  true;
+        return true;
     }
 
     private boolean isAcceptableColumnName(String tableName, String colName) throws NotExecutedRequestException {

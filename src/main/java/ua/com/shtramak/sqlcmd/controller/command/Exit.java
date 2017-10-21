@@ -13,6 +13,8 @@ public class Exit extends AbstractCommand {
 
     @Override
     public void execute(String command) {
+        if (!isValidCommand(command)) return;
+
         try {
             dataBaseManager.disconnect();
             view.writeln("Good Luck!");

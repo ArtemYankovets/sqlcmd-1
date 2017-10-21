@@ -48,7 +48,7 @@ public class DeleteEntryTest {
     public void testDeleteEntryWithWrongNumberOfParameters() {
         String inputCommand = "deleteEntry|tableName|col1Name|col1Value";
         command.execute(inputCommand);
-        verify(view).writeln("deleteEntry command failed because of wrong input. Use 'help' command for details");
+        verify(view).writeln("'deleteEntry' command failed because of wrong input. Use 'help' command for details");
     }
 
     @Test

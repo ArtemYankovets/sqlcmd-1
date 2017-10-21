@@ -14,6 +14,8 @@ public class CreateTable extends AbstractCommand {
 
     @Override
     public void execute(String command) {
+        if (!isValidCommand(command)) return;
+
         view.write("Please enter a name of table you want to create: ");
         String tableName = view.read();
 

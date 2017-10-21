@@ -13,6 +13,8 @@ public class ShowTablesList extends AbstractCommand {
 
     @Override
     public void execute(String command) {
+        if (!isValidCommand(command)) return;
+
         try {
             if (dataBaseManager.getTableNames() != null)
                 view.writeln("Here's the names of available tables: " + dataBaseManager.getTableNames());
