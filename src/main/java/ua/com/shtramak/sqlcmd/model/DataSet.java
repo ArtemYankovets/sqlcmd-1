@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import static java.util.stream.Collectors.toList;
+
 public class DataSet {
     private List<Data> data = new ArrayList<>();
 
@@ -15,57 +17,30 @@ public class DataSet {
 
     public List<Object> values() {
         if (data.isEmpty()) return new ArrayList<>(Arrays.asList(new String[]{""}));
-
-        List<Object> result = new ArrayList<>();
-        for (Data dataItem : data) {
-            result.add(dataItem.getValue());
-        }
-        return result;
+        return data.stream().map(Data::getValue).collect(toList());
     }
 
     public List<String> names() {
-        List<String> result = new ArrayList<>();
-        if (data.isEmpty()) return result;
-
-        for (Data dataElement : data) {
-            result.add(dataElement.getName());
-        }
-        return result;
+        if (data.isEmpty()) return new ArrayList<>();
+        return data.stream().map(Data::getName).collect(toList());
     }
 
     public Object value(String name) {
         if (data.isEmpty()) throw new RuntimeException("DataSet is empty");
-
-        for (Data dataElement : data) {
-            if (dataElement.getName().equals(name)) {
-                return dataElement.getValue();
-            }
-        }
-
-        throw new NoSuchElementException("There's no such name in DataSet");
+        return data.stream().filter(d -> d.getName().equals(name)).map(Data::getValue).findFirst()
+                .orElseThrow(() -> new NoSuchElementException("There's no such name in DataSet"));
     }
 
     public String toString() {
         if (data.isEmpty()) return "";
         StringBuilder result = new StringBuilder("[");
-        for (Data dataElement : data) {
-            result.append("{");
-            result.append(dataElement.getName());
-            result.append(", ");
-            result.append(dataElement.getValue());
-            result.append("},");
-        }
-        result.deleteCharAt(result.lastIndexOf(","));
-        result.append("]");
+        data.forEach(el -> result.append("{").append(el.getName()).append(", ").append(el.getValue()).append("},"));
+        result.replace(result.lastIndexOf(","), result.lastIndexOf(",") + 1, "]");
         return result.toString();
     }
 
     public List<String> stringValues() {
-        List<String> result = new ArrayList<>();
-        for (Data dataElement : data) {
-            result.add(dataElement.getValue().toString());
-        }
-        return result;
+        return data.stream().map(d->d.getValue().toString()).collect(toList());
     }
 
     @Override
