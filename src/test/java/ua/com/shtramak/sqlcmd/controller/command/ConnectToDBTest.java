@@ -5,6 +5,7 @@ import org.junit.Test;
 import ua.com.shtramak.sqlcmd.model.DataBaseManager;
 import ua.com.shtramak.sqlcmd.model.exceptions.NoJDBCDriverException;
 import ua.com.shtramak.sqlcmd.model.exceptions.UnsuccessfulConnectionException;
+import ua.com.shtramak.sqlcmd.utils.Commands;
 import ua.com.shtramak.sqlcmd.view.View;
 
 import static org.junit.Assert.*;
@@ -41,10 +42,23 @@ public class ConnectToDBTest {
     }
 
     @Test
-    public void testConnectAfterConnection() {
+    public void testConnectAfterConnectionWithDisconnection() {
         when(dataBaseManager.isConnected()).thenReturn(true);
-        command.isDetected("connect|");
+        when(view.read()).thenReturn("Yes");
+        command.execute("connect|database|userName|password");
+        verify(view).writeln("You are going to disconnect from current database. Proceed? [Yes/No]");
         verify(view).writeln("Disconnection from current database...");
+        verify(view).writeln("Hello userName! Welcome to database database");
+
+    }
+    @Test
+    public void testConnectAfterConnectionWithoutDisconnection() {
+        when(dataBaseManager.isConnected()).thenReturn(true);
+        when(view.read()).thenReturn("No");
+        command.execute("connect|database|userName|password");
+        verify(view).writeln("You are going to disconnect from current database. Proceed? [Yes/No]");
+        verify(view).writeln("Connection failed!");
+        verify(view).writeln("Error message: Incorrect input. Please enter required input data in format: connect|database|userName|password");
     }
 
     @Test
@@ -56,10 +70,11 @@ public class ConnectToDBTest {
     @Test
     public void testConnectWithFullCommand() throws NoJDBCDriverException, UnsuccessfulConnectionException {
         String fullCommand = "connect|database|userName|userPassword";
+        String[] commands = Commands.arrayOf(fullCommand);
         command.execute(fullCommand);
-        String dbName = fullCommand.split("\\|")[1];
-        String userName = fullCommand.split("\\|")[2];
-        String userPassword = fullCommand.split("\\|")[3];
+        String dbName = commands[1];
+        String userName = commands[2];
+        String userPassword = commands[3];
         verify(dataBaseManager).connect(dbName, userName, userPassword);
         verify(view).writeln(String.format("Hello %s! Welcome to %s database", userName, dbName));
     }

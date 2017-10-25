@@ -121,9 +121,11 @@ public class JDBCDataBaseManager implements DataBaseManager {
     }
 
     //for tests only
-    public void createDB(String dbName) throws NotExecutedRequestException {
+    public void createDB(String dbURL, String username, String password, String dbName) throws NotExecutedRequestException, SQLException {
+        Connection connection = DriverManager.getConnection(dbURL, username, password);
+        Statement statement = connection.createStatement();
         String sqlRequest = String.format("CREATE DATABASE %s;", dbName);
-        executeRequest(sqlRequest);
+        statement.execute(sqlRequest);
     }
 
     //for tests only

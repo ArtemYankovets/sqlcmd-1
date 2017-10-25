@@ -13,6 +13,7 @@ import ua.com.shtramak.sqlcmd.model.exceptions.UnsuccessfulConnectionException;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
+import java.sql.SQLException;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,15 +22,15 @@ public class IntegrationTest {
     private ByteArrayOutputStream out;
     private ConsoleInputStream in;
     private static final String LINE_SEPARATOR = System.lineSeparator();
+    private static String DB_URL = "jdbc:postgresql://localhost:5432/";
     private static String EXISTING_DBNAME = "sqlcmd";
     private static String EXISTING_DBUSER = "postgres";
     private static String EXISTING_USER_PASSWORD = "postgres";
 
     @BeforeClass
-    public static void initTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException, NotExecutedRequestException {
+    public static void initTestTable() throws NoJDBCDriverException, UnsuccessfulConnectionException, NotExecutedRequestException, InterruptedException, SQLException {
         JDBCDataBaseManager dataBaseManager = new JDBCDataBaseManager();
-        dataBaseManager.connect(EXISTING_DBNAME, EXISTING_DBUSER, EXISTING_USER_PASSWORD);
-        dataBaseManager.createDB("testsqlcmd");
+        dataBaseManager.createDB(DB_URL, EXISTING_DBUSER, EXISTING_USER_PASSWORD, "testsqlcmd");
         dataBaseManager.connect("testsqlcmd", EXISTING_DBUSER, EXISTING_USER_PASSWORD);
         dataBaseManager.createTable("tmpusers", "id|serial|name|text|password|text");
         dataBaseManager.disconnect();
@@ -289,11 +290,13 @@ public class IntegrationTest {
     public void testConnectAfterConnection() {
         in.addCommand("connect|testsqlcmd|postgres|postgres");
         in.addCommand("connect|postgres|postgres|postgres");
+        in.addCommand("Yes");
         in.addCommand("exit");
 
         String expected = greetingMessage() +
                 "Hello postgres! Welcome to testsqlcmd database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
+                "You are going to disconnect from current database. Proceed? [Yes/No]" + LINE_SEPARATOR +
                 "Disconnection from current database..." + LINE_SEPARATOR +
                 "Hello postgres! Welcome to postgres database" + LINE_SEPARATOR + LINE_SEPARATOR +
                 "Type a command or 'help' to see the command list" + LINE_SEPARATOR +
